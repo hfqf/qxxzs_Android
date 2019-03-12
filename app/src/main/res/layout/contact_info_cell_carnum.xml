@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@+id/contact_edit_bg_name">
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="车牌号:"
+        android:id="@+id/textView2"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="14dp"
+        android:textColor="#2e2a2a"
+        android:layout_marginLeft="10dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:id="@+id/contact_carnum"
+            android:background="@drawable/contactborder"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+
+            android:layout_marginBottom="10dp"
+            android:textSize="14dp"
+            android:hint="请输入车牌号" />
+        <ImageView
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="2"
+            android:src="@drawable/car_v"
+            android:layout_marginTop="10dp"
+            android:id="@+id/contact_carnum_v"
+            android:layout_marginRight="10dp"
+            android:textSize="14dp"
+            />
+    </LinearLayout>
+</LinearLayout>

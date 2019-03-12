@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/workroom_edit_item_add"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_edit_bg_name">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="增加收费明细:"
+            android:id="@+id/repair_info_cell_tip"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:gravity="left|center_vertical" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <EditText
+                android:textColor="@color/colorBlack"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:id="@+id/repair_info_cell_content1"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="2dp"
+                android:hint="请输入收费项目"
+                android:background="@drawable/contactborder"
+                android:inputType="text" />
+
+            <EditText
+                android:textColor="@color/colorBlack"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:id="@+id/repair_info_cell_content2"
+                android:layout_weight="1"
+                android:hint="请输入收费价格"
+                android:textSize="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="2dp"
+                android:background="@drawable/contactborder"
+                android:inputType="number" />
+
+            <EditText
+                android:textColor="@color/colorBlack"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:id="@+id/repair_info_cell_content3"
+                android:layout_weight="1"
+                android:hint="此条收费的次数或数量"
+                android:textSize="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="2dp"
+                android:background="@drawable/contactborder"
+                android:numeric="integer"
+                android:inputType="number" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:id="@+id/repair_info_cell_content4"
+                android:layout_weight="1"
+                android:text="添加"
+                android:textSize="20dp"
+                android:textColor="@color/colorWhite"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/border_green_full"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

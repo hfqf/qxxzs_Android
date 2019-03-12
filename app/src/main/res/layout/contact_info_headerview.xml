@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/contact_info_headerview"
+    android:layout_height="fill_parent">
+
+
+    <ImageButton
+        android:id="@+id/contact_edit_headurl"
+        android:layout_marginTop="20dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/appicon"
+        android:background="@color/colorWhite"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="点击修改头像"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="是否已绑定公众号:"
+            android:gravity="center_vertical|left"
+            android:id="@+id/textView7"
+            android:layout_marginTop="0dp"
+            android:textSize="12dp"
+            android:visibility="gone"
+            android:textColor="#2e2a2a"
+            android:layout_marginLeft="10dp"/>
+
+        <CheckBox
+            android:id="@+id/contact_edit_isbind"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:enabled="false"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical|left"
+            />
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="请提醒客户及时关注并绑定汽修小助手车主版小程序,通过小程序可以:1预约保养维修，2收到维修进度,3收到保养项目到期提醒"
+            android:textSize="12dp"
+            android:textColor="@color/color1"
+            android:layout_margin="5dp"
+            android:gravity="center_vertical|left"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+</LinearLayout>

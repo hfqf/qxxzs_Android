@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/mdtp_white"
+    android:layout_height="45dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/mdtp_white">
+
+        <TextView
+            android:id="@+id/tv_child_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:text="声音"
+            android:textColor="@color/mdtp_transparent_black"
+            android:textSize="18sp"
+            android:gravity="center_vertical|left"/>
+
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/bt_add"
+            android:layout_width="20dp"
+            android:layout_height="50dp"
+            android:text="+"
+            android:textColor="@color/mdtp_transparent_black"
+            android:textSize="22sp"
+            android:gravity="center_vertical|left"/>
+        <TextView
+            android:id="@+id/input_val"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="1"
+            android:layout_toLeftOf="@+id/bt_add"
+            android:textColor="@color/mdtp_transparent_black"
+            android:textSize="15sp"
+            android:gravity="center_vertical|center"
+            />
+        <TextView
+            android:id="@+id/bt_min"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:text="-"
+            android:layout_toLeftOf="@+id/input_val"
+            android:textColor="@color/mdtp_transparent_black"
+            android:textSize="30sp"
+            android:gravity="center_vertical|right"/>
+
+
+        <ImageView
+            android:id="@+id/iv_val"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:visibility="invisible"
+            android:background="@drawable/appicon"/>
+
+        <ImageView
+            android:id="@+id/iv_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ecf0f1"
+            android:visibility="invisible"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentTop="true"/>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/material_light_blue"
+        />
+
+
+</LinearLayout>

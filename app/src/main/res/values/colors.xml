@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f6f6f6</color>
+    <color name="colorPrimaryDark">#f6f6f6</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#111111</color>
+
+    <color name="colorSetting">#FFFFFF</color>
+    <color name="color1">#945341</color>
+    <color name="color2">#85A044</color>
+    <color name="color3">#645041</color>
+    <color name="color4">#A95041</color>
+    <color name="colorTabbarBg">#f6f6f6</color>
+    <color name="colorTabbarTitleNormal">#787878</color>
+    <color name="colorTabbarTitleSelected">#111111</color>
+    <color name="colorCommon">#787878</color>
+    <color name="common_clear">#00000000</color>
+
+
+    <color name="material_red">#ffF44336</color>
+    <color name="material_green">#ff4CAF50</color>
+    <color name="corlor_common">#8ccdb7</color>
+    <color name="material_blue">#ff03A9F4</color>
+    <color name="material_light_blue">#b2e3f9</color>
+    <color name="material_yellow">#ffFFEB3B</color>
+
+    <color name="corlorBorder">#ffD9D9D9</color>
+    <color name="foreground_material_light">#000000</color>
+
+    <color name="mdtp_accent_color">#009688</color>
+    <color name="mdtp_accent_color_dark">#00796b</color>
+
+    <!-- text colors -->
+    <!-- 87% of #000000: text -->
+    <color name="text_primary">#DF000000</color>
+    <!-- 54% of #000000: secondary text / icons -->
+    <color name="text_secondary">#8A000000</color>
+    <!-- 26% of #000000: hint text -->
+    <color name="text_hint">#43000000</color>
+    <!-- 12% of #000000: dividers text -->
+    <color name="divider">#1F000000</color>
+
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_orange">#ED9400</color>
+    <color name="text_gray_light">#707070</color>
+    <color name="text_green">#97C535</color>
+    <color name="text_blue">#329CC8</color>
+    <color name="text_red">#FFFF0000</color>
+</resources>

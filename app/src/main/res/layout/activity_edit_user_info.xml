@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="5.5">
+    <LinearLayout
+        android:id="@+id/ResetPwdActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        tools:context="com.points.autorepar.activity.ResetPwdActivity"
+        android:background="@color/colorWhite">
+
+
+        <include layout="@layout/common_navigationbar"
+            android:id="@+id/id_query_tiped" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorWhite"
+            android:layout_below="@+id/register_name_bg"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:text="门店名称:"
+                android:layout_width="120dp"
+                android:layout_height="20dp"
+                android:layout_weight="0.3"
+                android:paddingLeft="10dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/colorBlack"
+                android:textSize="16dp" />
+
+            <EditText
+                android:textColor="@color/colorBlack"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_height="20dp"
+                android:inputType="textPersonName"
+                android:background="@drawable/contactborder"
+                android:ems="10"
+                android:id="@+id/register_shopNameInput"
+                android:layout_weight="0.7"
+                android:hint="请填写"
+                android:textSize="16dp"
+                android:layout_marginRight="10dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_height="10dp"
+            android:layout_width="match_parent"
+            android:background="@color/corlorBorder"
+            />
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorWhite"
+            android:layout_below="@+id/register_name_bg"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:text="门店宣传语:"
+                android:layout_width="120dp"
+                android:layout_height="20dp"
+                android:layout_weight="0.3"
+                android:paddingLeft="10dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/colorBlack"
+                android:textSize="16dp" />
+            <EditText
+                android:textColor="@color/colorBlack"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_height="20dp"
+                android:inputType="textPersonName"
+                android:background="@drawable/contactborder"
+                android:ems="10"
+                android:id="@+id/shopAD"
+                android:layout_weight="0.7"
+                android:hint="请填写"
+                android:textSize="16dp"
+
+                android:layout_marginRight="10dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_height="10dp"
+            android:layout_width="match_parent"
+            android:background="@color/corlorBorder"
+            />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorWhite"
+            android:layout_below="@+id/register_name_bg"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorWhite"
+                android:layout_below="@+id/register_name_bg"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+                <TextView
+                    android:text="门店logo:"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:paddingLeft="10dp"
+
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="right">
+
+                    <Button
+                        android:id="@+id/addlogo"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:paddingTop="-10dp"
+                        android:text="添加"
+                        android:textColor="@color/black"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <GridView
+                android:id="@+id/gv_show"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:horizontalSpacing="10dp"
+                android:listSelector="#ffffff"
+                android:numColumns="3"
+                android:verticalSpacing="10dp"></GridView>
+        </LinearLayout>
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_height="10dp"
+            android:layout_width="match_parent"
+            android:background="@color/corlorBorder"
+            />
+
+        <TextView
+            android:text="门店地址:"
+            android:layout_width="120dp"
+            android:layout_height="20dp"
+            android:layout_weight="0.3"
+            android:paddingLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:textSize="16dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/register_name_bg"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorWhite"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/dwimg"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/dwicon" />
+
+
+
+            <TextView
+                android:id="@+id/addressInput"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_toLeftOf="@+id/dwimg"
+                android:background="@drawable/contactborder"
+                android:ems="10"
+                android:hint="请填写"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorBlack"
+                android:textSize="16dp" />
+        </RelativeLayout>
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_height="10dp"
+            android:layout_width="match_parent"
+            android:background="@color/corlorBorder"
+            />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorWhite"
+            android:layout_below="@+id/register_name_bg"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:text="服务范围:"
+                android:layout_width="120dp"
+                android:layout_height="20dp"
+                android:layout_weight="0.3"
+                android:paddingLeft="10dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/colorBlack"
+                android:textSize="16dp" />
+
+            <TextView
+                android:textColor="@color/colorBlack"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:inputType="textPersonName"
+                android:background="@drawable/contactborder"
+                android:ems="10"
+                android:id="@+id/serviceInput"
+                android:layout_weight="0.7"
+                android:hint="请填写"
+                android:textSize="16dp"
+                android:layout_marginRight="10dp" />
+        </LinearLayout>
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_height="10dp"
+            android:layout_width="match_parent"
+            android:background="@color/corlorBorder"
+            />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorWhite"
+            android:layout_below="@+id/register_name_bg"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:text="营业时间:"
+                android:layout_width="120dp"
+                android:layout_height="20dp"
+                android:layout_weight="0.3"
+                android:paddingLeft="10dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/colorBlack"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorWhite">
+            <TextView
+                android:textColor="@color/colorBlack"
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:inputType="textPersonName"
+                android:background="@drawable/contactborder"
+                android:ems="10"
+                android:id="@+id/timeInput1"
+                android:layout_weight="0.7"
+                android:hint="开始时间"
+                android:textSize="16dp"
+                android:layout_marginRight="10dp" />
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="3dp"
+                    android:inputType="textPersonName"
+                    android:background="@drawable/contactborder"
+                    android:ems="10"
+                    android:id="@+id/timeInput2"
+                    android:layout_weight="0.7"
+                    android:hint="结束时间"
+                    android:textSize="16dp"
+                    android:layout_marginRight="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_height="10dp"
+            android:layout_width="match_parent"
+            android:background="@color/corlorBorder"
+            />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorWhite"
+            android:layout_below="@+id/register_name_bg"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorWhite"
+                android:layout_below="@+id/register_name_bg"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+                <TextView
+                    android:text="宣传海报:"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:paddingLeft="10dp"
+
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="right">
+
+                    <Button
+                        android:id="@+id/addimg"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:paddingTop="-10dp"
+                        android:text="添加"
+                        android:textColor="@color/black"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <com.points.autorepar.utils.MyGridView
+                android:id="@+id/img_show1"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:gravity="center"
+                android:horizontalSpacing="20dp"
+                android:listSelector="#ffffff"
+                android:numColumns="3"
+                android:verticalSpacing="20dp"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

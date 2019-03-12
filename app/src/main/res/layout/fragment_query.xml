@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.points.autorepar.fragment.QueryFragment"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_navigationbar"
+        android:id="@+id/id_repair_navi" />
+
+
+    <com.points.autorepar.lib.cjj.MaterialRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:mainApplication="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh_query"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        mainApplication:isLoadMore="false"
+        mainApplication:overlay="false"
+        mainApplication:progress_size_type="normal"
+        mainApplication:wave_color="@color/colorWhite"
+        mainApplication:wave_show="false"
+        mainApplication:progress_colors="@array/material_colors"
+        mainApplication:wave_height_type="normal">
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:textColor="@color/colorBlack"
+                android:layout_margin="5dp"
+                android:id="@+id/query_input1"
+                android:layout_width="0dp"
+                    android:layout_weight="1"
+                android:layout_height="30dp"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:background="@drawable/boder_green"
+                android:hint="输入查询的开始时间"/>
+                <EditText
+                    android:textColor="@color/colorBlack"
+                    android:layout_margin="5dp"
+                    android:id="@+id/query_input2"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="30dp"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:background="@drawable/boder_green"
+                    android:hint="输入查询的结束时间"/></LinearLayout>
+
+            <EditText
+                android:textColor="@color/colorBlack"
+                android:id="@+id/query_input3"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:background="@drawable/boder_green"
+                android:hint="点击选择查单个客户/不填则查所有"/>
+            <Button
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:id="@+id/startQuery"
+                android:textSize="16dp"
+                android:background="@drawable/boder_green"
+                android:textColor="@color/colorCommon"
+                android:gravity="center"
+                android:text="开始搜索维修记录"/>
+
+            <WebView
+                android:id="@+id/id_query_list"
+                android:background="@drawable/border_green_circle"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                >
+            </WebView>
+        </LinearLayout>
+
+    </com.points.autorepar.lib.cjj.MaterialRefreshLayout>
+
+</LinearLayout>

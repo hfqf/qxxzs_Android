@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/mdtp_white"
+    android:layout_height="85dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:background="@color/mdtp_white">
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="2.5dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="right|center_vertical"
+            android:background="@drawable/appicon"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/lintop"
+            android:layout_width="match_parent"
+            android:layout_toRightOf="@+id/img"
+            android:layout_height="25dp">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:text=""
+            android:textColor="@color/mdtp_transparent_black"
+            android:textSize="16sp"
+            android:gravity="center_vertical|left"/>
+        </LinearLayout>>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:id="@+id/linmid"
+            android:layout_toRightOf="@+id/img"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/lintop"
+            android:layout_height="25dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dp">
+            <TextView
+                android:id="@+id/tv_no"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp"
+                android:text="编码"
+                android:textColor="@color/mdtp_done_disabled_dark"
+                android:textSize="13sp"
+                android:gravity="left"/>
+
+            <TextView
+                android:id="@+id/tv_havenum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="存量"
+                android:gravity="right"
+                android:layout_marginRight="15dp"
+                android:textColor="@color/mdtp_done_disabled_dark"
+                android:textSize="13sp"/>
+        </LinearLayout>>
+        </LinearLayout>>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/img"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/linmid"
+        android:background="@color/mdtp_white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:id="@+id/tv_price_tv"
+            android:layout_marginLeft="30dp"
+            android:text="售价"
+            android:textColor="@color/mdtp_done_disabled_dark"
+            android:textSize="13sp"
+            android:gravity="center_vertical|left"/>
+
+        <EditText
+            android:id="@+id/tv_price"
+            android:layout_width="80dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_price_tv"
+            android:gravity="center_vertical|left"
+            android:inputType="none|textPersonName"
+            android:background="@drawable/contactborder"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+    <TextView
+        android:layout_alignParentRight="true"
+        android:id="@+id/bt_add"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:text="+"
+        android:textColor="@color/mdtp_transparent_black"
+        android:textSize="18sp"
+        android:gravity="center_vertical|left"/>
+    <TextView
+        android:id="@+id/input_val"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="0"
+        android:layout_toLeftOf="@+id/bt_add"
+
+        android:textColor="@color/mdtp_transparent_black"
+        android:textSize="18sp"
+        android:gravity="center_vertical|center"
+        />
+
+        <TextView
+            android:id="@+id/bt_min"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:gravity="center_vertical|right"
+            android:layout_toLeftOf="@+id/input_val"
+            android:text="—"
+            android:textColor="@color/mdtp_transparent_black"
+            android:textSize="18sp" />
+
+
+
+    </RelativeLayout>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/material_light_blue"
+        />
+
+
+</LinearLayout>

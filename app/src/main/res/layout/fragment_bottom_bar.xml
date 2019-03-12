@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ly_main_tab_bottom"
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:layout_height="@dimen/main_tab_high"
+    android:background="@color/colorTabbarBg">
+
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/id_tab_bottom_workroom"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+            android:id="@+id/btn_tab_bottom_icon_0"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+
+            android:clickable="false"
+            android:background="@drawable/home_gzt" />
+
+            <TextView
+                android:id="@+id/tabbar_text_0"
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="工作台" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/id_tab_bottom_setting"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/btn_tab_bottom_icon_1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+
+                android:clickable="false"
+                android:background="@drawable/setup" />
+
+            <TextView
+                android:id="@+id/tabbar_text_1"
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="我的" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

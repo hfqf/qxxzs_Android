@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/contact_edit_bg_name">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="车况图片"
+            android:id="@+id/cell_workroom_carinfo_0_tip"
+            android:textColor="@color/colorTabbarTitleNormal"
+            android:textSize="13dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="left|center_vertical" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:id="@+id/img1"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:src = "@drawable/addimg"
+            android:background="#ffffff"
+            android:gravity="left|center_vertical"
+             />
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:id="@+id/img2"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:src = "@drawable/addimg"
+            android:background="#ffffff"
+            android:gravity="left|center_vertical"
+            />
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:id="@+id/img3"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:src = "@drawable/addimg"
+            android:background="#ffffff"
+            android:gravity="left|center_vertical"
+            />
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:id="@+id/addimg"
+            android:layout_weight="1"
+            android:visibility="visible"
+            android:src = "@drawable/addimg"
+            android:background="#ffffff"
+            android:gravity="left|center_vertical"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="点击图片可以进行查看，长按图片可以删除图片"
+        android:textColor="@color/colorTabbarTitleNormal"
+        android:textSize="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="150dp"
+        android:gravity="left|center_vertical" />
+
+</LinearLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relativelayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="@color/material_blue" >
+
+        <Button
+            android:id="@+id/common_navi_back"
+            android:layout_width="80dp"
+            android:layout_height="44dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="16dp"
+            android:paddingLeft="-30dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="返回"
+            android:visibility="visible"
+            android:background="@color/common_clear">
+        </Button>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="详情"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <com.points.autorepar.utils.AlbumViewPager
+        android:id="@+id/vPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.0"
+        android:background="#000000"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+
+    <LinearLayout
+        android:id="@+id/button_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#202528"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/talk_dynamic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="TextView"
+            android:textColor="#ffffff" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#2d3233" />
+
+
+</LinearLayout>
+
+</LinearLayout>

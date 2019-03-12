@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/common_navigationbar"
+        android:id="@+id/navigation_service_home" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/topTab"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/workroom_fragment_btn0"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textSize="18dp"
+                android:text="自定义"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                android:textColor="@color/colorTabbarTitleNormal" />
+
+            <Button
+                android:id="@+id/workroom_fragment_btn1"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textSize="18dp"
+                android:text="系统分类"
+                android:textColor="@color/colorTabbarTitleNormal"/>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:orientation="vertical">
+            <View
+                android:id="@+id/workroom_index_icon"
+                android:layout_width="10dp"
+                android:layout_height="2dp"
+                android:background="@color/material_blue">
+            </View>
+        </LinearLayout>
+    </LinearLayout>
+    <EditText
+        android:textColor="@color/colorBlack"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/contactborder"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/search_text"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
+        android:paddingLeft="20dp"
+        android:hint="输入分类名搜索"/>
+    <ExpandableListView
+        android:id="@+id/expand_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

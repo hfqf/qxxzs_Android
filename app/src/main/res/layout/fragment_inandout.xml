@@ -1,0 +1,128 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.points.autorepar.fragment.ContactFragment"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    >
+
+    <include layout="@layout/common_navigationbar"
+        android:id="@+id/id_repair_navi" />
+    <LinearLayout
+        android:id="@+id/navi_btns_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/workroom_fragment_btn0"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textSize="12dp"
+                android:text="全部"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                android:textColor="@color/colorTabbarTitleNormal" />
+
+            <Button
+                android:id="@+id/workroom_fragment_btn1"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textSize="12dp"
+                android:text="采购入库"
+                android:textColor="@color/colorTabbarTitleNormal"/>
+
+            <Button
+                android:id="@+id/workroom_fragment_btn2"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:textSize="12dp"
+                android:background="#ffffff"
+                android:text="开单出库"
+                android:textColor="@color/colorTabbarTitleNormal" />
+            <Button
+                android:id="@+id/workroom_fragment_btn3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textSize="12dp"
+                android:layout_height="48dp"
+                android:textColor="@color/colorTabbarTitleNormal"
+                android:text="工单删除入库"/>
+            <Button
+                android:id="@+id/workroom_fragment_btn4"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textSize="12dp"
+                android:layout_height="48dp"
+                android:textColor="@color/colorTabbarTitleNormal"
+                android:text="退货出库"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:orientation="vertical">
+            <View
+                android:id="@+id/workroom_index_icon"
+                android:layout_width="10dp"
+                android:layout_height="2dp"
+                android:background="@color/material_blue">
+            </View>
+        </LinearLayout>
+    </LinearLayout>
+    <com.points.autorepar.lib.cjj.MaterialRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:mainApplication="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="3dp"
+        android:id="@+id/refresh_contact2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        mainApplication:isLoadMore="false"
+        mainApplication:overlay="false"
+        mainApplication:progress_size_type="normal"
+        mainApplication:wave_color="@color/colorWhite"
+        mainApplication:wave_show="false"
+        android:visibility="gone"
+        mainApplication:progress_colors="@array/material_colors"
+        mainApplication:wave_height_type="normal">
+    </com.points.autorepar.lib.cjj.MaterialRefreshLayout>
+        <ListView
+            android:id="@+id/id_contact_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:divider="#f5f5f5"
+            android:dividerHeight="1dp"
+             />
+
+        <TextView
+            android:id="@+id/dialog"
+            android:layout_width="80.0dip"
+            android:layout_height="80.0dip"
+            android:layout_gravity="center"
+            android:background="@drawable/boder_green"
+            android:gravity="center"
+            android:textColor="@color/colorCommon"
+            android:textSize="30.0dip"
+            android:visibility="invisible" />
+
+        <com.points.autorepar.lib.sortlistview.SideBar
+            android:id="@+id/sidrbar"
+            android:layout_width="20dp"
+            android:visibility="invisible"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right|center" />
+
+</LinearLayout>

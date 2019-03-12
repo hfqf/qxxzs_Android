@@ -1,0 +1,94 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:300); 
+.panel{
+  width: 100%; 
+  height: 6%;
+  text-align: center;
+  background: #D5AC80; 
+  
+}
+.wrap{ 
+  position: relative;
+  overflow: hidden;
+  z-index: 0;  
+  height: 100%;
+  background: #fff;
+  box-shadow: -1px -1px 1px rgba(0,0,0,.4),
+              1px 1px 1px rgba(255,255,255,.4);
+}
+.wrap:after,
+.wrap:before{
+  content: '手动搜索地址';
+  display: block;
+  position: absolute;
+  top: 0;left: 0;
+  overflow: hidden;
+  height: 100%;
+  line-height: 44px;
+  color:rgba(255,255,255,.3);
+  font-size: 20px;
+  width: 100%;
+  background: #000;
+  z-index: 1;
+  box-shadow: 1px 1px 100px rgba(255,255,255,1), inset  1px 1px 60px rgba(255,255,255,.4);
+  transition:.3s all;
+  -webkit-transition:.3s all;
+  -webkit-transform:translate3d(0,0,0);
+  transform:translate3d(0,0,0);
+}
+.wrap:before{
+  top: auto;
+  bottom: 0;
+  line-height: 0px;
+}
+.wrap:hover:after{
+  top: -100%;
+}
+.wrap:hover:before{
+  bottom: -100%;
+}
+input{
+  width: 100%;
+  height: 100%;
+  padding: 0 65px 0 10px;
+  font-size: 16px;
+  border:0;
+  box-shadow: inset 1px 1px 11px rgba(0,0,0,.3);  
+} 
+input:focus { 
+  height: 100%;
+  outline: none; 
+}
+button{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 50px;
+  font-size: 14px;
+  height: 100%;
+  cursor: pointer;
+}
+
+html{ height: 100%; margin: 0; padding: 0;font-family: 'Roboto', sans-serif;}
+
+.right-eye {
+  left: 127px;
+}
+.left-eye {
+  left: 50px;
+}
+.eye span{
+  position: absolute;
+  display: block;
+  background: #000;
+  border-radius:13px;
+  width: 26px;
+  height:26px; 
+  left: 0;
+  top:8px;
+}
+h5{
+  font-weight: 300;
+  font-size: 16px;
+  text-align: center;
+  color: #777;
+}

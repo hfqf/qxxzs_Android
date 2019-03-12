@@ -1,0 +1,234 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+#allmap{height:80%;width:100%;margin:20 0 0 0;}
+#r-result{width:100%;height:10%; font-size:14px;}
+#tip{font-size:12px;}
+#login_click{ margin-top:0px; height:8%;width:100%;}
+#login_click button 
+{
+	height:100%;
+	width:100%;
+ 
+    text-decoration:none;
+	background:#2f435e;
+	color:#f2f2f2;
+	
+	position: relative;
+	
+	}
+</style>
+<link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=s829ZA0Zg0QyMCy1F1FxQdV7hTI5Z2qU"></script>
+<title>店铺定位</title>
+</head>
+<body>
+		<div class="panel"> 
+				<div class="wrap">
+						<input id="cityName" type="text" placeholder="请输入查询店铺地址"/>
+						<button onclick="theLocation()">搜索</button>
+				</div>
+		</div>
+		<div>
+				<label class="tip">提示信息:请点击地图添加店铺位置</label>
+			</div>
+<div id="allmap">	
+</div>
+<div id="login_click">
+		<button onclick="submit_click()">提交店铺位置</button>
+</div>
+
+
+<script type="text/javascript">
+// 百度地图API功能
+var map = new BMap.Map("allmap");
+// var point = new BMap.Point(116.331398,39.897445);
+// map.centerAndZoom('南京',15);
+    
+
+
+
+
+map.addControl(new BMap.NavigationControl());    
+
+
+var local = new BMap.LocalSearch(map, {
+// renderOptions:{map: map}
+renderOptions: {map: map,panel: "results"}
+});
+
+
+
+
+function getLocation()
+{
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition,showError);
+    }
+  else
+  {
+	  x.innerHTML="Geolocation is not supported by this browser.";
+   }
+}
+var geolocation = new BMap.Geolocation();//创建定位实例
+        geolocation.getCurrentPosition(showLocation,{enableHighAccuracy: true});//enableHighAccuracy 要求浏览器获取最佳结果
+		function showLocation(point){
+    if(this.getStatus() == BMAP_STATUS_SUCCESS){//定位成功
+		map.clearOverlays();
+		var new_point = new BMap.Point(point.longitude,point.latitude);
+
+// 116.395645,39.926888
+		// var new_point = new BMap.Point(116.395645,39.926888);
+
+		getLoactionInfo(new_point);
+		var marker = new BMap.Marker(new_point); // 创建标注
+		 label = new BMap.Label('我的店铺', {
+	 			 offset: new BMap.Size(20, 0)
+	  }); //创建marker点的标记,这里注意下,因为百度地图可以对label样式做编辑,
+	  marker.setLabel(label); 
+		map.addOverlay(marker); // 将标注添加到地图中
+		marker.enableDragging();  
+		map.centerAndZoom(new_point,14); 
+	// setTimeout(function(){
+	// 	map.panTo(new_point);   //两秒后移动到广州
+	// 	getLoactionInfo(new_point);
+	// }, 200);
+    }
+    else {
+        alert('failed'+this.getStatus());//定位失败
+    }        
+}
+
+var province = "";
+var city = "";
+var district = "";
+var pt_lat = "";
+var pt_lon = "";
+
+var userAgent = navigator.userAgent;
+            var terminal="";
+            if (userAgent.indexOf('Android') > -1 || userAgent.indexOf('Linux') > -1) {//安卓手机
+                terminal="0";
+            } else if (userAgent.indexOf('iPhone') > -1) {//苹果手机
+                terminal="1";
+            } else {
+
+            }
+
+
+function submit_click()
+{
+	if(pt_lat == "")
+	{
+		alert("请点击地图添加店铺位置");
+		return;
+	}
+	// alert("province:"+province+"city"+city+"pt_lat"+pt_lat+"pt_lon"+pt_lon);
+	if(terminal =="1"){
+		window.javas.back(province,city,pt_lat,pt_lon);  
+    }else if(terminal =="0"){
+		var jsonString ="{\"province\":"+province+",\"city\":\""+city+"\",\"pt_lat\":\""+pt_lat+"\",\"pt_lon\":\""+pt_lon+"\"}";
+        location.href = "app://backConsole?json="+jsonString;
+     }
+
+}
+
+function getLoactionInfo(pt){
+	var geoc = new BMap.Geocoder();
+ geoc.getLocation(pt, function (rs) {
+            var addComp = rs.addressComponents;
+			province = addComp.province;
+			city = addComp.city;
+			district = addComp.district;
+            
+        });
+
+}
+
+function showPosition(position)
+{
+	map.centerAndZoom('南京',12);
+  var point = new BMap.Point(position.coords.latitude,position.coords.longitude);
+			map.clearOverlays();     
+	var marker = new BMap.Marker(point);// 创建标注
+	map.addOverlay(marker);             // 将标注添加到地图中
+	marker.enableDragging();   
+  
+
+}
+
+function theLocation(){
+var name = document.getElementById("cityName").value;
+searchPlace(name);
+
+// if(name != "")
+// {
+// local.search(name);
+// map.clearOverlays();   
+//  pt_lat = "";
+// 	 pt_lon ="";	 
+// }
+}
+function searchPlace(value) {
+	var myGeo = new BMap.Geocoder();      
+// 将地址解析结果显示在地图上，并调整地图视野    
+myGeo.getPoint(value, function(point){//回调函数      
+    if (point) {      
+        map.centerAndZoom(point, 16); 
+		map.clearOverlays();
+		var marker = new BMap.Marker(point);
+		pt_lat = point.lat;
+	 pt_lon = point.lng;	
+	 getLoactionInfo(point);
+	label = new BMap.Label('我的店铺', {
+				 offset: new BMap.Size(20, 0)
+	 }); //创建marker点的标记,这里注意下,因为百度地图可以对label样式做编辑,
+
+	 marker.setLabel(label); //把label设置到maker上   
+	 map.addOverlay(marker);     
+        // map.addOverlay(new BMap.Marker(point));   
+		marker.enableDragging();  
+		
+	// 		map.clearOverlays();     
+	// var marker = new BMap.Marker(point);// 创建标注
+	//  pt_lat = point.lat;
+	//  pt_lon = point.lng;	
+	// label = new BMap.Label('我的店铺', {
+	// 			 offset: new BMap.Size(20, 0)
+	//  }); //创建marker点的标记,这里注意下,因为百度地图可以对label样式做编辑,
+
+	//  marker.setLabel(label); //把label设置到maker上 
+	// map.addOverlay(marker);             // 将标注添加到地图中
+	// marker.enableDragging();      
+    }      
+ }, 
+ city);
+}
+
+map.addEventListener("click",function(e){
+			var point = new BMap.Point(e.point.lng,e.point.lat);
+			map.clearOverlays();     
+	var marker = new BMap.Marker(point);// 创建标注
+	 pt_lat = e.point.lat;
+	 pt_lon = e.point.lng;	
+	label = new BMap.Label('我的店铺', {
+				 offset: new BMap.Size(20, 0)
+	 }); //创建marker点的标记,这里注意下,因为百度地图可以对label样式做编辑,
+
+	 marker.setLabel(label); //把label设置到maker上 
+	map.addOverlay(marker);             // 将标注添加到地图中
+	marker.enableDragging();   
+       
+});  
+
+	// createAutocomlete();
+
+</script>
+
+</body>
+</html>

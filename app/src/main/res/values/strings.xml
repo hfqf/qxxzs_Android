@@ -1,0 +1,103 @@
+<resources xmlns:tools="http://schemas.android.com/tools"
+
+    tools:ignore="MissingTranslation">
+    <string name="version">3.5.2</string>
+    <string name="app_name">汽修小助手</string>
+    <string name="tab1_name">记录</string>>
+    <string name="tab2_name">客户</string>>
+    <string name="tab3_name">查询</string>>
+    <string name="tab4_name">设置</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>>
+
+
+    <string name="db_name_contact">db_name_contact</string>
+    <string name="db_name_repair">db_name_repair</string>
+
+    <integer-array name="material_colors">
+        <item>@color/material_red</item>
+        <item>@color/material_green</item>
+        <item>@color/material_blue</item>
+        <item>@color/material_yellow</item>
+    </integer-array>
+    <string name="title_activity_base">BaseActivity</string>
+
+    <string name="key_parcel_allhistory">key_parcel_allhistory</string>
+    <string name="key_repair_add_para">key_repair_add_para</string>
+    <string name="key_repair_edit_para">key_repair_edit_para</string>
+    <string name="key_contact_edit_para">key_contact_edit_para</string>
+
+    <string name="hello">Hello World, JPush!</string>
+    <string name="tag_hint">Tag为大小写字母，数字，下划线,中文， 多个用以逗号分隔</string>
+    <string name="alias_hint">Alias为大小写字母，数字，下划线</string>
+    <string name="style_hint">style为数字</string>
+    <string name="error_style_empty">style不能为空</string>
+    <string name="error_alias_empty">alias不能为空</string>
+    <string name="error_tag_empty">tag不能为空</string>
+    <string name="error_tag_gs_empty">格式不对</string>
+    <string name="error_network">网络连接异常,初始化失败 请检查网络！</string>
+    <string name="logining">程序在后台执行, 请查看日志！</string>
+    <string name="setting_su">设置成功</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+
+    <string name="key_SharedPreferences">auto</string>
+
+    //用户信息
+    <string name="key_loginer_name">key_loginer_name</string>
+    <string name="key_loginer_tel">key_loginer_tel</string>
+    <string name="key_loginer_headurl">key_loginer_headurl</string>
+    <string name="key_loginer_pwd">key_loginer_pwd</string>
+    <string name="key_loginer_level">key_loginer_level</string>
+    <string name="key_loginer_totalprice">key_loginer_totalprice</string>
+    <string name="key_loginer_totalnum">key_loginer_totalnum</string>
+    <string name="key_loginer_device_modifed">key_loginer_device_modifed</string>
+    <string name="key_loginer_channel">key_loginer_channel</string>
+    <string name="key_loginer_address">key_loginer_address</string>
+    <string name="key_loginer_shopname">key_loginer_shopname</string>
+    <string name="key_loginer_isCreater">key_loginer_isCreater</string>
+    <string name="key_loginer_id">key_loginer_id</string>
+
+
+    <string name="KEY_loginer_IS_CONTACT_AYSNED">KEY_IS_CONTACT_AYSNED</string>
+    <string name="KEY_loginer_IS_REPAIR_AYSNED">KEY_IS_REPAIR_AYSNED</string>
+    <string name="KEY_loginer_IS_FIRST_LOGIN">KEY_IS_FIRST_LOGIN</string>
+    <string name="plate_rect">车牌识别区</string>
+    <string name="key_select_contact_flag">key_is_select_cotnact</string>
+    <string name="camera_permission_required">本功能需要相机权限！</string>
+    <string name="idCardLabel">身份证识别</string>
+    <string name="bankCardLabel">银行卡识别</string>
+    <string name="generalLabel">通用文字识别</string>
+
+
+    <string name="key_loginer_isdirectadditem">key_loginer_isdirectadditem</string>
+    <string name="key_loginer_isneeddispatch">key_loginer_isneeddispatch</string>
+    <string name="key_loginer_roletype">key_loginer_roletype</string>
+
+
+    <string name="key_loginer_iscanaddnewcontact">key_loginer_iscanaddnewcontact</string>
+    <string name="key_loginer_iscandelcontact">key_loginer_iscandelcontact</string>
+    <string name="key_loginer_iscaneditcontact">key_loginer_iiscaneditcontact</string>
+    <string name="key_loginer_iscankaidan">key_loginer_iscankaidan</string>
+    <string name="key_loginer_iscanseecontactrepairs">key_loginer_iscanseecontactrepairs</string>
+
+
+    <string name="key_employee_tel">key_employee_tel</string>
+    <string name="key_employee_pwd">key_employee_pwd</string>
+
+
+</resources>

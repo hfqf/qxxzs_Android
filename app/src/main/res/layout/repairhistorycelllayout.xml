@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/id_repair_tiped_list_cell"
+    android:background="#ffffff"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/id_repair_tiped_list_cell_headurl"
+            android:layout_margin="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/appicon"
+            android:background="@drawable/boder_head"
+            />
+        <TextView
+            android:layout_marginTop="0dp"
+            android:id="@+id/id_repair_tiped_list_cell_name"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:textSize="12dp"
+            android:gravity="center"
+            android:textColor="@color/mdtp_light_gray"
+            android:text="林冲"
+            />
+        <TextView
+            android:id="@+id/id_repair_tiped_list_cell_iswaitinginshop"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            android:textSize="11dp"
+            android:gravity="center"
+            android:textColor="@color/mdtp_light_gray"
+            android:text="在店等"
+            android:layout_marginBottom="10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/id_repair_tiped_list_cell_carinfo"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textSize="16dp"
+                android:gravity="left|top"
+                android:textColor="@color/colorBlack"
+                android:text="苏AJIS6 缤智1.5T"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:id="@+id/id_repair_tiped_list_cell_state"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:text="维修中"
+                android:textSize="14dp"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/colorWhite"
+                android:background="@color/material_blue"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/id_repair_tiped_list_cell_repairtype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/mdtp_light_gray"
+                android:text="维修项目:发动机大修"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                />
+            <TextView
+                android:id="@+id/id_repair_tiped_list_cell_totalprice"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:gravity="right|center_vertical"
+                android:text="100"
+                android:textSize="11dp"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/mdtp_light_gray" />
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#dcdcdc">
+        </View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/id_repair_tiped_list_cell_entertime"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:gravity="left|center_vertical"
+                    android:text="进门店时间:05:13 12:03"
+                    android:textSize="12dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#5c5c5c" />
+                <TextView
+                    android:id="@+id/id_repair_tiped_list_cell_customleavemessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:gravity="left|center_vertical"
+                    android:text="预提车时间:05:13 12:03"
+                    android:textSize="12dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#5c5c5c" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/id_repair_tiped_list_cell_index"
+                android:gravity="bottom|right"
+                android:layout_gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:textSize="16dp"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/material_blue"
+                android:text="2"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

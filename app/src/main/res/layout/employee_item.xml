@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/catalog"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#E0E0E0"
+        android:textColor="#454545"
+        android:layout_weight="1.0"
+        android:paddingLeft="5dip"
+        android:paddingTop="5dip"
+        android:visibility="gone"
+        android:paddingBottom="5dip"
+        android:text="A"/>
+    <LinearLayout
+        android:id="@+id/contact_list_cell_show_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/contact_list_cell_show_content_head"
+            android:padding="2dp"
+            android:layout_width="60dp"
+            android:layout_marginLeft="2dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/appicon"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/employee_list_cell_type"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical"
+                    android:textSize="18dp"
+                    android:layout_weight="1"
+                    android:textColor="#111111"
+                    android:layout_marginLeft="10dp"
+                    android:text="hhhh"/>
+
+                <TextView
+                    android:id="@+id/contact_list_cell_show_content_cartype"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/mdtp_light_gray"
+                    android:layout_marginRight="10dp"
+                    android:textSize="16dp"
+                    android:text="奥迪A6L"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/employee_list_cell_info"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/employee_list_cell_name"
+                    android:paddingLeft="5pt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical|left"
+                    android:layout_weight="1"
+                    android:textColor="@color/mdtp_light_gray"
+                    android:layout_marginRight="20dp"
+                    android:textSize="14dp"
+                    android:text="A384484"/>
+                <TextView
+                    android:id="@+id/employee_list_cell_phone"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical|right"
+                    android:layout_weight="1"
+                    android:textColor="@color/mdtp_light_gray"
+                    android:layout_marginRight="20dp"
+                    android:textSize="14dp"
+                    android:text="未绑定微信"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contact_list_cell_show_wx"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/employee_list_cell_status"
+                    android:paddingLeft="5pt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical|left"
+                    android:layout_weight="1"
+                    android:textColor="@color/mdtp_light_gray"
+                    android:layout_marginRight="20dp"
+                    android:textSize="14dp"
+                    android:text="A384484"/>
+                <TextView
+                    android:id="@+id/contact_list_cell_show_content_isbind"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical|right"
+                    android:layout_weight="1"
+                    android:textColor="@color/mdtp_light_gray"
+                    android:layout_marginRight="20dp"
+                    android:textSize="14dp"
+                    android:visibility="invisible"
+                    android:text="未绑定微信"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

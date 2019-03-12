@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/contact_info_footerview"
+    android:layout_height="60dp">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="删除该记录"
+        android:id="@+id/repair_edit_deleteBtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/delborder"
+        android:textColor="#fefefe"
+        android:onClick="deleteRepair"
+        android:textSize="20dp" />
+</RelativeLayout>

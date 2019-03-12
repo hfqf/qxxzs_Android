@@ -1,0 +1,85 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.points.autorepar.fragment.QueryFragment"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_navigationbar"
+        android:id="@+id/id_workroom_fragment_navi" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/workroom_fragment_btn0"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textSize="18dp"
+                android:text="未完成"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                android:textColor="@color/colorTabbarTitleNormal" />
+
+            <Button
+                android:id="@+id/workroom_fragment_btn1"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textSize="18dp"
+                android:text="已修完"
+                android:textColor="@color/colorTabbarTitleNormal"/>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:orientation="vertical">
+            <View
+                android:id="@+id/workroom_index_icon"
+                android:layout_width="10dp"
+                android:layout_height="2dp"
+                android:background="@color/material_blue">
+            </View>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.points.autorepar.lib.cjj.MaterialRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:mainApplication="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh_workroom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        mainApplication:isLoadMore="true"
+        mainApplication:overlay="false"
+        mainApplication:progress_size_type="normal"
+        mainApplication:wave_color="@color/colorWhite"
+        mainApplication:wave_show="false"
+        mainApplication:progress_colors="@array/material_colors"
+        mainApplication:wave_height_type="normal">
+
+       
+        <ListView android:id="@+id/id_workroomlist"
+            android:layout_margin="0dp"
+            android:background="@color/colorSetting"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:dividerHeight="10dp"
+            android:divider="#f5f5f5">
+        </ListView>
+
+    </com.points.autorepar.lib.cjj.MaterialRefreshLayout>
+
+</LinearLayout>

@@ -1,0 +1,212 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Carpicker</title>
+
+  <!--<link rel="stylesheet" type="text/css"  href="../public/stylesheets/carpicker.css" />-->
+  <!--<script src="../public/javascripts/jquery.js"></script>-->
+  <!--<script src="../public/javascripts/jquery.min.js"></script>-->
+  <!--<script src="../public/javascripts/carpicker.js"></script>-->
+  <!--<script src="../public/javascripts/carpickerIndex.js"></script>-->
+  <!--<script src="../public/javascripts/carpicker.min.js"></script>-->
+
+
+  <link rel="stylesheet" type="text/css"  href="stylesheets/carpicker.css" />
+  <script src="javascripts/jquery.js"></script>
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="javascripts/carpicker.js"></script>
+  <script src="javascripts/carpickerIndex.js"></script>
+  <script src="javascripts/carpicker.min.js"></script>
+
+</head>
+<body>
+<div class="athm-select" id="js-select-simple" data-toggle="carpicker" style="width: 100%;height: 100%">
+  <div class="athm-select__selected" data-select-picker>
+    <span class="athm-select__text" data-select-value>选择品牌/车系/车型</span>
+    <span class="athm-select__icon">
+        <i class="athm-iconfont athm-iconfont-arrowdown"></i>
+      </span>
+  </div>
+
+  <div class="athm-select__option" data-select-dropdown>
+    <div class="pop-wrapper">
+      <div class="brand" data-select-brand></div>
+      <div class="series" data-select-series></div>
+      <div class="spec" data-select-spec></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+<script>
+
+    console.log('0')
+
+    function isAndroid() {
+            var u = navigator.userAgent, app = navigator.appVersion;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            return isAndroid == true ? true : false;
+        }
+        var carBrand = [];
+        var currentBrand = {};
+        var carSeries = [];
+        var currentSeries = {};
+        var currentSpec = {};
+
+        console.log('1')
+        $.ajax({
+            type: 'GET',
+            async: false,
+            url: 'http://jisucxdq.market.alicloudapi.com/car/brand',
+            headers: {
+                'Authorization': 'APPCODE 68174e9d480d4351a9e0a962d049851f'},
+            success: function (data) {
+                console.log('2')
+                var brands = data.result
+                brands.forEach(element => {
+                    var item = {
+                        'id': element.id,
+                        'name': element.name,
+                        'letter': element.initial,
+                        'logo': element.logo,
+                        'parentid': element.parentid,
+                        'list': []
+                    }
+                    carBrand.push(item)
+                });
+                $('#js-select-brand').carpicker({
+                    selectLevel: 'series',
+                    onInitPicker: carBrand,
+                    onBrandPicker: function (id) {
+                        dataCar.getSeriesData(id, function (data) {
+                            $('#js-select-brand').data('fe.carpicker').setSeries(data);
+                        })
+                    },
+                    onSeriesPicker: function (id) {
+                        dataCar.getSpecData(id, function (data) {
+                            $('#js-select-spec').data('fe.carpicker').setSpec(data);
+                        });
+                    }
+                })
+            },
+            error: function(error){
+                console.log(JSON.stringify(error))
+            },
+            dataType: 'json',
+        })
+
+    JSON.stringify('3')
+        var dataCar = {
+            getBrandData: function () {
+                return carBrand;
+            },
+
+            getSeriesData: function (key, callback) {
+
+                carBrand.forEach(function (data) {
+                    if (data.id == key) {
+                        currentBrand = data;
+                    }
+                });
+
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://jisucxdq.market.alicloudapi.com/car/carlist?parentid=' + key,
+                    headers: {'Authorization': 'APPCODE 68174e9d480d4351a9e0a962d049851f'},
+                    success: function (data) {
+                        carSeries = data.result;
+                        callback(carSeries)
+                    },
+                    dataType: "json",
+                })
+            },
+
+            getSpecData: function (key, callback) {
+                carSeries.forEach(function (data) {
+                    data.carlist.forEach(function (item) {
+                        if (item.id == key) {
+                            currentSeries = item;
+                            callback(item);
+                            return
+                        }
+                    });
+                });
+            }
+        }
+        $('#js-select-brand').on('change.fe.carpicker', function (e, data, $item) {
+            $('#carpicker01').text('你选择了：' + data.value + '-' + data.text);
+            $('#js-select-spec').removeClass('disabled');
+        });
+        $('#js-select-spec').on('change.fe.carpicker', function (e, data, $item) {
+            $('#carpicker01').text('你选择了：' + data.value + '-' + data.text);
+        });
+
+        $('#js-select-simple').carpicker({
+            selectLevel: 'spec',
+            selectNav: true,
+            onInitPicker: dataCar.getBrandData,
+            onBrandPicker: function (id) {
+                dataCar.getSeriesData(id, function (data) {
+                    $('#js-select-simple').data('fe.carpicker').setSeries(data);
+                })
+            },
+            onSeriesPicker: function (id) {
+                dataCar.getSpecData(id, function (data) {
+                    $('#js-select-simple').data('fe.carpicker').setSpec(data);
+                });
+            },
+            onSpecPicker: function (key) {
+                currentSeries.list.forEach(function (item) {
+                    if (item.id == key) {
+                        currentSpec = item;
+                    }
+                });
+
+                if (isAndroid()) {
+                     window.android.onSelectedCarType(currentBrand.name + currentSeries.name + currentSpec.name,key)
+                } else {
+                    self.location.href = '/carpick?totalname=' + currentBrand.name + currentSeries.name + currentSpec.name + '&carid=' + key
+                }
+
+            }
+        })
+        $('#js-select-simple').on('change.fe.carpicker', function (e, data, $item) {
+            $('#carpicker02').text('你选择了：' + data.value + '-' + data.text);
+        });
+
+        $('#js-select-brand2').carpicker({
+            selectLevel: 'brand',
+            onInitPicker: dataCar.getBrandData,
+            onBrandPicker: function (id) {
+                dataCar.getSeriesData(id, function (data) {
+                    $('#js-select-series2').data('fe.carpicker').setSeries(data);
+                })
+            }
+        })
+        $('#js-select-series2').carpicker({
+            selectLevel: 'series',
+            onSeriesPicker: function (id) {
+                dataCar.getSpecData(id, function (data) {
+                    $('#js-select-spec2').data('fe.carpicker').setSpec(data);
+                });
+            }
+        })
+
+        $('#js-select-brand2').on('change.fe.carpicker', function (e, data, $item) {
+            $('#carpicker03').text('你选择了：' + data.value + '-' + data.text);
+            $('#js-select-series2').removeClass('disabled');
+        });
+        $('#js-select-series2').on('change.fe.carpicker', function (e, data, $item) {
+            $('#carpicker03').text('你选择了：' + data.value + '-' + data.text);
+            $('#js-select-spec2').removeClass('disabled');
+        });
+        $('#js-select-spec2').on('change.fe.carpicker', function (e, data, $item) {
+            $('#carpicker03').text('你选择了：' + data.value + '-' + data.text);
+        });
+</script>

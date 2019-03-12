@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="60dp"
+    android:background="@drawable/contactborder"
+    android:orientation="horizontal"
+    >
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:orientation="vertical">
+        <TextView android:id="@+id/contact_cell_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:textSize="14dp"
+            android:textColor="@color/colorBlack"
+            android:text="0000">
+        </TextView>
+]
+        <TextView android:id="@+id/contact_cell_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:textSize="14dp"
+            android:textColor="@color/colorBlack"
+            android:text="0000">
+        </TextView>
+        <TextView android:id="@+id/contact_cell_6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:textSize="14dp"
+            android:textColor="@color/colorBlack"
+            android:text="0000">
+        </TextView>
+
+        <TextView android:id="@+id/contact_cell_7"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|bottom"
+            android:textSize="14dp"
+            android:textColor="@color/material_light_blue"
+            android:text="0000">
+        </TextView>
+    </LinearLayout>
+
+
+
+    <View android:id="@+id/contact_cell_sep"
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@color/corlorBorder"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.7"
+        android:orientation="vertical">
+        <TextView android:id="@+id/contact_cell_3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:textSize="14dp"
+            android:textColor="@color/colorBlack"
+            android:text="0000">
+        </TextView>
+
+        <TextView android:id="@+id/contact_cell_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:textSize="14dp"
+            android:textColor="@color/colorBlack"
+            android:text="0000"/>
+
+        <TextView android:id="@+id/contact_cell_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:textSize="14dp"
+            android:textColor="@color/colorBlack"
+            android:text="0000">
+        </TextView>
+    </LinearLayout>
+
+
+</LinearLayout>

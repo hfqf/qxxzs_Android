@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="com.points.autorepar.activity.RegisterActivity"
+    android:background="@color/colorWhite">
+
+
+    <include layout="@layout/common_navigationbar"
+        android:id="@+id/id_query_tiped" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/register_name_bg"
+        android:layout_below="@+id/id_query_tiped"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhite"
+        android:weightSum="1">
+
+        <TextView
+            android:text="用户名:"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:id="@+id/textView1"
+            android:layout_weight="0.3"
+
+            android:gravity="left|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="20dp"
+            android:textSize="14dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/contactborder"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/register_nameInut"
+            android:layout_weight="0.7"
+            android:paddingLeft="20dp"
+            android:hint="必填,勿有特殊字符"
+            android:textSize="14dp"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/register_tel_bg"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhite"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:text="手机号码:"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="20dp"
+            android:textColor="@color/colorBlack"
+            android:textSize="14dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:background="@drawable/contactborder"
+            android:ems="10"
+            android:id="@+id/register_telInput"
+            android:layout_weight="0.7"
+            android:paddingLeft="20dp"
+            android:hint="必填,很重要,请不要写错"
+            android:textSize="14dp"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/register_code_bg"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhite"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:text="验证码:"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="20dp"
+            android:textSize="14dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:background="@drawable/contactborder"
+            android:ems="10"
+            android:id="@+id/register_codeInput"
+            android:layout_weight="0.7"
+            android:hint="验证码"
+            android:textSize="14dp"
+            android:layout_marginLeft="20dp" />
+        <Button android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/material_blue"
+            android:id="@+id/register_codeButton"
+            android:text="获取验证码"
+            android:textSize="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/register_pwd_bg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhite"
+        android:weightSum="1">
+
+        <TextView
+            android:text="密码:"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="20dp"
+            android:textSize="14dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/contactborder"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/register_pwdInut"
+            android:layout_weight="0.7"
+            android:paddingLeft="20dp"
+            android:textSize="14dp"
+            android:hint="必填,请不要超过八位"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhite"
+        android:layout_below="@+id/register_pwd_bg"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:text="密码确认:"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:id="@+id/pwdTip"
+            android:layout_weight="0.3"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="20dp"
+            android:textSize="14dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:background="@drawable/contactborder"
+            android:ems="10"
+            android:id="@+id/register_confirmInput"
+            android:layout_weight="0.7"
+            android:paddingLeft="20dp"
+            android:textSize="14dp"
+            android:hint="必填,再次输入密码"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhite"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:text="门店地址:"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="20dp"
+            android:textSize="14dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:background="@drawable/contactborder"
+            android:ems="10"
+            android:id="@+id/register_address"
+            android:layout_weight="0.7"
+            android:paddingLeft="20dp"
+            android:textSize="14dp"
+            android:hint="选填,将用于填写微信推送内容"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/register_pwd2_bg"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhite"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:text="门店名称:"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="20dp"
+            android:textSize="14dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:background="@drawable/contactborder"
+            android:ems="10"
+            android:id="@+id/register_shopname"
+            android:layout_weight="0.7"
+            android:paddingLeft="20dp"
+            android:textSize="14dp"
+            android:hint="选填,将用于填写微信推送内容"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/register_channel_bg"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhite"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:text="下载渠道:"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="right|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="20dp"
+            android:textSize="14dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:background="@drawable/contactborder"
+            android:ems="10"
+            android:id="@+id/register_channelInput"
+            android:layout_weight="0.7"
+            android:paddingLeft="20dp"
+            android:textSize="14dp"
+            android:hint="选填,从哪里知道汽修小助手的介绍"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

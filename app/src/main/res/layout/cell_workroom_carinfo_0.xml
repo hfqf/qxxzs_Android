@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/contact_edit_bg_name">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="车主名:"
+            android:id="@+id/cell_workroom_carinfo_0_tip"
+            android:textColor="@color/colorTabbarTitleNormal"
+            android:textSize="13dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="left|center_vertical" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:id="@+id/cell_workroom_carinfo_0_content"
+            android:layout_weight="1"
+            android:text="kaka"
+            android:textColor="#736f6f"
+            android:textSize="13dp"
+            android:layout_marginRight="00dp"
+            android:background="#ffffff"
+            android:gravity="left|center_vertical"
+            android:inputType="text" />
+    </LinearLayout>
+
+</RelativeLayout>

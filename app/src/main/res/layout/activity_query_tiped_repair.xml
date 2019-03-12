@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.points.autorepar.activity.repair.QueryTipedRepairActivity">
+    <include layout="@layout/common_navigationbar"
+        android:id="@+id/id_query_tiped" />
+    <com.points.autorepar.lib.cjj.MaterialRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:mainApplication="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/id_query_tiped_refresh_contact"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        mainApplication:isLoadMore="true"
+        mainApplication:overlay="false"
+        mainApplication:progress_size_type="normal"
+        mainApplication:wave_color="@color/colorWhite"
+        mainApplication:wave_show="false"
+        mainApplication:progress_colors="@array/material_colors"
+        mainApplication:wave_height_type="normal">
+        <ListView android:id="@+id/id_query_tiped_list"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorSetting"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:dividerHeight="5dp"
+            android:divider="#00000000">
+        </ListView>
+    </com.points.autorepar.lib.cjj.MaterialRefreshLayout>
+
+</LinearLayout>

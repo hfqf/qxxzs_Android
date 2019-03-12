@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:orientation="vertical">
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        >
+        <TextView android:layout_width="20dp"
+            android:layout_margin="5dp"
+            android:layout_height="20dp"
+            android:text="14"
+            android:id="@+id/repair_info_item_index"
+            android:gravity="center"
+            android:textSize="12dp"
+            android:background="@drawable/boder_repair_item_index"/>
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:id="@+id/repair_info_cell_content4"
+            android:layout_weight="1"
+            android:text="删除"
+            android:textSize="15dp"
+            android:textColor="@color/colorWhite"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="250dp"
+            android:background="@drawable/delborder"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/contact_edit_bg_name">
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="收费项目:"
+                android:id="@+id/repair_info_item_cell_tip1"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:editable="false"
+                android:layout_gravity="center_vertical"
+                android:gravity="left|center_vertical" />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/repair_info_cell_content1"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:padding="2dp"
+                android:textColor="#444945"
+                android:enabled="false"
+                android:hint="请输入收费项目"
+                android:background="@drawable/contactborder"
+                android:inputType="text" />
+        </LinearLayout>
+
+
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:paddingLeft="5dp"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="收费价格:"
+                android:id="@+id/repair_info_item_cell_tip2"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="left|center_vertical" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/repair_info_cell_content2"
+                android:layout_weight="1"
+                android:hint="收费价格"
+                android:enabled="false"
+                android:textSize="14dp"
+                android:textColor="#444945"
+                android:layout_margin="10dp"
+                android:padding="2dp"
+                android:background="@drawable/contactborder"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:paddingLeft="5dp"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="次数或数量:"
+                android:id="@+id/repair_info_item_cell_tip3"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="left|center_vertical" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/repair_info_cell_content3"
+                android:layout_weight="1"
+                android:hint="此条收费的次数或数量"
+                android:textSize="14dp"
+                android:textColor="#444945"
+                android:layout_margin="10dp"
+                android:padding="2dp"
+                android:enabled="false"
+                android:background="@drawable/contactborder"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

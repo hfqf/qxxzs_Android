@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorTabbarBg"
+    tools:context="com.points.autorepar.activity.MainTabbarActivity">
+
+
+
+
+        <FrameLayout
+            android:id="@+id/id_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:layout_marginBottom="0dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:id="@+id/main_btn_add"
+                android:background="@drawable/mainactivity_publish_publish"
+                android:layout_width="49dp"
+                android:layout_height="49dp"
+                />
+
+        </FrameLayout>
+
+
+
+
+
+    <include layout="@layout/fragment_bottom_bar"/>
+
+</LinearLayout>

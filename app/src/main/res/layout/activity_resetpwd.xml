@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ResetPwdActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.points.autorepar.activity.ResetPwdActivity"
+    android:background="@color/colorWhite">
+
+
+    <include layout="@layout/common_navigationbar"
+        android:id="@+id/id_query_tiped" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/register_tel_bg"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="80dp"
+        android:background="@color/colorWhite"
+        android:layout_below="@+id/register_name_bg"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:text="手机号码:"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:paddingLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:textSize="16dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:background="@drawable/contactborder"
+            android:ems="10"
+            android:id="@+id/register_telInput"
+            android:layout_weight="0.7"
+            android:hint="请输入手机号码"
+            android:paddingLeft="20dp"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/register_pwd_bg"
+        android:layout_below="@+id/register_tel_bg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorWhite"
+        android:weightSum="1">
+
+        <TextView
+            android:text="新密码:"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="10dp"
+            android:textSize="16dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/contactborder"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/register_pwdInut"
+            android:layout_weight="0.7"
+            android:paddingLeft="20dp"
+            android:hint="请不要超过八位"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/register_pwd2_bg"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorWhite"
+        android:layout_below="@+id/register_pwd_bg"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:text="密码确认:"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:id="@+id/pwdTip"
+            android:layout_weight="0.3"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="10dp"
+            android:textSize="16dp" />
+
+        <EditText
+            android:textColor="@color/colorBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:background="@drawable/contactborder"
+            android:ems="10"
+            android:id="@+id/register_confirmInput"
+            android:layout_weight="0.7"
+            android:paddingLeft="20dp"
+            android:hint="再次输入密码"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+
+
+</RelativeLayout>

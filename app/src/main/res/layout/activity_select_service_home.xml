@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_bar_high"
+        android:background="@color/material_blue"
+        android:orientation="horizontal">
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+            <Button
+                android:id="@+id/common_navi_back"
+                android:layout_width="80dp"
+                android:layout_height="44dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp"
+                android:paddingLeft="-30dp"
+                android:gravity="center"
+                android:text="返回"
+                android:visibility="visible"
+                android:background="@color/common_clear">
+            </Button>
+            <TextView android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="-20dp"
+                android:text="14"
+                android:id="@+id/common_navi_num"
+                android:visibility="invisible"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:textColor="@color/mdtp_white"
+                android:background="@drawable/boder_navi_num"/>
+
+            <TextView android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="70dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:id="@+id/common_navi_title"
+                android:text="选择服务"
+                android:textColor="@color/colorWhite"
+                android:textSize="15dp"
+                android:gravity="center"
+                />
+
+            <Button
+                android:id="@+id/common_navi_add1"
+                android:layout_width="50dp"
+                android:layout_height="44dp"
+                android:textColor="@color/mdtp_white"
+                android:textSize="16dp"
+                android:paddingRight="-20dp"
+                android:gravity="center"
+                android:text="新增"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@color/common_clear"/>
+
+
+            <Button
+                android:id="@+id/common_navi_add"
+                android:layout_width="50dp"
+                android:layout_height="44dp"
+                android:textColor="@color/mdtp_white"
+                android:textSize="16dp"
+                android:paddingRight="-10dp"
+                android:gravity="center"
+                android:text="确认"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@color/common_clear"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/topTab"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/workroom_fragment_btn0"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textSize="18dp"
+                android:text="自定义"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                android:textColor="@color/colorTabbarTitleNormal" />
+
+            <Button
+                android:id="@+id/workroom_fragment_btn1"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textSize="18dp"
+                android:text="系统分类"
+                android:textColor="@color/colorTabbarTitleNormal"/>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:orientation="vertical">
+            <View
+                android:id="@+id/workroom_index_icon"
+                android:layout_width="10dp"
+                android:layout_height="2dp"
+                android:background="@color/material_blue">
+            </View>
+        </LinearLayout>
+    </LinearLayout>
+    <ExpandableListView
+        android:id="@+id/expand_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
