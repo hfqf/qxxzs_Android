@@ -1059,7 +1059,7 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
     public void showCamera()
     {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.CALL_PHONE},
@@ -1067,7 +1067,7 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
             }else {
                 takepic();
             }
-        }
+//        }
     }
 
     @Override

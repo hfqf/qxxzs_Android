@@ -371,7 +371,7 @@ public class HomemenuFragment extends Fragment {
                         startActivityForResult(intent,1001);
                     }
                     else if(i==4){
-                        //MyReactActivity
+                        Toast.makeText(getActivity(),"升级中,敬请期待!",Toast.LENGTH_SHORT).show();
 
                     }
                     else if(i==6){
