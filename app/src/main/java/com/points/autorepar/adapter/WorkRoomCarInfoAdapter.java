@@ -172,19 +172,19 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                                 ImgDisplayActivity.class);
                         Bundle bu = new Bundle();
                         ArrayList imglist = new ArrayList();
-                        if(!"".equalsIgnoreCase(str_img1))
+                        if(!"".equalsIgnoreCase(str_img1)&& !"null".equalsIgnoreCase(str_img1))
                         {
                             String url= Consts.HTTP_URL+"/file/pic/" +str_img1+".png";
                             imglist.add(url);
                         }
 
-                        if(!"".equalsIgnoreCase(str_img2))
+                        if(!"".equalsIgnoreCase(str_img2)&& !"null".equalsIgnoreCase(str_img2))
                         {
                             String url= Consts.HTTP_URL+"/file/pic/" +str_img2+".png";
                             imglist.add(url);
                         }
 
-                        if(!"".equalsIgnoreCase(str_img3))
+                        if(!"".equalsIgnoreCase(str_img3)&& !"null".equalsIgnoreCase(str_img3))
                         {
                             String url= Consts.HTTP_URL+"/file/pic/" +str_img3+".png";
                             imglist.add(url);
@@ -272,19 +272,19 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                                 ImgDisplayActivity.class);
                         Bundle bu = new Bundle();
                         ArrayList imglist = new ArrayList();
-                        if(!"".equalsIgnoreCase(str_img1))
+                        if(!"".equalsIgnoreCase(str_img1) && !"null".equalsIgnoreCase(str_img1))
                         {
                             String url= Consts.HTTP_URL+"/file/pic/" +str_img1+".png";
                             imglist.add(url);
                         }
 
-                        if(!"".equalsIgnoreCase(str_img2))
+                        if(!"".equalsIgnoreCase(str_img2) && !"null".equalsIgnoreCase(str_img2))
                         {
                             String url= Consts.HTTP_URL+"/file/pic/" +str_img2+".png";
                             imglist.add(url);
                         }
 
-                        if(!"".equalsIgnoreCase(str_img3))
+                        if(!"".equalsIgnoreCase(str_img3)&& !"null".equalsIgnoreCase(str_img3))
                         {
                             String url= Consts.HTTP_URL+"/file/pic/" +str_img3+".png";
                             imglist.add(url);
@@ -391,19 +391,19 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                                 ImgDisplayActivity.class);
                         Bundle bu = new Bundle();
                         ArrayList imglist = new ArrayList();
-                        if(!"".equalsIgnoreCase(str_img1))
+                        if(!"".equalsIgnoreCase(str_img1)&& !"null".equalsIgnoreCase(str_img1))
                         {
                             String url= Consts.HTTP_URL+"/file/pic/" +str_img1+".png";
                             imglist.add(url);
                         }
 
-                        if(!"".equalsIgnoreCase(str_img2))
+                        if(!"".equalsIgnoreCase(str_img2)&& !"null".equalsIgnoreCase(str_img2))
                         {
                             String url= Consts.HTTP_URL+"/file/pic/" +str_img2+".png";
                             imglist.add(url);
                         }
 
-                        if(!"".equalsIgnoreCase(str_img3))
+                        if(!"".equalsIgnoreCase(str_img3)&& !"null".equalsIgnoreCase(str_img3))
                         {
                             String url= Consts.HTTP_URL+"/file/pic/" +str_img3+".png";
                             imglist.add(url);
