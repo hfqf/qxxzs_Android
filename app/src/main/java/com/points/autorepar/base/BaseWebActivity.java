@@ -41,6 +41,7 @@ public class BaseWebActivity extends AppCompatActivity {
     private String url;
     private String title;
     private Button common_navi_add;
+    private Button common_back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +57,14 @@ public class BaseWebActivity extends AppCompatActivity {
         mTitleTextView = (TextView) this.findViewById(R.id.common_navi_title);
         common_navi_add = (Button)this.findViewById(R.id.common_navi_add);
         common_navi_add.setVisibility(View.GONE);
+
+        common_back =  (Button)findViewById(R.id.common_navi_back);
+        common_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 //        this.setSupportActionBar(mToolbar);
 //        if (getSupportActionBar() != null) {
 //            // Enable the Up button

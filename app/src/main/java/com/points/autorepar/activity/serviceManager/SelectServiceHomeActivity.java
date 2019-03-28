@@ -468,11 +468,7 @@ public class SelectServiceHomeActivity extends BaseActivity {
                         str_num.put(itemInfo.num);
                         str_type.put(itemInfo.name);
 
-
-
-
-
-                selectmap = new JSONObject();
+                        selectmap = new JSONObject();
 
                     selectmap.put("dispatchtime", str_dispatchtime);
                     selectmap.put("goods", str_goods);
@@ -491,7 +487,7 @@ public class SelectServiceHomeActivity extends BaseActivity {
                     selectmap.put("type", str_type);
                     selectmap.put("name", str_name);
 
-                list.put(selectmap);
+                      list.put(selectmap);
                     }
                 }
             }
@@ -501,6 +497,7 @@ public class SelectServiceHomeActivity extends BaseActivity {
         String str = list.toString();
 
         map.put("items", list);
+        map.put("os", "1");
 
         }catch (Exception e )
         {
@@ -508,7 +505,7 @@ public class SelectServiceHomeActivity extends BaseActivity {
         }
         String url = "";
 
-        url = "/repairitem/additems2";
+        url = "/repairitem/additems3";
 
 
 

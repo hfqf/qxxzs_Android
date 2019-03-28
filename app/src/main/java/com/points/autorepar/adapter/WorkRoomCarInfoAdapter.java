@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -16,8 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -465,10 +468,11 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
             holder = new ViewHolderCell0();
             holder.tip = ((TextView) convertView.findViewById(R.id.cell_workroom_carinfo_0_tip));
             holder.value = ((TextView) convertView.findViewById(R.id.cell_workroom_carinfo_0_content));
+            holder.btn = ((ImageButton) convertView.findViewById(R.id.cell_workroom_carinfo_0_btn));
             convertView.setTag(holder);
 
             Contact contact = DBService.queryContact(m_data.carCode);
-
+            holder.btn.setVisibility(View.INVISIBLE);
             if(contact != null) {
                 switch (position) {
                     case 1: {
@@ -482,8 +486,20 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                         break;
                     }
                     case 3: {
+                        final String tel =  contact.getTel();
                         holder.tip.setText("号码");
                         holder.value.setText(contact.getTel());
+                        holder.btn.setVisibility(View.VISIBLE);
+                        holder.btn.setBackgroundResource(R.drawable.phone);
+                        holder.btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+tel));
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                m_activity.startActivity(intent);
+
+                            }
+                        });
                         break;
                     }
                     case 4: {
@@ -823,6 +839,7 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
     private class ViewHolderCell0 {
         TextView tip;
         TextView value;
+        ImageButton btn;
     }
 
     private class ViewHolderCellImg {

@@ -448,6 +448,7 @@ public class SelectServiceCategoryActivity extends BaseActivity {
 //            String str = list.toString();
 
             map.put("items", list);
+            map.put("os", "1");
 
     }catch (Exception e )
     {
@@ -455,7 +456,7 @@ public class SelectServiceCategoryActivity extends BaseActivity {
     }
     String url = "";
 
-    url = "/repairitem/additems2";
+    url = "/repairitem/additems3";
 
 
 

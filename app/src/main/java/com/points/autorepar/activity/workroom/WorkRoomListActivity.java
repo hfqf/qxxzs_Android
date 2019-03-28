@@ -34,12 +34,14 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.points.autorepar.MainApplication;
 import com.points.autorepar.R;
 import com.points.autorepar.activity.BaseActivity;
+import com.points.autorepar.activity.WebActivity;
 import com.points.autorepar.activity.contact.SelectContactActivity;
 import com.points.autorepar.adapter.RepairHistoryAdapter;
 import com.points.autorepar.adapter.RepairHistoryTipedAdapter;
 import com.points.autorepar.bean.ADTReapirItemInfo;
 import com.points.autorepar.bean.Contact;
 import com.points.autorepar.bean.RepairHistory;
+import com.points.autorepar.common.Consts;
 import com.points.autorepar.fragment.RepairFragment;
 import com.points.autorepar.fragment.WorkRoomFragment;
 import com.points.autorepar.http.HttpManager;
@@ -54,6 +56,7 @@ import com.points.autorepar.lib.BluetoothPrinter.print.PrintUtil;
 import com.points.autorepar.lib.BluetoothPrinter.util.ToastUtil;
 import com.points.autorepar.lib.cjj.MaterialRefreshLayout;
 import com.points.autorepar.lib.cjj.MaterialRefreshListener;
+import com.points.autorepar.lib.wheelview.WheelView;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.utils.DateUtil;
 import com.points.autorepar.utils.LoginUserUtil;
@@ -63,6 +66,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -213,53 +217,83 @@ public class WorkRoomListActivity extends BaseActivity  implements BtInterface {
                         intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
                         startActivityForResult(intent, 1);
                     }else{
-//                        Intent intent = new Intent(WorkRoomListActivity.this, PrinterActivity.class);
-//                        intent.setAction(PrintUtil.ACTION_PRINT_PAGE);
-//                        intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
-//                        startActivity(intent);
 
-                        if(rep.arrRepairItems== null || rep.arrRepairItems.size()==0)
-                        {
-                            Toast.makeText(WorkRoomListActivity.this,"请提交收费服务后再进行打印",Toast.LENGTH_LONG).show();
-                            return;
-                        }
+                        final String[] arr = {"电子工单","打印小票"};
+                        View outerView = LayoutInflater.from(m_this).inflate(R.layout.wheel_view, null);
+                        final WheelView wv = (WheelView) outerView.findViewById(R.id.wheel_view_wv);
+                        wv.setItems(Arrays.asList(arr));
+                        wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+                            @Override
+                            public void onSelected(int selectedIndex, String item) {
 
-                        if (TextUtils.isEmpty(AppInfo.btAddress)){
-                            ToastUtil.showToast(WorkRoomListActivity.this,"请连接蓝牙...");
-                            startActivity(new Intent(WorkRoomListActivity.this,SearchBluetoothActivity.class));
-                        }else {
+                                if(selectedIndex==0){
 
-                            new AlertDialog.Builder(m_this)
-                                    .setTitle("确定打印当前工单?")
-                                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                }
 
+                            }
+                        });
+                        new AlertDialog.Builder(m_this)
+                                .setTitle("请选择操作")
+                                .setView(outerView)
+                                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                            if ( mAdapter.getState()==BluetoothAdapter.STATE_OFF ){//蓝牙被关闭时强制打开
-                                                mAdapter.enable();
-                                                ToastUtil.showToast(WorkRoomListActivity.this,"蓝牙被关闭请打开...");
+                                        Log.e(TAG, "OK" + wv.getSeletedIndex()+which);
+                                        if(wv.getSeletedIndex() == 0){
+
+                                            String weburl = Consts.HTTP_URL+"/repair/printAllItems?repid="+rep.idfromnode;
+                                            WebActivity.actionStart(WorkRoomListActivity.this, weburl,"");
+                                        }else if(wv.getSeletedIndex() == 1){
+                                            if(rep.arrRepairItems== null || rep.arrRepairItems.size()==0)
+                                            {
+                                                Toast.makeText(WorkRoomListActivity.this,"请提交收费服务后再进行打印",Toast.LENGTH_LONG).show();
+                                                return;
+                                            }
+
+                                            if (TextUtils.isEmpty(AppInfo.btAddress)){
+                                                ToastUtil.showToast(WorkRoomListActivity.this,"请连接蓝牙...");
+                                                startActivity(new Intent(WorkRoomListActivity.this,SearchBluetoothActivity.class));
                                             }else {
+
+                                                new AlertDialog.Builder(m_this)
+                                                        .setTitle("确定打印当前工单?")
+                                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+
+
+                                                                if ( mAdapter.getState()==BluetoothAdapter.STATE_OFF ){//蓝牙被关闭时强制打开
+                                                                    mAdapter.enable();
+                                                                    ToastUtil.showToast(WorkRoomListActivity.this,"蓝牙被关闭请打开...");
+                                                                }else {
 //                                                ToastUtil.showToast(WorkRoomListActivity.this,"打印测试...");
-                                                Intent intent = new Intent(getApplicationContext(), BtService.class);
-                                                intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
-                                                intent.setAction(PrintUtil.ACTION_PRINT_PAGE);
-                                                startService(intent);
+                                                                    Intent intent = new Intent(getApplicationContext(), BtService.class);
+                                                                    intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
+                                                                    intent.setAction(PrintUtil.ACTION_PRINT_PAGE);
+                                                                    startService(intent);
+                                                                }
+                                                            }
+                                                        })
+                                                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                Log.e(TAG, "onCancel");
+                                                            }
+                                                        })
+                                                        .show();
                                             }
                                         }
-                                    })
-                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Log.e(TAG, "onCancel");
-                                        }
-                                    })
-                                    .show();
 
-
-
-
-                        }
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.e(TAG, "onCancel");
+                                    }
+                                })
+                                .show();
                     }
                 }
             });

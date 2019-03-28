@@ -38,6 +38,13 @@
             android:background="#ffffff"
             android:gravity="left|center_vertical"
             android:inputType="text" />
+        <ImageButton
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_green_circle"
+            android:id="@+id/cell_workroom_carinfo_0_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            />
     </LinearLayout>
 
 </RelativeLayout>
