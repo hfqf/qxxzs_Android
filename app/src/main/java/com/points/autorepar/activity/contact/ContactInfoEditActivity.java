@@ -484,7 +484,11 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         map.put("tqTime2", m_adapter.m_contact.getTqTime2().length() == 0 ?"":m_adapter.m_contact.getTqTime2());
         map.put("key",m_adapter.m_contact.getCar_key()== null?"":m_adapter.m_contact.getCar_key());
 
-        HttpManager.getInstance(this).updateContact("/contact/update3",
+        map.put("safecompany3", m_adapter.m_contact.getSafecompany3().length() == 0 ?"":m_adapter.m_contact.getSafecompany3());
+        map.put("safenexttime3", m_adapter.m_contact.getSafenexttime3().length() == 0 ?"":m_adapter.m_contact.getSafenexttime3());
+        map.put("tqTime3", m_adapter.m_contact.getTqTime3().length() == 0 ?"":m_adapter.m_contact.getTqTime3());
+
+        HttpManager.getInstance(this).updateContact("/contact/update4",
                 map,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -576,6 +580,8 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 repFromServer.entershoptime =obj.optString("entershoptime");
                 repFromServer.contactid =obj.optString("contactid");
                 repFromServer.saleMoney = obj.optString("saleMoney");
+
+
                 if(repFromServer.entershoptime.length()==0){
                     repFromServer.entershoptime =   repFromServer.inserttime;
                 }
@@ -754,6 +760,8 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         dpd.show(getFragmentManager(), "Datepickerdialog");
     }
 
+
+
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
 
@@ -769,6 +777,9 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         }else if(m_selectTimeType == 2){
             m_currentContact.setSafenexttime(date);
             m_adapter.m_contact.setSafenexttime(date);
+        }else if(m_selectTimeType == 3){
+            m_currentContact.setSafenexttime3(date);
+            m_adapter.m_contact.setSafenexttime3(date);
         }
 
         m_adapter.notifyDataSetChanged();

@@ -28,7 +28,7 @@ public class DBService extends SQLiteOpenHelper {
 
     private static final String dbName  = "autore.db";
     private static final String TAG     = "DBService";
-    private static final int  dbVersion = 9;//3.3
+    private static final int  dbVersion = 10;//3.3
 
     private static DBService instance  = null;
 
@@ -139,7 +139,7 @@ public class DBService extends SQLiteOpenHelper {
 //        {
             List<String> arrTable  = new ArrayList<String>(Arrays.asList("create table if not exists  contact (carcode TEXT,name TEXT,tel TEXT,cartype TEXT,owner TEXT,idfromnode TEXT," +
                     " inserttime TEXT,isbindweixin TEXT,weixinopenid TEXT,vin TEXT,carregistertime TEXT,headurl TEXT," +
-                    "safecompany TEXT,safenexttime TEXT,yearchecknexttime TEXT,tqTime1 TEXT,tqTime2 TEXT,key TEXT,isVip TEXT,carId TEXT)"
+                    "safecompany TEXT,safenexttime TEXT,yearchecknexttime TEXT,tqTime1 TEXT,tqTime2 TEXT,key TEXT,isVip TEXT,carId TEXT,safecompany3 TEXT,safenexttime3 TEXT,tqTime3 TEXT,safetiptime3 TEXT)"
             ));
 
             for (int i=0;i<arrTable.size();i++)
@@ -147,7 +147,8 @@ public class DBService extends SQLiteOpenHelper {
                 String sql = arrTable.get(i);
                 db.execSQL(sql);
             }
-//        }
+
+
     }
 
 
@@ -229,7 +230,7 @@ public class DBService extends SQLiteOpenHelper {
 
         List<String> arrTable  = new ArrayList<String>(Arrays.asList("create table if not exists  contact (carcode TEXT,name TEXT,tel TEXT,cartype TEXT,owner TEXT,idfromnode TEXT," +
                 " inserttime TEXT,isbindweixin TEXT,weixinopenid TEXT,vin TEXT,carregistertime TEXT,headurl TEXT," +
-                "safecompany TEXT,safenexttime TEXT,yearchecknexttime TEXT,tqTime1 TEXT,tqTime2 TEXT,key TEXT,isVip TEXT,carId TEXT)"
+                "safecompany TEXT,safenexttime TEXT,yearchecknexttime TEXT,tqTime1 TEXT,tqTime2 TEXT,key TEXT,isVip TEXT,carId TEXT,safecompany3 TEXT,safenexttime3 TEXT,tqTime3 TEXT,safetiptime3 TEXT)"
         ));
 
         for (int i=0;i<arrTable.size();i++)
@@ -289,6 +290,11 @@ public class DBService extends SQLiteOpenHelper {
         cv.put("key", contact.getCar_key() == null? "" :contact.getCar_key());
         cv.put("isVip", contact.getisVip() == null? "" :contact.getisVip());
         cv.put("carId", contact.getCar_id() == null? "" :contact.getCar_id());
+
+        cv.put("safecompany3", contact.getSafecompany3() == null? "" :contact.getSafecompany3());
+        cv.put("safenexttime3", contact.getSafenexttime3() == null? "" :contact.getSafenexttime3());
+        cv.put("tqTime3", contact.getTqTime3() == null? "" :contact.getTqTime3());
+        cv.put("safetiptime3", contact.getSafetiptime3() == null? "" :contact.getSafetiptime3());
 
         db.insert("contact",null,cv);
 
@@ -351,6 +357,13 @@ public class DBService extends SQLiteOpenHelper {
         cv.put("key", contact.getCar_key() == null? "" :contact.getCar_key());
         cv.put("isVip", contact.getisVip() == null? "" :contact.getisVip());
         cv.put("carId", contact.getCar_id() == null? "" :contact.getCar_id());
+
+        cv.put("safecompany3", contact.getSafecompany3() == null? "" :contact.getSafecompany3());
+        cv.put("safenexttime3", contact.getSafenexttime3() == null? "" :contact.getSafenexttime3());
+        cv.put("tqTime3", contact.getTqTime3() == null? "" :contact.getTqTime3());
+        cv.put("safetiptime3", contact.getSafetiptime3() == null? "" :contact.getSafetiptime3());
+
+
         db.update("contact", cv, "idfromnode=?", new String[]{contact.getIdfromnode()});
         db.close();
     }
@@ -476,35 +489,18 @@ public class DBService extends SQLiteOpenHelper {
         con.setCar_key(key);
         con.setIsVip(isVip);
         con.setCarId(carId);
-            return con;
-    }
 
-    private static JSONObject getContact2(Cursor c) {
-        JSONObject con = new JSONObject();
-        String carCode = c.getString(c.getColumnIndex("carcode"));
-        String name = c.getString(c.getColumnIndex("name"));
-        String tel = c.getString(c.getColumnIndex("tel"));
-        String idFromNode = c.getString(c.getColumnIndex("idfromnode"));
-        String vin = c.getString(c.getColumnIndex("vin"));
-        String headurl = c.getString(c.getColumnIndex("headurl"));
-        String cartype = c.getString(c.getColumnIndex("cartype"));
-        try {
-            con.putOpt("carcode", carCode);
-            con.putOpt("name", name);
-            con.putOpt("pinyin", PinyinUtil.formatAlpha(name));
-            con.putOpt("tel", tel);
-            con.putOpt("cartype", cartype);
-            con.putOpt("id", idFromNode);
-            con.putOpt("_id", idFromNode);
-            con.putOpt("vin", vin);
-            con.putOpt("avatar", headurl);
-            return con;
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String safecompany3 = c.getString(c.getColumnIndex("safecompany3"));
+        String safenexttime3 = c.getString(c.getColumnIndex("safenexttime3"));
+        String tqTime3 = c.getString(c.getColumnIndex("tqTime3"));
+        String safetiptime3 = c.getString(c.getColumnIndex("safetiptime3"));
+        con.setSafecompany3(safecompany3);
+        con.setSafenexttime3(safenexttime3);
+        con.setTqTime3(tqTime3);
+        con.setSafetiptime3(safetiptime3);
         return con;
     }
+
     //查询单个用户客户
     public  static ArrayList queryAllContactName(){
         Log.e(TAG,"queryAllContactName");

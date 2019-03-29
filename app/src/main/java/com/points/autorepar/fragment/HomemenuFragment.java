@@ -1135,6 +1135,9 @@ try {
 
                                     conFromServer.setIsVip(JSONOejectUtil.optString(obj,"isVip"));
                                     conFromServer.setCarId(JSONOejectUtil.optString(obj,"Car_key"));
+                                    conFromServer.setSafecompany3(JSONOejectUtil.optString(obj,"safecompany3"));
+                                    conFromServer.setSafenexttime3(JSONOejectUtil.optString(obj,"safenexttime3"));
+                                    conFromServer.setTqTime3(JSONOejectUtil.optString(obj,"tqTime3"));
 
                                     DBService.addNewContact(conFromServer,db);
 

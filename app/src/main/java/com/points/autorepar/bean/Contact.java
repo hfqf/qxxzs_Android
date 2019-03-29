@@ -34,6 +34,11 @@ public class Contact implements Parcelable {
     private  String  isVip;
     private  String carId;
 
+    private  String safecompany3;
+    private  String safenexttime3;
+    private  String tqTime3;
+    private  String safetiptime3;
+
 
     @Override
     public int describeContents() {
@@ -64,6 +69,11 @@ public class Contact implements Parcelable {
 
         out.writeString(isVip);
         out.writeString(carId);
+
+        out.writeString(safecompany3);
+        out.writeString(safenexttime3);
+        out.writeString(tqTime3);
+        out.writeString(safetiptime3);
 
     }
 
@@ -101,6 +111,11 @@ public class Contact implements Parcelable {
 
         isVip = in.readString();
         carId = in.readString();
+
+        safecompany3 = in.readString();
+        safenexttime3 = in.readString();
+        tqTime3 = in.readString();
+        safetiptime3 = in.readString();
     }
 
 
@@ -190,6 +205,11 @@ public class Contact implements Parcelable {
     public  void setIsVip(String _p) {this.isVip = _p;}
     public  void setCarId(String _p) {this.carId = _p;}
 
+    public  void setSafecompany3(String _p) {this.safecompany3 = _p;}
+    public  void setSafenexttime3(String _p) {this.safenexttime3 = _p;}
+    public  void setTqTime3(String _p) {this.tqTime3 = _p;}
+    public  void setSafetiptime3(String _p) {this.safetiptime3 = _p;}
+
     public String getName()
     {
         return name;
@@ -272,5 +292,10 @@ public class Contact implements Parcelable {
     public String getCar_key() {return car_key;}
     public String getisVip() {return isVip;}
     public String getCar_id() {return carId;}
+
+    public String getSafecompany3() {return safecompany3;}
+    public String getSafenexttime3() {return safenexttime3;}
+    public String getTqTime3() {return tqTime3;}
+    public String getSafetiptime3() {return safetiptime3;}
 
 }

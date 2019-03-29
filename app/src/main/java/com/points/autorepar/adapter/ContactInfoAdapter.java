@@ -62,7 +62,7 @@ public class ContactInfoAdapter extends BaseAdapter {
 
     @Override
     public int getCount(){
-        return 11;
+        return 14;
     }
 
     @Override
@@ -257,13 +257,13 @@ public class ContactInfoAdapter extends BaseAdapter {
                 break;
             }
             case 8:{
-                holder.tip.setText("保险公司:");
+                holder.tip.setText("商业险公司:");
                 holder.value.setText(this.m_contact.getSafecompany());
                 holder.value.addTextChangedListener(watcher7);
                 break;
             }
             case 9:{
-                holder.tip.setText("保险到期时间:");
+                holder.tip.setText("商业险到期时间:");
                 holder.value.setText(this.m_contact.getSafenexttime());
                 holder.value.setFocusableInTouchMode(false);
                 holder.value.setOnClickListener(new View.OnClickListener() {
@@ -275,9 +275,33 @@ public class ContactInfoAdapter extends BaseAdapter {
                 break;
             }
             case 10:{
-                holder.tip.setText("保险提前提醒时间:");
+                holder.tip.setText("商业险提前提醒时间:");
                 holder.value.setText(this.m_contact.getTqTime2());
                 holder.value.addTextChangedListener(watcher8);
+                break;
+            }
+            case 11:{
+                holder.tip.setText("交强险公司:");
+                holder.value.setText(this.m_contact.getSafecompany3());
+                holder.value.addTextChangedListener(watcher9);
+                break;
+            }
+            case 12:{
+                holder.tip.setText("交强险到期时间:");
+                holder.value.setText(this.m_contact.getSafenexttime3());
+                holder.value.setFocusableInTouchMode(false);
+                holder.value.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        m_infoActivity.selectDate(3);
+                    }
+                });
+                break;
+            }
+            case 13:{
+                holder.tip.setText("交强险提前提醒时间:");
+                holder.value.setText(this.m_contact.getTqTime3());
+                holder.value.addTextChangedListener(watcher10);
                 break;
             }
             default:
@@ -482,6 +506,50 @@ public class ContactInfoAdapter extends BaseAdapter {
         public void afterTextChanged(Editable s) {
             if(s.toString().length() >0 && !s.toString().equals("0")) {
                 m_contact.setTqTime2(s.toString());
+            }
+        }
+    };
+
+    private TextWatcher watcher9 = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if(s.toString().length() >0 && !s.toString().equals("0")) {
+                m_contact.setSafecompany3(s.toString());
+            }
+        }
+    };
+
+    private TextWatcher watcher10 = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if(s.toString().length() >0 && !s.toString().equals("0")) {
+                m_contact.setTqTime3(s.toString());
             }
         }
     };

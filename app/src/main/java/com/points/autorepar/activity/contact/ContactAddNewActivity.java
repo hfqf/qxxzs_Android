@@ -108,6 +108,11 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
     private String mCarType_str;
     private String mKey_str;
     private Button contact_cartype_show;
+
+    private EditText   m_safecompany3EditText;
+    private EditText   m_safenexttime3EditText;
+    private EditText   m_tqTime3EditText;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,7 +215,9 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
         m_tqTime2EditText= (EditText)findViewById(R.id.contact_add_tqtime2);
 
 
-
+        m_safecompany3EditText =  (EditText)findViewById(R.id.contact_add_safecompany3);
+        m_tqTime3EditText =  (EditText)findViewById(R.id.contact_add_tqtime3);
+        m_safenexttime3EditText =  (EditText)findViewById(R.id.contact_add_nextsafetime3);
 
 
 
@@ -693,8 +700,12 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
         map.put("tqTime1", m_tqTime1EditText.getText().toString());
         map.put("tqTime2", m_tqTime2EditText.getText().toString());
 
+        map.put("safecompany3", m_safecompany3EditText.getText().toString());
+        map.put("safenexttime3", m_safenexttime3EditText.getText().toString());
+        map.put("tqTime3", m_tqTime3EditText.getText().toString());
+
         showWaitView();
-        HttpManager.getInstance(this).addContact("/contact/add3",
+        HttpManager.getInstance(this).addContact("/contact/add4",
                         map,
                         new Response.Listener<JSONObject>() {
                             @Override
@@ -724,6 +735,10 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
                                     con.setYearchecknexttime(response.optJSONObject("ret").optString("yearchecknexttime"));
                                     con.setTqTime1(response.optJSONObject("ret").optString("tqTime1"));
                                     con.setTqTime2(response.optJSONObject("ret").optString("tqTime2"));
+
+                                    con.setSafecompany3(response.optJSONObject("ret").optString("safecompany3"));
+                                    con.setSafenexttime3(response.optJSONObject("ret").optString("safenexttime3"));
+                                    con.setTqTime3(response.optJSONObject("ret").optString("tqTime3"));
                                     DBService.addNewContact(con,db);
 //                                    DBService.closeDB(db);
 
