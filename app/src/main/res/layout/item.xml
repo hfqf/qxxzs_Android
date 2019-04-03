@@ -47,7 +47,7 @@
                     android:layout_weight="1"
                     android:textColor="#111111"
                     android:layout_marginLeft="10dp"
-                    android:text="hhhh"/>
+                    android:text=""/>
                 <TextView
                     android:id="@+id/contact_list_cell_show_content_tel"
                     android:layout_width="fill_parent"

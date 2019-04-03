@@ -166,6 +166,7 @@ public class NoticeActivity extends BaseActivity implements OnCalendarChangedLis
         getData1(curdate);
         getData2(curdate);
         getData3(curdate);
+        getData4(curdate);
         if(!m_month.equalsIgnoreCase(curmonth))
         {
             m_month = curmonth;
@@ -454,6 +455,70 @@ public class NoticeActivity extends BaseActivity implements OnCalendarChangedLis
                 {
                     e.printStackTrace();
                 }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        int i = 0;
+                    }
+                });
+    }
+    private void getData4(String curDate){
+        Map map = new HashMap();
+        map.put("owner", LoginUserUtil.getTel(this));
+        map.put("day", curDate);
+
+        String url = "";
+        url = "/contact/queryAllJQSafeTipedOneDay";
+        HttpManager.getInstance(NoticeActivity.this)
+                .queryCustomerOrders(url, map, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+
+                        try {
+                            if (jsonObject.optInt("code") == 1) {
+
+                                ArrayList<Contact> arrRep = new ArrayList();
+                                JSONArray arr = jsonObject.optJSONArray("ret");
+                                if (arr.length() > 0) {
+
+                                    for (int i = 0; i < arr.length(); i++) {
+                                        Contact conFromServer = new Contact();
+                                        JSONObject obj = (JSONObject) arr.get(i);
+                                        conFromServer.setCarCode(obj.optString("carcode").replace(" ", ""));
+                                        conFromServer.setOwner(obj.optString("owner"));
+                                        conFromServer.setCarType(obj.optString("cartype"));
+                                        conFromServer.setName(obj.optString("name"));
+                                        conFromServer.setTel(obj.optString("tel"));
+                                        conFromServer.setIdfromnode(obj.optString("_id"));
+
+                                        conFromServer.setInserttime(JSONOejectUtil.optString(obj, "inserttime"));
+                                        conFromServer.setIsbindweixin(JSONOejectUtil.optString(obj, "isbindweixin"));
+                                        conFromServer.setWeixinopenid(JSONOejectUtil.optString(obj, "weixinopenid"));
+                                        conFromServer.setVin(JSONOejectUtil.optString(obj, "vin"));
+                                        conFromServer.setCarregistertime(JSONOejectUtil.optString(obj, "carregistertime"));
+                                        conFromServer.setHeadurl(JSONOejectUtil.optString(obj, "headurl"));
+
+
+                                        conFromServer.setSafecompany(JSONOejectUtil.optString(obj, "safecompany"));
+                                        conFromServer.setSafenexttime(JSONOejectUtil.optString(obj, "safenexttime"));
+                                        conFromServer.setYearchecknexttime(JSONOejectUtil.optString(obj, "yearchecknexttime"));
+                                        conFromServer.setTqTime1(JSONOejectUtil.optString(obj, "tqTime1"));
+                                        conFromServer.setTqTime2(JSONOejectUtil.optString(obj, "tqTime2"));
+                                        conFromServer.setCar_key(JSONOejectUtil.optString(obj, "carId"));
+
+                                        conFromServer.setIsVip(JSONOejectUtil.optString(obj, "IsVip"));
+                                        conFromServer.setCarId(JSONOejectUtil.optString(obj, "Car_key"));
+                                        arrRep.add(conFromServer);
+                                    }
+                                }
+                                aaAdapter.setData4(arrRep);
+                                aaAdapter.notifyDataSetChanged();
+                            }
+                        }catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override

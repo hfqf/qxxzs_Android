@@ -47,16 +47,19 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private ArrayList<RepairHistory> m_data1;
     private ArrayList<Contact> m_data2;
     private ArrayList<Contact> m_data3;
+    private ArrayList<Contact> m_data4;
 
     private int  m_data1_showType;
     private int  m_data2_showType;
     private int  m_data3_showType;
+    private int  m_data4_showType;
     public Noticedapter(Context context,NoticeActivity activity) {
         this.context = context;
         this.m_activity = activity;
         m_data1_showType =0;
         m_data2_showType =0;
         m_data3_showType =0;
+        m_data4_showType =0;
     }
 
 
@@ -68,7 +71,7 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return new Noticedapter.MyViewTopHolder(LayoutInflater.from(context).inflate(R.layout.activity_remind_itemtop, parent, false));
         }else if(viewType ==1) {
             return new Noticedapter.MyViewHolder1(LayoutInflater.from(context).inflate(R.layout.repairhistorynopaycelllayout, parent, false));
-        }else if(viewType == 2 || viewType==3){
+        }else if(viewType == 2 || viewType==3 || viewType==4){
             return new Noticedapter.MyViewHolder2(LayoutInflater.from(context).inflate(R.layout.item, parent, false));
 
         }else{
@@ -94,6 +97,10 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void setData3(ArrayList<Contact> data)
     {
         this.m_data3 = data;
+    }
+    public void setData4(ArrayList<Contact> data)
+    {
+        this.m_data4 = data;
     }
 
     @Override
@@ -132,7 +139,20 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 listnum3 =0;
             }
         }
-        if(position == 0 || position ==( listnum+1) || position == (listnum+listnum2+2))
+
+        int listnum4 = 0;
+        if(this.m_data4==null)
+        {
+            listnum4 =0;
+        }else{
+            if(m_data4_showType == 0) {
+                listnum4 = this.m_data4.size();
+            }else{
+                listnum4 =0;
+            }
+        }
+
+        if(position == 0 || position ==( listnum+1) || position == (listnum+listnum2+2)||position == (listnum+listnum2+listnum3+3))
         {
             return 0;
         }else if(position<=listnum+1)
@@ -144,6 +164,9 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }else if(position <= (listnum+listnum2+listnum3+3))
         {
             return 3;
+        }else if(position <= (listnum+listnum2+listnum3+listnum4+4))
+        {
+            return 4;
         }else{
             return 0;
         }
@@ -157,6 +180,7 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         int listnum_tmp = 0;
         int listnum_tmp2 = 0;
         int listnum_tmp3 = 0;
+        int listnum_tmp4 = 0;
         if(this.m_data1==null)
         {
             listnum =0;
@@ -194,8 +218,21 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             listnum_tmp3 = this.m_data3.size();
         }
 
+        int listnum4 = 0;
+        if(this.m_data4==null)
+        {
+            listnum4 =0;
+        }else{
+            if(m_data4_showType == 0) {
+                listnum4 = this.m_data4.size();
+            }else{
+                listnum4 =0;
+            }
+            listnum_tmp4 = this.m_data4.size();
+        }
 
-        if(position == 0 || position ==( listnum+1) || position == (listnum+listnum2+2))
+
+        if(position == 0 || position ==( listnum+1) || position == (listnum+listnum2+2) ||  position == (listnum+listnum2+listnum3+3))
         {
             MyViewTopHolder holder = (MyViewTopHolder) hd;
             if(position== 0) {
@@ -231,7 +268,7 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 });
             }else if(position ==( listnum+listnum2+2)){
 
-                holder.title.setText( "到期保险(" + listnum_tmp3 + ")");
+                holder.title.setText( "到期商业险(" + listnum_tmp3 + ")");
                 holder.lin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -240,6 +277,22 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             m_data3_showType = 0;
                         }else{
                             m_data3_showType = 1;
+                        }
+                        notifyDataSetChanged();
+
+                    }
+                });
+            }else if(position ==( listnum+listnum2+listnum3+3)){
+
+                holder.title.setText( "到期交强险(" + listnum_tmp4 + ")");
+                holder.lin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(m_data4_showType == 1)
+                        {
+                            m_data4_showType = 0;
+                        }else{
+                            m_data4_showType = 1;
                         }
                         notifyDataSetChanged();
 
@@ -330,6 +383,7 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             MyViewHolder2 viewHolder = (MyViewHolder2)hd;
             Contact con =  this.m_data2.get(position-listnum-2);
             viewHolder.tvLetter.setVisibility(View.GONE);
+            viewHolder.tvTitle.setText(con.getName());
             viewHolder.m_tel.setText(con.getTel());
             viewHolder.m_carType.setText(con.getCarType());
             viewHolder.m_isBind.setText("");
@@ -362,6 +416,7 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             MyViewHolder2 viewHolder = (MyViewHolder2)hd;
             Contact con =  this.m_data3.get(position-listnum-listnum2-3);
             viewHolder.tvLetter.setVisibility(View.GONE);
+            viewHolder.tvTitle.setText(con.getName());
             viewHolder.m_tel.setText(con.getTel());
             viewHolder.m_carType.setText(con.getCarType());
             viewHolder.m_isBind.setText("");
@@ -389,7 +444,38 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             });
 
-        }else{
+        }else if(position <= (listnum+listnum2+listnum3+listnum4+4))
+        {
+            MyViewHolder2 viewHolder = (MyViewHolder2)hd;
+            Contact con =  this.m_data4.get(position-listnum-listnum2-listnum3-4);
+            viewHolder.tvLetter.setVisibility(View.GONE);
+            viewHolder.tvTitle.setText(con.getName());
+            viewHolder.m_tel.setText(con.getTel());
+            viewHolder.m_carType.setText(con.getCarType());
+            viewHolder.m_isBind.setText("");
+            viewHolder.m_carCode.setText(con.getCarCode());
+
+            final MyViewHolder2 _viewHolder = viewHolder;
+            final String url = MainApplication.consts(this.context).BOS_SERVER+con.getHeadurl();
+            final BaseActivity activity = (BaseActivity) this.context;
+
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+
+                    activity.imageLoader.get(url, new ImageLoader.ImageListener() {
+                        @Override
+                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                            _viewHolder.m_head.setImageBitmap(imageContainer.getBitmap());
+                        }
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            _viewHolder.m_head.setImageResource(R.drawable.appicon);
+                        }
+                    },200,200);
+                }
+            });
 
         }
 
@@ -433,7 +519,19 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 listnum3 =0;
             }
         }
-        count = listnum+listnum2+listnum3+3;
+
+        int listnum4 = 0;
+        if(this.m_data4==null)
+        {
+            listnum4 =0;
+        }else{
+            if(m_data4_showType == 0) {
+                listnum4 = this.m_data4.size();
+            }else{
+                listnum4 =0;
+            }
+        }
+        count = listnum+listnum2+listnum3+listnum4+4;
 
         return count;
     }

@@ -32,7 +32,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 android:textSize="14dp"
-                android:hint="可暂不填,待以后完善" />
+                android:hint="可选,可扫行驶证获取" />
             <ImageView
                 android:textColor="@color/colorBlack"
                 android:layout_width="match_parent"

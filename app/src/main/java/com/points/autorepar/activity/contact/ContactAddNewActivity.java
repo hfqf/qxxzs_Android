@@ -218,7 +218,15 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
         m_safecompany3EditText =  (EditText)findViewById(R.id.contact_add_safecompany3);
         m_tqTime3EditText =  (EditText)findViewById(R.id.contact_add_tqtime3);
         m_safenexttime3EditText =  (EditText)findViewById(R.id.contact_add_nextsafetime3);
-
+        m_safenexttime3EditText.setFocusableInTouchMode(false);
+        m_safenexttime3EditText.addTextChangedListener(nextSafeTime3);
+        m_safenexttime3EditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_selectTimeType = 3;
+                selectDate();
+            }
+        });
 
 
 
@@ -384,6 +392,8 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
             m_nextYearCheckTimeEditText.setText(date);
         }else if(m_selectTimeType == 2){
             m_nextSageTimeEditText.setText(date);
+        }else if(m_selectTimeType == 3){
+            m_safenexttime3EditText.setText(date);
         }
         Log.e(TAG, date);
     }
@@ -635,6 +645,27 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
 
 
     private TextWatcher nextSafeTime = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    private TextWatcher nextSafeTime3 = new TextWatcher() {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
