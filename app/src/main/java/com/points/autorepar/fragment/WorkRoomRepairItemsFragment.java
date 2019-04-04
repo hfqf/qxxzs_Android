@@ -57,7 +57,11 @@ public class WorkRoomRepairItemsFragment extends Fragment {
         if (getArguments() != null) {
             m_currentData = getArguments().getParcelable("data");
         }
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+
+            EventBus.getDefault().register(this);
+
+        }
     }
     @Override
     public  void  onResume(){

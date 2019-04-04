@@ -1018,11 +1018,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
         if (requestCode == 2 )
         {
             File file = new File(mCurrentPhotoPath);
-
-
-
-
-
             Luban.with(WorkRoomEditActivity.this)
                     .load(file)
                     .setCompressListener(new OnCompressListener() {

@@ -1,6 +1,8 @@
 package com.points.autorepar.lib.BluetoothPrinter.printutil;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 
 import com.points.autorepar.R;
@@ -94,7 +96,10 @@ public class PrintOrderDataMaker implements PrintDataMaker {
                 }
                 printer.printLineFeed();
             }
-            printer.print("合计： " + m_currentData.totalPrice);
+            printer.print("优惠： " + m_currentData.saleMoney);
+            printer.printLineFeed();
+            printer.printLine();
+            printer.print("实收： " + (Integer.parseInt(m_currentData.totalPrice)-Integer.parseInt(m_currentData.saleMoney)));
 
             printer.printLineFeed();
 
@@ -112,8 +117,6 @@ public class PrintOrderDataMaker implements PrintDataMaker {
             printer.print("服务及预约电话： " + LoginUserUtil.getTel(btService));
             printer.printLineFeed();
             printer.printLine();
-
-
 
             data.add(printer.getDataAndClose());
             return data;

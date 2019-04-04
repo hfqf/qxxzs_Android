@@ -68,9 +68,20 @@ public class WorkRoomCarInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             m_currentData = getArguments().getParcelable("data");
+            m_adapter = new WorkRoomCarInfoAdapter(m_activityer,m_currentData);
         }
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
 
+            EventBus.getDefault().register(this);
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        m_adapter.unRegisterBus();
     }
 
     @Override
@@ -78,7 +89,6 @@ public class WorkRoomCarInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_work_room_car_info, container, false);
         m_listView = (ListView) view.findViewById(R.id.id_workroom_carinfo_list);
-        m_adapter = new WorkRoomCarInfoAdapter(m_activityer,m_currentData);
         m_listView.setAdapter(m_adapter);
 
         return view;
@@ -118,8 +128,8 @@ public class WorkRoomCarInfoFragment extends Fragment {
 
 
     private  void reloadDataAndRefreshView(){
-        m_adapter = new WorkRoomCarInfoAdapter(m_activityer,m_currentData);
-        m_listView.setAdapter(m_adapter);
+        m_adapter.m_data = m_currentData;
+        m_adapter.notifyDataSetChanged();
     }
 
     public RepairHistory getCurrentRepair(){

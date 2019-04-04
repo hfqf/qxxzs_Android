@@ -186,7 +186,12 @@ public class EmployeeWorkRoomListActivity extends BaseActivity  implements BtInt
         m_page = 0;
         m_this = this;
         m_isRefresh = true;
-        EventBus.getDefault().register(this);
+
+        if (!EventBus.getDefault().isRegistered(this)) {
+
+            EventBus.getDefault().register(this);
+
+        }
 
         m_type = getIntent().getIntExtra("type",1);
         setContentView(R.layout.fragment_workroom_employee);

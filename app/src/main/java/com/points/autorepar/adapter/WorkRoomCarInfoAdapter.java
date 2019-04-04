@@ -78,6 +78,7 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
     private static String mCurrentPhotoPath;
     private static int imgnum;
     private static  int curimgnum;
+    private int uploadImgCount;
     private ArrayList<String> picUrls = new ArrayList<String>();
 
 
@@ -90,16 +91,19 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
 
         init_Img(rep.pics);
 
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
 
-
-        EventBus.getDefault().register(this);
-
+    public void unRegisterBus(){
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     public int getCount(){
         return 7+6+2+2+2+1+2;
-}
+    }
 
     @Override
     public   View getView(int position, View convertView, ViewGroup parent) {
@@ -832,6 +836,8 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
         return this.m_data;
     }
 
+
+
     private class ViewHolderCellTop {
         TextView tip;
     }
@@ -1104,7 +1110,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
         final int num = curimgnum;
         m_activity.runOnUiThread(new Runnable() {
             public void run() {
-
                 uploadFileToBOS(strPic,new File(strPic),num);
             }
         });
@@ -1155,8 +1160,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                             str_img3 = strUrl;
                         }
                         setDataPic();
-
-
                 }
 //                initImg(url);
 

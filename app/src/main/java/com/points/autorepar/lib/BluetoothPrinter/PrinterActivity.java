@@ -52,7 +52,11 @@ public class PrinterActivity extends BluetoothActivity implements View.OnClickLi
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
         }
-        EventBus.getDefault().register(PrinterActivity.this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+
+            EventBus.getDefault().register(this);
+
+        }
 
     }
 
@@ -138,6 +142,6 @@ public class PrinterActivity extends BluetoothActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().register(PrinterActivity.this);
+        EventBus.getDefault().unregister(PrinterActivity.this);
     }
 }
