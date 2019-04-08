@@ -382,31 +382,20 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         {
             MyViewHolder2 viewHolder = (MyViewHolder2)hd;
             Contact con =  this.m_data2.get(position-listnum-2);
+            final Contact _con = con;
             viewHolder.tvLetter.setVisibility(View.GONE);
             viewHolder.tvTitle.setText(con.getName());
             viewHolder.m_tel.setText(con.getTel());
             viewHolder.m_carType.setText(con.getCarType());
             viewHolder.m_isBind.setText("");
             viewHolder.m_carCode.setText(con.getCarCode());
-            final MyViewHolder2 _viewHolder = viewHolder;
-            final String url = MainApplication.consts(this.context).BOS_SERVER+con.getHeadurl();
-            final BaseActivity activity = (BaseActivity) this.context;
-
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(new Runnable() {
+            viewHolder.notice_contact_cell.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void run() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(m_activity, ContactInfoEditActivity.class);
+                    intent.putExtra(String.valueOf(R.string.key_contact_edit_para), _con);
+                    m_activity.startActivityForResult(intent, 1);
 
-                    activity.imageLoader.get(url, new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            _viewHolder.m_head.setImageBitmap(imageContainer.getBitmap());
-                        }
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            _viewHolder.m_head.setImageResource(R.drawable.appicon);
-                        }
-                    },200,200);
                 }
             });
         }
@@ -415,6 +404,7 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         {
             MyViewHolder2 viewHolder = (MyViewHolder2)hd;
             Contact con =  this.m_data3.get(position-listnum-listnum2-3);
+            final Contact _con = con;
             viewHolder.tvLetter.setVisibility(View.GONE);
             viewHolder.tvTitle.setText(con.getName());
             viewHolder.m_tel.setText(con.getTel());
@@ -422,64 +412,40 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             viewHolder.m_isBind.setText("");
             viewHolder.m_carCode.setText(con.getCarCode());
 
-            final MyViewHolder2 _viewHolder = viewHolder;
-            final String url = MainApplication.consts(this.context).BOS_SERVER+con.getHeadurl();
-            final BaseActivity activity = (BaseActivity) this.context;
-
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(new Runnable() {
+            viewHolder.notice_contact_cell.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void run() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(m_activity, ContactInfoEditActivity.class);
+                    intent.putExtra(String.valueOf(R.string.key_contact_edit_para), _con);
+                    m_activity.startActivityForResult(intent, 1);
 
-                    activity.imageLoader.get(url, new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            _viewHolder.m_head.setImageBitmap(imageContainer.getBitmap());
-                        }
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            _viewHolder.m_head.setImageResource(R.drawable.appicon);
-                        }
-                    },200,200);
                 }
             });
+
+
 
         }else if(position <= (listnum+listnum2+listnum3+listnum4+4))
         {
             MyViewHolder2 viewHolder = (MyViewHolder2)hd;
             Contact con =  this.m_data4.get(position-listnum-listnum2-listnum3-4);
+            final Contact _con = con;
             viewHolder.tvLetter.setVisibility(View.GONE);
             viewHolder.tvTitle.setText(con.getName());
             viewHolder.m_tel.setText(con.getTel());
             viewHolder.m_carType.setText(con.getCarType());
             viewHolder.m_isBind.setText("");
             viewHolder.m_carCode.setText(con.getCarCode());
-
-            final MyViewHolder2 _viewHolder = viewHolder;
-            final String url = MainApplication.consts(this.context).BOS_SERVER+con.getHeadurl();
-            final BaseActivity activity = (BaseActivity) this.context;
-
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(new Runnable() {
+            viewHolder.notice_contact_cell.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void run() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(m_activity, ContactInfoEditActivity.class);
+                    intent.putExtra(String.valueOf(R.string.key_contact_edit_para), _con);
+                    m_activity.startActivityForResult(intent, 1);
 
-                    activity.imageLoader.get(url, new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            _viewHolder.m_head.setImageBitmap(imageContainer.getBitmap());
-                        }
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            _viewHolder.m_head.setImageResource(R.drawable.appicon);
-                        }
-                    },200,200);
                 }
             });
 
         }
-
-
     }
 
     @Override
@@ -583,9 +549,11 @@ public class Noticedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView  m_carType;
         TextView  m_carCode;
         TextView m_isBind;
+        LinearLayout notice_contact_cell;
 
         public MyViewHolder2(View view) {
             super(view);
+            notice_contact_cell = (LinearLayout)view.findViewById(R.id.notice_contact_cell);
             tvTitle = (TextView) view.findViewById(R.id.title);
             tvLetter = (TextView) view.findViewById(R.id.catalog);
             m_head = (ImageView) view.findViewById(R.id.contact_list_cell_show_content_head);

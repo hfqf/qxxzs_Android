@@ -15,8 +15,8 @@ public class Consts {
 
     private final static  int          dev_mode                    =  0;//  1是测试环境 0是生产环境s
 
-//    public static  final   String       HTTP_URL                          = dev_mode == 1 ? "http://192.168.0.101:18080"  :  "http://www.autorepairehelper.cn";
-    public  static final   String       HTTP_URL                   = dev_mode == 1 ? "http://192.168.30.15:18080"  :  "https://www.autorepairehelper.cn";
+    public static  final   String       HTTP_URL                          = dev_mode == 1 ? "http://192.168.0.104:18080"  :  "http://www.autorepairehelper.cn";
+//    public  static final   String       HTTP_URL                   = dev_mode == 1 ? "http://192.168.30.15:18080"  :  "https://www.autorepairehelper.cn";
     public  final   Boolean      isDev()                          {return dev_mode == 1;}
 
     public  final   String       VIP_LEVEL                         = "0";//暂时都是0

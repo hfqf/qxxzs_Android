@@ -635,9 +635,10 @@ public class LoginActivity extends BaseActivity {
                                      conFromServer.setTqTime2(JSONOejectUtil.optString(obj,"tqTime2"));
                                      conFromServer.setCar_key(JSONOejectUtil.optString(obj,"key"));
 
-                                     conFromServer.setSafecompany3(JSONOejectUtil.optString(obj,"safecompany3"));
-                                     conFromServer.setSafenexttime3(JSONOejectUtil.optString(obj,"safenexttime3"));
-                                     conFromServer.setTqTime3(JSONOejectUtil.optString(obj,"tqTime3"));
+                                     conFromServer.setSafecompany3(JSONOejectUtil.optString(obj, "safecompany3"));
+                                     conFromServer.setTqTime3(JSONOejectUtil.optString(obj, "tqTime3"));
+                                     conFromServer.setSafenexttime3(JSONOejectUtil.optString(obj, "safenexttime3"));
+                                     conFromServer.setSafetiptime3(JSONOejectUtil.optString(obj, "safetiptime3"));
 
                                      DBService.addNewContact(conFromServer,db);
                                  } catch (JSONException e) {

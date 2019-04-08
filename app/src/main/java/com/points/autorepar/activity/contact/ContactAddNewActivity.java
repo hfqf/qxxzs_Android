@@ -770,6 +770,8 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
                                     con.setSafecompany3(response.optJSONObject("ret").optString("safecompany3"));
                                     con.setSafenexttime3(response.optJSONObject("ret").optString("safenexttime3"));
                                     con.setTqTime3(response.optJSONObject("ret").optString("tqTime3"));
+                                    con.setSafetiptime3(response.optJSONObject("ret").optString("safetiptime3"));
+
                                     DBService.addNewContact(con,db);
 //                                    DBService.closeDB(db);
 

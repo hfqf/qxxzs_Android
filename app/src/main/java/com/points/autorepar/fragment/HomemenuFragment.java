@@ -806,13 +806,12 @@ try {
         map.put("owner", LoginUserUtil.getTel(getActivity()));
 
 
-        String url  = "/repairstatistics/getAllDeadlinesMonthRedNum";
+        String url  = "/repairstatistics/getAllDeadlinesMonthRedNum2";
 
         HttpManager.getInstance(getActivity())
                 .queryAllTipedRepair(url, map, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        Log.e(TAG,"/repairstatistics/getAllDeadlinesMonthRedNum"+jsonObject.toString());
 
                         if(jsonObject.optInt("code") == 1){
 

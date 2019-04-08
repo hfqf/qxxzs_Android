@@ -373,6 +373,12 @@ public class NoticeActivity extends BaseActivity implements OnCalendarChangedLis
                                         conFromServer.setIsVip(JSONOejectUtil.optString(obj, "IsVip"));
                                         conFromServer.setCarId(JSONOejectUtil.optString(obj, "Car_key"));
 
+                                        conFromServer.setSafecompany3(JSONOejectUtil.optString(obj, "safecompany3"));
+                                        conFromServer.setTqTime3(JSONOejectUtil.optString(obj, "tqTime3"));
+                                        conFromServer.setSafenexttime3(JSONOejectUtil.optString(obj, "safenexttime3"));
+                                        conFromServer.setSafetiptime3(JSONOejectUtil.optString(obj, "safetiptime3"));
+
+
                                         arrRep.add(conFromServer);
                                     }
 
@@ -444,6 +450,10 @@ public class NoticeActivity extends BaseActivity implements OnCalendarChangedLis
                                 conFromServer.setIsVip(JSONOejectUtil.optString(obj, "IsVip"));
                                 conFromServer.setCarId(JSONOejectUtil.optString(obj, "Car_key"));
 
+                                conFromServer.setSafecompany3(JSONOejectUtil.optString(obj, "safecompany3"));
+                                conFromServer.setTqTime3(JSONOejectUtil.optString(obj, "tqTime3"));
+                                conFromServer.setSafenexttime3(JSONOejectUtil.optString(obj, "safenexttime3"));
+                                conFromServer.setSafetiptime3(JSONOejectUtil.optString(obj, "safetiptime3"));
                                 arrRep.add(conFromServer);
                             }
 
@@ -509,6 +519,11 @@ public class NoticeActivity extends BaseActivity implements OnCalendarChangedLis
 
                                         conFromServer.setIsVip(JSONOejectUtil.optString(obj, "IsVip"));
                                         conFromServer.setCarId(JSONOejectUtil.optString(obj, "Car_key"));
+
+                                        conFromServer.setSafecompany3(JSONOejectUtil.optString(obj, "safecompany3"));
+                                        conFromServer.setTqTime3(JSONOejectUtil.optString(obj, "tqTime3"));
+                                        conFromServer.setSafenexttime3(JSONOejectUtil.optString(obj, "safenexttime3"));
+                                        conFromServer.setSafetiptime3(JSONOejectUtil.optString(obj, "safetiptime3"));
                                         arrRep.add(conFromServer);
                                     }
                                 }
