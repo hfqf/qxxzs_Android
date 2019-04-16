@@ -39,6 +39,7 @@ import com.points.autorepar.bean.ADTServiceInfo;
 import com.points.autorepar.bean.ADTServiceItemInfo;
 import com.points.autorepar.bean.GoodsItemInfo;
 import com.points.autorepar.bean.RepairHistory;
+import com.points.autorepar.bean.RepairerInfo;
 import com.points.autorepar.bean.WorkRoomEvent;
 import com.points.autorepar.http.HttpManager;
 import com.points.autorepar.lib.wheelview.WheelView;
@@ -70,6 +71,7 @@ public class SelectServiceCategoryActivity extends BaseActivity {
     private String repid;
     private String contactid;
     private ItemAdapter adapter;
+    private Bundle m_dicSelectedGoods;
     ArrayList<ADTServiceInfo>  m_arr;
     ArrayList<ADTReapirItemInfo>  m_ItemInfo;
     ArrayList<GoodsItemInfo> arrRep =  new ArrayList();
@@ -89,6 +91,7 @@ public class SelectServiceCategoryActivity extends BaseActivity {
         mTitle      = (TextView)findViewById(R.id.common_navi_title);
         mTitle.setText("添加配件");
         m_currentData = getIntent().getParcelableExtra("data");
+        m_dicSelectedGoods = getIntent().getBundleExtra("selectednum");
 
 //        m_ItemInfo = m_currentData.arrRepairItems;
         m_ItemInfo = new ArrayList<ADTReapirItemInfo>();
@@ -128,8 +131,9 @@ public class SelectServiceCategoryActivity extends BaseActivity {
 //                Intent intent = new Intent(m_this, AddOrEditServiceCategoryActivity.class);
 //                intent.putExtra("type","0");//新增
 //                startActivityForResult(intent,1);
-                deleteRepid();
+//                deleteRepid();
 
+                addRepairItems();
 
             }
         });
@@ -166,19 +170,12 @@ public class SelectServiceCategoryActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> p1, View p2, int p3, long p4){
 
-
             }
         });
-
-
-
-
         reloadData();
-
     }
 
     private  void delService(ADTServiceInfo _info){
-
         Map map = new HashMap();
         map.put("id", _info.id);
         HttpManager.getInstance(this).getAllServiceTypePreviewList("/servicetoptype/del", map, new Response.Listener<JSONObject>() {
@@ -191,8 +188,6 @@ public class SelectServiceCategoryActivity extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
-
 
             }
         });
@@ -208,22 +203,10 @@ public class SelectServiceCategoryActivity extends BaseActivity {
         return  newGood;
     }
 
-
     private void reloadData(){
         Map map = new HashMap();
         map.put("owner", LoginUserUtil.getTel(this));
         map.put("key",   m_searchText.getText().toString());
-
-        for(int i=0;i<m_arrAll.size();i++){
-            GoodsItemInfo first= m_arrAll.get(i);
-            for(int j=0;i<arrRep.size();j++){
-                GoodsItemInfo second= m_arrAll.get(j);
-                if(first.id.equals(second.id)){
-                    first.selectnum = second.selectnum;
-                    break;
-                }
-            }
-        }
 
         arrRep =  new ArrayList();
         HttpManager.getInstance(this).getAllServiceTypePreviewList("/warehousegoods/query3", map, new Response.Listener<JSONObject>() {
@@ -233,8 +216,12 @@ public class SelectServiceCategoryActivity extends BaseActivity {
                     JSONArray arr = jsonObject.optJSONArray("ret");
                     if (arr.length() > 0) {
                         for (int i = 0; i < arr.length(); i++) {
-                            GoodsItemInfo info = GoodsItemInfo.fromWithJsonObj(arr.optJSONObject(i));
-                            GoodsItemInfo good = selectedGood(info);
+                            GoodsItemInfo good = GoodsItemInfo.fromWithJsonObj(arr.optJSONObject(i));
+//                            GoodsItemInfo good = selectedGood(info);
+                            String num = m_dicSelectedGoods.getString(good.name);
+                            if(num != null){
+                                good.selectnum = num;
+                            }
                             arrRep.add(good);
                         }
                         adapter.addData(arrRep,false);
@@ -287,42 +274,8 @@ public class SelectServiceCategoryActivity extends BaseActivity {
     }
 
 
-    private ArrayList<ADTServiceInfo> getArrayService(JSONObject ret){
-        JSONArray arr = ret.optJSONArray("ret");
-        ArrayList<ADTServiceInfo> arrRep =  new ArrayList();
-        if (arr.length() > 0) {
-            for (int i = 0; i < arr.length(); i++) {
-                ADTServiceInfo serviceInfo = new ADTServiceInfo();
-                JSONObject obj = arr.optJSONObject(i);
-                serviceInfo.id =obj.optString("_id").replace(" ", "");
-                serviceInfo.name =obj.optString("name").replace(" ", "");
-
-                JSONArray items = obj.optJSONArray("subtype");
-                ArrayList<ADTServiceItemInfo> arrItems = new ArrayList();
-                if(items != null){
-                    for(int j=0;j<items.length();j++){
-                        JSONObject itemObj = items.optJSONObject(j);
-                        ADTServiceItemInfo item = new ADTServiceItemInfo();
-                        item.id =  itemObj.optString("_id");
-                        item.name =  itemObj.optString("name");
-                        item.price =  itemObj.optString("price");
-                        item.topTypeId =  itemObj.optString("toptypeid");
-                        item.workHourPay =  itemObj.optString("workhourpay");
-                        item.num =  "0";
-                        arrItems.add(item);
-                    }
-                }
-                serviceInfo.arrSubTypes = arrItems;
-
-                arrRep.add(serviceInfo);
-            }
-        }
-        return arrRep;
-    }
-
     private  void addRepairItems(){
 
-//        List<Map<String,String>> list = new ArrayList<Map<String,String>>();
         Map map = new HashMap();
         ArrayList<GoodsItemInfo> data = adapter.getData();
         try{
@@ -345,6 +298,8 @@ public class SelectServiceCategoryActivity extends BaseActivity {
 
             JSONArray list = new JSONArray();
             JSONObject selectmap = null;
+
+            //加入非配件收费
         for(int i=0;i<m_currentData.arrRepairItems.size();i++)
         {
             ADTReapirItemInfo info = m_currentData.arrRepairItems.get(i);
@@ -394,15 +349,11 @@ public class SelectServiceCategoryActivity extends BaseActivity {
 
 
 
-
+            //加入配件收费
         for(int j=0;j<arrRep.size();j++) {
             GoodsItemInfo itemInfo = arrRep.get(j);
-//            ADTServiceInfo serviceInfo =  m_arr.get(0);
-//            ADTServiceItemInfo itemInfo = serviceInfo.arrSubTypes.get(j);
             if (!"0".equalsIgnoreCase(itemInfo.selectnum)) {
-
                 ADTReapirItemInfo info = new ADTReapirItemInfo();
-
                 str_dispatchtime.put("");
                 str_name.put("");
                 str_goods.put("");
@@ -449,6 +400,7 @@ public class SelectServiceCategoryActivity extends BaseActivity {
 
             map.put("items", list);
             map.put("os", "1");
+            map.put("repid", m_currentData.idfromnode);
 
     }catch (Exception e )
     {
@@ -456,18 +408,13 @@ public class SelectServiceCategoryActivity extends BaseActivity {
     }
     String url = "";
 
-    url = "/repairitem/additems3";
-
-
-
-
+    url = "/repairitem/additems4";
 
 
         HttpManager.getInstance(SelectServiceCategoryActivity.this)
                 .queryAllTipedRepair(url, map, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        Log.e(TAG,"/repairitem/additems2"+jsonObject.toString());
 
                         if(jsonObject.optInt("code") == 1){
 
@@ -498,15 +445,6 @@ public class SelectServiceCategoryActivity extends BaseActivity {
                                 finish();
                             }
 
-
-
-
-
-//                            m_currentData.arrRepairItems = m_ItemInfo;
-   //                            EventBus.getDefault().post(
-//                                    new WorkRoomEvent(m_currentData));
-//                            finish();
-
                         }
 
                     }
@@ -518,6 +456,7 @@ public class SelectServiceCategoryActivity extends BaseActivity {
                 });
 
     }
+
 
     private  void deleteRepid(){
         Map map = new HashMap();
@@ -596,7 +535,7 @@ public class SelectServiceCategoryActivity extends BaseActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             Holder holder;
-            if (convertView == null || convertView.getTag() == null) {
+//            if (convertView == null || convertView.getTag() == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.activity_servicecate_home_item, parent, false);
                 holder = new Holder();
                  holder.imageView = (ImageView) convertView.findViewById(R.id.img);
@@ -611,9 +550,9 @@ public class SelectServiceCategoryActivity extends BaseActivity {
 
 
                 convertView.setTag(holder);
-            } else {
-                holder = (Holder) convertView.getTag();
-            }
+//            } else {
+//                holder = (Holder) convertView.getTag();
+//            }
             BaseActivity activity = (BaseActivity) this.context;
             final Holder _holder =holder;
             GoodsItemInfo info = getItem(position);
@@ -677,8 +616,8 @@ public class SelectServiceCategoryActivity extends BaseActivity {
                     }
 
                     data.get(position).selectnum = curNum+"";
+                    m_dicSelectedGoods.putString(info.name,data.get(position).selectnum);
                     notifyDataSetChanged();
-
                 }
             });
 
@@ -696,20 +635,8 @@ public class SelectServiceCategoryActivity extends BaseActivity {
                     }
 
                     data.get(position).selectnum = curNum+"";
+                    m_dicSelectedGoods.putString(info.name,data.get(position).selectnum);
                     notifyDataSetChanged();
-//                    ADTServiceInfo serviceInfo =  arrData.get(groupPosition);
-//                    ADTServiceItemInfo itemInfo = serviceInfo.arrSubTypes.get(childPosition);
-//                    // TODO Auto-generated method stub
-//                    int curNum = Integer
-//                            .parseInt((String) itemInfo.num)-1;
-//                    if(curNum < 0)
-//                    {
-//                        curNum = 0;
-//                    }
-//
-//                    arrData.get(groupPosition).arrSubTypes.get(childPosition).num = curNum+"";
-//                    notifyDataSetChanged();
-
                 }
             });
 

@@ -191,7 +191,7 @@ public class HomemenuFragment extends Fragment {
         lstImageItem = new ArrayList<HashMap<String, Object>>();
 
         if(!LoginUserUtil.isEmployeeLogined(getActivity())){
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 9; i++) {
                 if(i==0){
                     HashMap<String, Object> map = new HashMap<String, Object>();
                     map.put("icon", R.drawable.home_gd);
@@ -228,17 +228,18 @@ public class HomemenuFragment extends Fragment {
                     map.put("name", "服务管理");
                     lstImageItem.add(map);
                 }
+//                else if(i==7){
+//                    HashMap<String, Object> map = new HashMap<String, Object>();
+//                    map.put("icon", R.drawable.home_excel);
+//                    map.put("name", "资料导出");
+//                    lstImageItem.add(map);
+//                }
                 else if(i==7){
-                    HashMap<String, Object> map = new HashMap<String, Object>();
-                    map.put("icon", R.drawable.home_excel);
-                    map.put("name", "资料导出");
-                    lstImageItem.add(map);
-                }else if(i==8){
                     HashMap<String, Object> map = new HashMap<String, Object>();
                     map.put("icon", R.drawable.yggl);
                     map.put("name", "员工管理");
                     lstImageItem.add(map);
-                }else if(i==9){
+                }else if(i==8){
                     HashMap<String, Object> map = new HashMap<String, Object>();
                     map.put("icon", R.drawable.home_ck);
                     map.put("name", "仓库管理");
@@ -252,7 +253,7 @@ public class HomemenuFragment extends Fragment {
                     map.put("name", "仓库管理");
                     lstImageItem.add(map);
             }else  if(MainApplication.getInstance().getUserType(getActivity()) == 3){
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 9; i++) {
                     if(i==0){
                         HashMap<String, Object> map = new HashMap<String, Object>();
                         map.put("icon", R.drawable.home_gd);
@@ -289,17 +290,18 @@ public class HomemenuFragment extends Fragment {
                         map.put("name", "服务管理");
                         lstImageItem.add(map);
                     }
+//                    else if(i==7){
+//                        HashMap<String, Object> map = new HashMap<String, Object>();
+//                        map.put("icon", R.drawable.home_excel);
+//                        map.put("name", "资料导出");
+//                        lstImageItem.add(map);
+//                    }
                     else if(i==7){
-                        HashMap<String, Object> map = new HashMap<String, Object>();
-                        map.put("icon", R.drawable.home_excel);
-                        map.put("name", "资料导出");
-                        lstImageItem.add(map);
-                    }else if(i==8){
                         HashMap<String, Object> map = new HashMap<String, Object>();
                         map.put("icon", R.drawable.yggl);
                         map.put("name", "员工管理");
                         lstImageItem.add(map);
-                    }else if(i==9){
+                    }else if(i==8){
                         HashMap<String, Object> map = new HashMap<String, Object>();
                         map.put("icon", R.drawable.home_ck);
                         map.put("name", "仓库管理");
@@ -380,9 +382,11 @@ public class HomemenuFragment extends Fragment {
                     }else if(i==5){
                         Intent intent = new Intent(getActivity(), NoticeActivity.class);
                         startActivity(intent);
-                    }else if(i==7){
-                        getMenuSrc();
-                    }else if(i==8){
+                    }
+//                    else if(i==7){
+//                        getMenuSrc();
+//                    }
+                    else if(i==7){
                         Intent intent = new Intent(getActivity(), EmployeeListActivity.class);
                         startActivity(intent);
                     }else{

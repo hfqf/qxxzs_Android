@@ -37,6 +37,7 @@ import com.points.autorepar.MainApplication;
 import com.points.autorepar.R;
 import com.points.autorepar.activity.PayOffActivity;
 import com.points.autorepar.activity.contact.ContactInfoEditActivity;
+import com.points.autorepar.activity.serviceManager.SelectServiceCategoryActivity;
 import com.points.autorepar.adapter.WorkRoomEditInfoFragmentPagerAdapter;
 import com.points.autorepar.bean.ADTReapirItemInfo;
 import com.points.autorepar.bean.Contact;
@@ -136,13 +137,74 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
     public void onEventMainThread(WorkRoomEvent event) {
         RepairHistory data = event.getMsg();
         m_currentData = data;
-
+        updateRepair(m_currentData);
         refreshBottom();
-
-
-
     }
 
+
+    /**
+     * 修改仓库里的数量
+     * @param isOut
+     */
+    private void  updatestorenum(final boolean isOut){
+        for(int i=0;i<m_currentData.arrRepairItems.size();i++){
+            final ADTReapirItemInfo item = m_currentData.arrRepairItems.get(i);
+            if(!item.itemtype.equals("0")){
+                return;
+            }
+            Map map = new HashMap();
+            map.put("num", item.num);
+            map.put("id", item.goodsId);
+            map.put("isout", isOut?"1":"0");
+            String url = "/warehousegoods/updatestorenum";
+            HttpManager.getInstance(WorkRoomEditActivity.this)
+                    .queryAllTipedRepair(url, map, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+                            if(jsonObject.optInt("code") == 1){
+                                addNewGoodsInOutRecoedeWith(item,isOut);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
+                    });
+        }
+    }
+
+    /**
+     * 增加仓库操作记录
+     * @param item
+     * @param isOut
+     */
+    private void  addNewGoodsInOutRecoedeWith(ADTReapirItemInfo item,boolean isOut){
+        for(int i=0;i<m_currentData.arrRepairItems.size();i++){
+            Map map = new HashMap();
+            map.put("num", item.num);
+            map.put("owner", LoginUserUtil.getTel(WorkRoomEditActivity.this));
+            map.put("dealer", LoginUserUtil.getUserId(WorkRoomEditActivity.this));
+            map.put("type", isOut?"2":"3");
+            map.put("remark", "");
+            map.put("goods", item.goodsId);
+            String url = "/warehousegoodsinoutrecord/add";
+            HttpManager.getInstance(WorkRoomEditActivity.this)
+                    .queryAllTipedRepair(url, map, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+                            if(jsonObject.optInt("code") == 1){
+
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
+                    });
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -569,6 +631,7 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
             public void onResponse(JSONObject jsonObject) {
                 stopWaitingView();
                 if(jsonObject.optInt("code") == 1){
+                    updatestorenum(false);
                     backToHome();
                 }
                 else {
@@ -632,6 +695,7 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
             public void onResponse(JSONObject jsonObject) {
                 stopWaitingView();
                 if(jsonObject.optInt("code") == 1){
+                    updatestorenum(false);
                     backToHome();
                 }
                 else {
@@ -678,11 +742,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
 
     public void commitRepair(RepairHistory m_data){
 
-//    JSONArray arrItmes = new JSONArray();
-//        for(int i=0;i<m_data.arrRepairItems.size();i++){
-//        ADTReapirItemInfo _item = m_data.arrRepairItems.get(i);
-//        arrItmes.put(_item.idfromnode);
-//    }
         JSONArray list = new JSONArray();
         JSONObject selectmap = null;
         for(int i=0;i<m_data.arrRepairItems.size();i++){
@@ -690,12 +749,8 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
             list.put(_item.idfromnode);
         }
 
-
-
-
         DateFormat fmt =new SimpleDateFormat("yyyy-MM-dd");
         try {
-
             String realCommitTime =  DateUtil.timeFrom(new Date());
             m_data.wantedcompletedtime =  realCommitTime;
 //            Date date = fmt.parse(m_data.repairTime.toString());
@@ -739,6 +794,9 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
                     stopWaitingView();
                     if(jsonObject.optInt("code") == 1){
                         Toast.makeText(m_this,"提交成功",Toast.LENGTH_SHORT).show();
+                        if(Integer.parseInt(m_currentData.state) == 1){
+                            updatestorenum(true);
+                        }
                         backToHome();
                     }else {
                         Toast.makeText(m_this,"提交失败",Toast.LENGTH_SHORT).show();
@@ -758,8 +816,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
-
 }
 
 

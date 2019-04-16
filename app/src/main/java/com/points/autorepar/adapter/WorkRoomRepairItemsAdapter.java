@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import com.points.autorepar.lib.wheelview.WheelView;
 import com.points.autorepar.utils.LoginUserUtil;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -252,6 +254,15 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
                         intent.putExtra("repid",m_data.idfromnode);
                         intent.putExtra("contactid",m_data.contactid);
                         intent.putExtra("data",m_data);
+
+                         Bundle selectednum = new Bundle();
+                        for(int i=0;i<m_data.arrRepairItems.size();i++){
+                            ADTReapirItemInfo item =  m_data.arrRepairItems.get(i);
+                            if(Integer.parseInt(item.num) >0){
+                                selectednum.putString(item.type,item.num);
+                            }
+                        }
+                        intent.putExtra("selectednum",selectednum);
                         m_context.startActivity(intent);
                     }
                 });

@@ -76,7 +76,7 @@ public class SelectContactActivity extends BaseActivity implements
         if(m_selectType.equals("1")){
             RepairHistory rep =  new RepairHistory();
             rep.addition = "";
-            rep.repairType = "";
+            rep.repairType = "略";
             rep.circle = "1";
             rep.totalKm = "";
             rep.isClose = "0";
@@ -104,7 +104,7 @@ public class SelectContactActivity extends BaseActivity implements
            final RepairHistory rep =  new RepairHistory();
             rep.isAddedNewRepair = 1;
             rep.addition = "";
-            rep.repairType = "";
+            rep.repairType = "略";
             rep.circle = "";
             rep.totalKm = "";
             rep.isClose = "0";

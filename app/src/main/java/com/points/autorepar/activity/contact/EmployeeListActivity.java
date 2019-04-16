@@ -1,6 +1,8 @@
 package com.points.autorepar.activity.contact;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,6 +37,7 @@ import com.points.autorepar.lib.sortlistview.SideBar;
 import com.points.autorepar.lib.sortlistview.SortAdapter;
 import com.points.autorepar.lib.sortlistview.SortModel;
 import com.points.autorepar.sql.DBService;
+import com.points.autorepar.utils.LoggerUtil;
 import com.points.autorepar.utils.LoginUserUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -131,6 +135,67 @@ public class EmployeeListActivity extends BaseActivity {
                     intent.putExtra("data",info);
                     startActivityForResult(intent, 1001);
 
+            }
+        });
+
+        sortListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                final int _index = i;
+                final AlertDialog.Builder normalDialog =
+                        new AlertDialog.Builder(m_this);
+                normalDialog.setTitle("删除此员工,不可恢复!");
+                normalDialog.setMessage("确认删除?");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Map map = new HashMap();
+                                EmployeeInfo info =  SourceDateList.get(_index);
+                                map.put("id",info.id);
+                                showWaitView();
+                                HttpManager.getInstance(EmployeeListActivity.this).addContact("/employee/del",
+                                        map,
+                                        new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+
+                                                stopWaitingView();
+                                                if(response.optInt("code") == 1){
+                                                    Toast.makeText(getApplicationContext(),"删除成功",Toast.LENGTH_LONG).show();
+                                                    reloadDataAndRefreshView();
+                                                }else {
+                                                    Toast.makeText(getApplicationContext(),response.optString("msg"),Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        },
+                                        new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+
+
+                                            }
+                                        });
+
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //...To-do
+                            }
+                        });
+                // 显示
+                normalDialog.show();
+
+
+
+
+
+                return false;
             }
         });
 

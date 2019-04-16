@@ -346,7 +346,7 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 final RepairHistory rep =  new RepairHistory();
                 rep.isAddedNewRepair = 1;
                 rep.addition = "";
-                rep.repairType = "";
+                rep.repairType = "略";
                 rep.circle = "";
                 rep.totalKm = "";
                 rep.isClose = "0";

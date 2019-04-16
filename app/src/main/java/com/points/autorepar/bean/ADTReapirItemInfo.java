@@ -28,6 +28,8 @@ public class ADTReapirItemInfo implements Parcelable {
 
     public String workhourpay;
     public String service;
+    public String goodsId;
+    public String serviceId;
 
 
     @Override
@@ -49,6 +51,8 @@ public class ADTReapirItemInfo implements Parcelable {
         out.writeString(state);
         out.writeString(workhourpay);
         out.writeString(service);
+        out.writeString(goodsId);
+        out.writeString(serviceId);
     }
 
     public static final Parcelable.Creator<ADTReapirItemInfo> CREATOR = new Parcelable.Creator<ADTReapirItemInfo>() {
@@ -74,6 +78,8 @@ public class ADTReapirItemInfo implements Parcelable {
         state = in.readString();
         workhourpay =in.readString();
         service = in.readString();
+        goodsId = in.readString();
+        serviceId = in.readString();
     }
 
     public ADTReapirItemInfo( ) {
@@ -119,6 +125,14 @@ public class ADTReapirItemInfo implements Parcelable {
         }else {
             item.currentPrice = 0;
         }
+
+        JSONObject goods = json.optJSONObject("goods");
+        if(goods == null){
+            item.goodsId = json.optString("goods");
+        }else{
+            item.goodsId = goods.optString("_id");
+        }
+        item.service = json.optString("service");
         return item;
     }
 

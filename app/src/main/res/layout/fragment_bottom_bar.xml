@@ -27,7 +27,7 @@
             android:layout_height="25dp"
 
             android:clickable="false"
-            android:background="@drawable/home_gzt" />
+            android:background="@drawable/home_gzt_on" />
 
             <TextView
                 android:id="@+id/tabbar_text_0"
@@ -52,14 +52,14 @@
                 android:layout_height="25dp"
 
                 android:clickable="false"
-                android:background="@drawable/setup" />
+                android:background="@drawable/home_set_un" />
 
             <TextView
                 android:id="@+id/tabbar_text_1"
                 android:textSize="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="19dp"
-                android:text="我的" />
+                android:text="设置" />
 
         </LinearLayout>
     </LinearLayout>

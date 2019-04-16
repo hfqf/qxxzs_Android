@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -267,8 +268,14 @@ public class MainTabbarActivity extends BaseActivity implements
             {
                 Resources resource = (Resources) getBaseContext().getResources();
                 ColorStateList csl = (ColorStateList) resource.getColorStateList(R.color.material_blue);
+                ColorStateList cs2 = (ColorStateList) resource.getColorStateList(R.color.colorCommon);
                 ((TextView) m_tab0Layout.findViewById(R.id.tabbar_text_0)).setTextColor(csl);
+                ((TextView) m_tab1Layout.findViewById(R.id.tabbar_text_1)).setTextColor(cs2);
 
+                Drawable img0_on =  getBaseContext().getResources().getDrawable(R.drawable.home_gzt_on);
+                Drawable img1_un =  getBaseContext().getResources().getDrawable(R.drawable.home_set_un);
+                ((ImageButton) m_tab0Layout.findViewById(R.id.btn_tab_bottom_icon_0)).setBackground(img0_on);
+                ((ImageButton) m_tab1Layout.findViewById(R.id.btn_tab_bottom_icon_1)).setBackground(img1_un);
                 boolean isEmployee = LoginUserUtil.isEmployeeLogined(m_this);
                 if(!isEmployee ||
                         (isEmployee && MainApplication.getInstance().getUserType(m_this) !=1) ) {
@@ -323,7 +330,14 @@ public class MainTabbarActivity extends BaseActivity implements
             {
                 Resources resource = (Resources) getBaseContext().getResources();
                 ColorStateList csl = (ColorStateList) resource.getColorStateList(R.color.material_blue);
+                ColorStateList cs2 = (ColorStateList) resource.getColorStateList(R.color.colorCommon);
+                ((TextView) m_tab0Layout.findViewById(R.id.tabbar_text_0)).setTextColor(cs2);
                 ((TextView) m_tab1Layout.findViewById(R.id.tabbar_text_1)).setTextColor(csl);
+
+                Drawable img0_un =  getBaseContext().getResources().getDrawable(R.drawable.home_gzt_un);
+                Drawable img1_on =  getBaseContext().getResources().getDrawable(R.drawable.home_set_on);
+                ((ImageButton) m_tab0Layout.findViewById(R.id.btn_tab_bottom_icon_0)).setBackground(img0_un);
+                ((ImageButton) m_tab1Layout.findViewById(R.id.btn_tab_bottom_icon_1)).setBackground(img1_on);
                 if(m_tab1 == null)
                 {
                     m_tab1 = new SettingFragment();
