@@ -126,13 +126,9 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
 
     @Override
     public void onDestroy() {
-
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-
-
     }
-
 
     public void onEventMainThread(WorkRoomEvent event) {
         RepairHistory data = event.getMsg();
@@ -143,6 +139,7 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
 
 
     /**
+     * 只在增加时手动设置，删除时后台处理
      * 修改仓库里的数量
      * @param isOut
      */
@@ -347,9 +344,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
                 }
 
 
-
-
-
                 if(m_currentData.state.equals("0")){
                     m_currentData.state = "1";
                     commitRepair(m_currentData);
@@ -358,41 +352,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
                     Intent intent = new  Intent(m_this,PayOffActivity.class);
                     intent.putExtra("data", m_currentData);
                     startActivityForResult(intent,1);
-//                    String[] arr = getResources().getStringArray(R.array.logout);
-//                    View outerView = LayoutInflater.from(m_this).inflate(R.layout.wheel_view, null);
-//                    final WheelView wv = (WheelView) outerView.findViewById(R.id.wheel_view_wv);
-//                    wv.setItems(Arrays.asList(arr));
-//                    wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
-//                        @Override
-//                        public void onSelected(int selectedIndex, String item) {
-//                            Log.e(TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
-//                        }
-//                    });
-//
-//                    new AlertDialog.Builder(m_this)
-//                            .setTitle("请检查各项数据,确认收款后只能删除,无法撤销或修改,确认提交?")
-//                            .setView(outerView)
-//                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    if(wv.getSeletedIndex() == 0){
-//                                        m_currentData.state = "2";
-//                                        commitRepair(m_currentData);
-//                                    }else if(wv.getSeletedIndex() == 1){
-//
-//                                    }
-//                                }
-//                            })
-//                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    Log.e(TAG, "onCancel");
-//                                }
-//                            })
-//                            .show();
-
-
-
                 }else if(m_currentData.state.equals("2")){
 
                 }else if(m_currentData.state.equals("3")){
@@ -409,8 +368,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
         m_saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
                 m_currentData = m_fragmentAdapter.getCurrentRepariData();
 
@@ -443,15 +400,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
 
 
         if(m_currentData.state!= null) {
-
-//            if(MainApplication.getInstance().getUserType(WorkRoomEditActivity.this) == 2)
-//            {
-//
-//                m_commitBtn.setVisibility(View.VISIBLE);
-//            }else{
-//                m_commitBtn.setVisibility(View.INVISIBLE);
-//
-//            }
 
             if (m_currentData.state.equals("0")) {
                 m_commitBtn.setText("提交结账");
@@ -631,7 +579,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
             public void onResponse(JSONObject jsonObject) {
                 stopWaitingView();
                 if(jsonObject.optInt("code") == 1){
-                    updatestorenum(false);
                     backToHome();
                 }
                 else {
@@ -677,7 +624,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
                 Toast.makeText(m_this,"修改失败",Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     /**
@@ -695,7 +641,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
             public void onResponse(JSONObject jsonObject) {
                 stopWaitingView();
                 if(jsonObject.optInt("code") == 1){
-                    updatestorenum(false);
                     backToHome();
                 }
                 else {
