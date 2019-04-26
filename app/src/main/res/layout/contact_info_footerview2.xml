@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/contact_info_footerview"
+    android:layout_height="fill_parent">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="删除此联系人"
+        android:id="@+id/contact_edit_deletecontact"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/delborder"
+        android:textColor="#fefefe"
+        android:textSize="16dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="删除所有维修记录"
+        android:id="@+id/contact_edit_deleteBtn"
+        android:layout_below="@+id/contact_edit_deletecontact"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/delborder"
+        android:textColor="#fefefe"
+        android:textSize="16dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="查询维修记录"
+        android:id="@+id/contact_edit_queryBtn"
+        android:background="@color/material_blue"
+        android:textColor="#fefefe"
+        android:textSize="16dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/contact_edit_deleteBtn"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="新增维修记录"
+        android:id="@+id/contact_add_new_repair"
+        android:background="@color/material_blue"
+        android:textColor="#fefefe"
+        android:textSize="16dp"
+        android:layout_below="@+id/contact_edit_queryBtn"
+        android:layout_alignLeft="@+id/contact_edit_queryBtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="会员卡充值/开通服务卡"
+        android:id="@+id/contact_add_charge_card"
+        android:background="@color/text_orange"
+        android:textColor="#fefefe"
+        android:textSize="16dp"
+        android:layout_below="@+id/contact_add_new_repair"
+        android:layout_alignLeft="@+id/contact_add_new_repair"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="会员卡消费记录"
+        android:id="@+id/contact_add_card_history"
+        android:background="@color/text_orange"
+        android:textColor="#fefefe"
+        android:textSize="16dp"
+        android:layout_below="@+id/contact_add_charge_card"
+        android:layout_alignLeft="@+id/contact_add_new_repair"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp" />
+
+
+</RelativeLayout>
