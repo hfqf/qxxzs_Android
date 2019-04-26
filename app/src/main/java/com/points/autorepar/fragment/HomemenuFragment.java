@@ -38,6 +38,7 @@ import com.points.autorepar.activity.MainTabbarActivity;
 import com.points.autorepar.activity.Store.WarnPurchaseListActivity;
 import com.points.autorepar.activity.StoreActivity;
 import com.points.autorepar.activity.ReportWebviewActivity;
+import com.points.autorepar.activity.VipHomeActivity;
 import com.points.autorepar.activity.WebActivity;
 import com.points.autorepar.activity.contact.ContactListActivity;
 import com.points.autorepar.activity.contact.EmployeeListActivity;
@@ -369,12 +370,11 @@ public class HomemenuFragment extends Fragment {
                     }
                     else if(i==3){
                         Intent intent = new Intent(getActivity(), ContactListActivity.class);
-
                         startActivityForResult(intent,1001);
                     }
                     else if(i==4){
-                        Toast.makeText(getActivity(),"升级中,敬请期待!",Toast.LENGTH_SHORT).show();
-
+                        Intent intent = new Intent(getActivity(), VipHomeActivity.class);
+                        startActivity(intent);
                     }
                     else if(i==6){
                         Intent intent = new Intent(getActivity(), ServiceHomeActivity.class);
@@ -945,7 +945,7 @@ try {
                     }
                 }else if(type ==2){
 
-                    Contact con = DBService.queryContactCode(repFromServer.carCode,repFromServer.contactid);
+                    Contact con = DBService.queryContactCode(repFromServer.contactid);
                     if (con != null) {
                         arrRep.add(repFromServer);
                     }

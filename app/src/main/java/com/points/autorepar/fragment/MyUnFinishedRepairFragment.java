@@ -807,7 +807,7 @@ public class MyUnFinishedRepairFragment extends Fragment {
                     }
                 }else if(type ==2){
 
-                    Contact con = DBService.queryContactCode(repFromServer.carCode,repFromServer.contactid);
+                    Contact con = DBService.queryContactCode(repFromServer.contactid);
                     if (con != null) {
                         arrRep.add(repFromServer);
                     }

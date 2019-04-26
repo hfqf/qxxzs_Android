@@ -83,6 +83,20 @@ public class HttpManager {
         mVolleyRequestQueue.add(request);
     }
 
+    //POST请求共有方法
+    public void post(String url,
+                                 Map paras,
+                                 Response.Listener<JSONObject> listener,
+                                 Response.ErrorListener errorListener) {
+        Log.e(TAG, "startNormalPost:url" + url + "paras" + LoggerUtil.jsonFromObject(paras));
+        JSONObject jsonPara = new JSONObject(paras);
+        String postUrl = MainApplication.consts().HTTP_URL + url;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, jsonPara, listener, errorListener);
+        Log.e(TAG, postUrl);
+        Log.e(TAG, request.toString());
+        mVolleyRequestQueue.add(request);
+    }
+
     private void startNormalPostWithJSONObject(String url,
                                                JSONObject jsonObject,
                                                Response.Listener<JSONObject> listener,

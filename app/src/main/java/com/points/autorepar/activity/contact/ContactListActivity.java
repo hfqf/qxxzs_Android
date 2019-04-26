@@ -480,4 +480,40 @@ public class ContactListActivity extends BaseActivity {
             });
         }
     }
+
+    private void reload4OpenCard(){
+        Map queryAllMap = new HashMap();
+        queryAllMap.put("owner",   LoginUserUtil.getTel(ContactListActivity.this));
+        HttpManager.getInstance(ContactListActivity.this).queryAllContacts("/contact/getAllVipContacts", queryAllMap, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                if (jsonObject.optInt("code") == 1) {
+                    JSONArray arr = jsonObject.optJSONArray("ret");
+                    if (arr.length() > 0) {
+                        for (int i = 0; i < arr.length(); i++) {
+                            JSONObject obj = arr.optJSONObject(i);
+                            Contact con = DBService.queryContactCode(obj.optString("_id"));
+                            if(!con.getisVip().equals("1")){
+                                con.setIsVip("1");
+                                DBService.updateContact(con);
+                            }
+                        }
+                        reloadDataAndRefreshView();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reload4OpenCard();
+    }
 }
+

@@ -403,10 +403,9 @@ public class DBService extends SQLiteOpenHelper {
     }
 
     //查询单个用户客户
-    public  static Contact queryContactCode(String carcode,String idFromNode){
-//        Log.e(TAG,"queryContact:"+para);
+    public  static Contact queryContactCode(String idFromNode){
         SQLiteDatabase db = instance.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM contact WHERE carcode = ? or idFromNode = ? ", new String[]{carcode, idFromNode});
+        Cursor c = db.rawQuery("SELECT * FROM contact WHERE  idFromNode = ? ", new String[]{idFromNode});
 
         while (c.moveToNext()) {
             Contact con = DBService.getContact(c);

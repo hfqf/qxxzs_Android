@@ -409,6 +409,9 @@
         <activity android:name=".activity.serviceManager.AddOrEditSubServiceActivity">
         </activity>
 
+        <activity android:name=".activity.VipHomeActivity">
+        </activity>
+
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
     </application>

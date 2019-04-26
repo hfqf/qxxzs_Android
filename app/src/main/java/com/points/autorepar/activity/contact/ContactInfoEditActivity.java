@@ -35,6 +35,8 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.points.autorepar.MainApplication;
+import com.points.autorepar.activity.VipHomeActivity;
+import com.points.autorepar.activity.WebActivity;
 import com.points.autorepar.activity.repair.RepairHistoryListActivity;
 import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
 import com.points.autorepar.adapter.ContactInfoAdapter;
@@ -74,6 +76,10 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
     private Button mSeeAllBtn;
     private Button mdeleteContactBtn;
     private Button mAddNewRepBtn;
+
+    private Button mOpenCardBtn;
+    private Button mChargeCardBtn;
+    private Button mHistoryCardBtn;
 
     private  String    m_headUrl;
     private TextView mName;
@@ -143,7 +149,11 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
 
         LayoutInflater layoutInflater =
                 (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        mFooterView = layoutInflater.inflate(R.layout.contact_info_footerview, null);
+        if(m_currentContact.getisVip().equals("1")){
+            mFooterView = layoutInflater.inflate(R.layout.contact_info_footerview2, null);
+        }else {
+            mFooterView = layoutInflater.inflate(R.layout.contact_info_footerview, null);
+        }
 
         mHeaderView = layoutInflater.inflate(R.layout.contact_info_headerview, null);
         mListView.addHeaderView(mHeaderView);
@@ -336,6 +346,40 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
 
                 mAddNewRepBtn.setVisibility(View.GONE);
             }
+        }
+
+
+
+        if(m_currentContact.getisVip().equals("1")){
+            mChargeCardBtn = (Button)mFooterView.findViewById(R.id.contact_add_charge_card);
+            mChargeCardBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String server = "http://store.autorepairehelper.cn";
+                    String url = server+"/vip-client/list?shop="+LoginUserUtil.getTel(ContactInfoEditActivity.this)+"&key="+m_currentContact.getTel();
+                    WebActivity.actionStart(ContactInfoEditActivity.this, url,"充值/套餐");
+                }
+            });
+
+            mHistoryCardBtn = (Button)mFooterView.findViewById(R.id.contact_add_card_history);
+            mHistoryCardBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String server = "http://store.autorepairehelper.cn";
+                    String url = server+"/vip-client/cardHistory?shop="+LoginUserUtil.getTel(ContactInfoEditActivity.this)+"&key="+m_currentContact.getTel()+"&cardId="+m_currentContact.getIdfromnode();
+                    WebActivity.actionStart(ContactInfoEditActivity.this, url,"充值/套餐");
+                }
+            });
+        }else {
+            mOpenCardBtn = (Button)mFooterView.findViewById(R.id.contact_add_open_card);
+            mOpenCardBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String server = "http://store.autorepairehelper.cn";
+                    String url = server+"/vip-client/add?shop="+LoginUserUtil.getTel(ContactInfoEditActivity.this)+"&key="+m_currentContact.getTel();
+                    WebActivity.actionStart(ContactInfoEditActivity.this, url,"开卡");
+                }
+            });
         }
 
 
@@ -734,6 +778,7 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+
     }
     public void onPause() {
         super.onPause();

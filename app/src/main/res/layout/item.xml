@@ -44,22 +44,24 @@
                     android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical|left"
                     android:gravity="center_vertical"
-                    android:textSize="18dp"
                     android:layout_weight="1"
                     android:textColor="#111111"
                     android:layout_marginLeft="10dp"
-                    android:text=""/>
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:text="略"/>
                 <TextView
                     android:id="@+id/contact_list_cell_show_content_tel"
-                    android:layout_width="fill_parent"
+                    android:layout_width="90dp"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical|right"
-                    android:layout_weight="1"
                     android:textColor="@color/mdtp_light_gray"
                     android:layout_marginRight="10dp"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:text="15905176983"/>
                 <TextView
+                    android:width="0dp"
+                    android:visibility="gone"
                     android:id="@+id/contact_list_cell_show_content_cartype"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"

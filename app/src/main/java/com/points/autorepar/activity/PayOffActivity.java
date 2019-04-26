@@ -136,7 +136,7 @@ public class PayOffActivity extends BaseActivity {
         lin2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Contact con = DBService.queryContactCode(m_data.carCode,m_data.contactid);
+                Contact con = DBService.queryContactCode(m_data.contactid);
                 if (con != null) {
                     if(!"1".equalsIgnoreCase(con.getisVip()))
                     {
@@ -294,7 +294,7 @@ public class PayOffActivity extends BaseActivity {
             calendar.add(calendar.DATE, Integer.valueOf(m_data.circle.toString()));//把日期往后增加一天.整数往后推,负数往前移动
             date = calendar.getTime();   //这个时间就是日期往后推一天的结果
 
-            Contact con = DBService.queryContactCode(m_data.carCode,m_data.contactid);
+            Contact con = DBService.queryContactCode(m_data.contactid);
             String finalTime = fmt.format(date);
             m_data.tipCircle = finalTime;
 

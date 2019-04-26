@@ -766,7 +766,7 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
                                     con.setYearchecknexttime(response.optJSONObject("ret").optString("yearchecknexttime"));
                                     con.setTqTime1(response.optJSONObject("ret").optString("tqTime1"));
                                     con.setTqTime2(response.optJSONObject("ret").optString("tqTime2"));
-
+                                    con.setIsVip(response.optJSONObject("ret").optString("isVip"));
                                     con.setSafecompany3(response.optJSONObject("ret").optString("safecompany3"));
                                     con.setSafenexttime3(response.optJSONObject("ret").optString("safenexttime3"));
                                     con.setTqTime3(response.optJSONObject("ret").optString("tqTime3"));

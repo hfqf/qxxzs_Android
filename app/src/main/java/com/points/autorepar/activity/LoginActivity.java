@@ -634,7 +634,7 @@ public class LoginActivity extends BaseActivity {
                                      conFromServer.setTqTime1(JSONOejectUtil.optString(obj,"tqTime1"));
                                      conFromServer.setTqTime2(JSONOejectUtil.optString(obj,"tqTime2"));
                                      conFromServer.setCar_key(JSONOejectUtil.optString(obj,"key"));
-
+                                     conFromServer.setIsVip(JSONOejectUtil.optString(obj,"isVip"));
                                      conFromServer.setSafecompany3(JSONOejectUtil.optString(obj, "safecompany3"));
                                      conFromServer.setTqTime3(JSONOejectUtil.optString(obj, "tqTime3"));
                                      conFromServer.setSafenexttime3(JSONOejectUtil.optString(obj, "safenexttime3"));

@@ -9,6 +9,7 @@
     android:id="@+id/contact_adduser_navi" />
 
     <TextView
+        android:id="@+id/grid_section1_tip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -29,6 +30,7 @@
     />
 
     <TextView
+        android:id="@+id/grid_section2_tip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"

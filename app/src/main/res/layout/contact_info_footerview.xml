@@ -62,7 +62,24 @@
         android:layout_alignParentStart="false"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="开通会员卡"
+        android:id="@+id/contact_add_open_card"
+        android:background="@color/text_orange"
+        android:textColor="#fefefe"
+        android:textSize="16dp"
+        android:layout_below="@+id/contact_add_new_repair"
+        android:layout_alignLeft="@+id/contact_add_new_repair"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp" />
+
+
 
 </RelativeLayout>

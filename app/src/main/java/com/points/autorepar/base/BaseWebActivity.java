@@ -51,12 +51,10 @@ public class BaseWebActivity extends AppCompatActivity {
 
         MainApplication mainApplication = (MainApplication) getApplication();
         mLinearLayout = (LinearLayout) this.findViewById(R.id.container);
-//        mToolbar = (Toolbar) this.findViewById(R.id.toolbar);
-//        mToolbar.setTitleTextColor(Color.WHITE);
 
         mTitleTextView = (TextView) this.findViewById(R.id.common_navi_title);
         common_navi_add = (Button)this.findViewById(R.id.common_navi_add);
-        common_navi_add.setVisibility(View.GONE);
+        common_navi_add.setVisibility(View.INVISIBLE);
 
         common_back =  (Button)findViewById(R.id.common_navi_back);
         common_back.setOnClickListener(new View.OnClickListener() {
@@ -65,25 +63,12 @@ public class BaseWebActivity extends AppCompatActivity {
                 finish();
             }
         });
-//        this.setSupportActionBar(mToolbar);
-//        if (getSupportActionBar() != null) {
-//            // Enable the Up button
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        }
-//        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                showDialog();
-//            }
-//        });
-
 
         long p = System.currentTimeMillis();
         String m_title = getTitleString();
-//        mToolbar.setTitle("");
         mTitleTextView.setText(m_title);
-        mAgentWeb = AgentWeb.with(this)
+        mAgentWeb =
+                AgentWeb.with(this)
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
                 .setWebChromeClient(mWebChromeClient)
@@ -98,11 +83,8 @@ public class BaseWebActivity extends AppCompatActivity {
                 .go(getUrl());
 
         //mAgentWeb.getUrlLoader().loadUrl(getUrl());
-
         long n = System.currentTimeMillis();
         Log.i("Info", "init used time:" + (n - p));
-
-
     }
 
     private WebViewClient mWebViewClient = new WebViewClient() {
