@@ -266,20 +266,23 @@ public class PayOffActivity extends BaseActivity {
 
         JSONArray list = new JSONArray();
         JSONObject selectmap = null;
+        int totalMoney = 0;
         for(int i=0;i<m_data.arrRepairItems.size();i++){
             ADTReapirItemInfo _item = m_data.arrRepairItems.get(i);
-            selectmap = new JSONObject();
-            try {
-
-
-                selectmap.put("id", _item.service);
-                selectmap.put("num", _item.num);
-                selectmap.put("contactId", m_data.contactid);
-            }catch (Exception e )
-            {
-                e.printStackTrace();
+            if(_item.itemtype.equals("1")){
+                selectmap = new JSONObject();
+                try {
+                    selectmap.put("id", _item.service);
+                    selectmap.put("num", _item.num);
+                    selectmap.put("contactId", m_data.contactid);
+                }catch (Exception e )
+                {
+                    e.printStackTrace();
+                }
+                list.put(selectmap);
+            }else {
+                totalMoney+=_item.currentPrice;
             }
-            list.put(selectmap);
         }
 
         DateFormat fmt =new SimpleDateFormat("yyyy-MM-dd");
@@ -300,9 +303,8 @@ public class PayOffActivity extends BaseActivity {
 
             Map cv = new HashMap();
             cv.put("cardId", con.getIdfromnode());
-            cv.put("isMoney", "1");
-            cv.put("totalMoney", "0");
-            cv.put("saleMoney", "0");
+            cv.put("totalMoney", String.valueOf(totalMoney));
+            cv.put("saleMoney", String.valueOf(i_discount));
             cv.put("owner", LoginUserUtil.getTel(PayOffActivity.this));
             cv.put("services", list);
             showWaitView();
@@ -344,26 +346,15 @@ public class PayOffActivity extends BaseActivity {
         JSONObject selectmap = null;
         for(int i=0;i<m_data.arrRepairItems.size();i++){
             ADTReapirItemInfo _item = m_data.arrRepairItems.get(i);
-//            selectmap = new JSONObject();
-//            try {
-//
-//
-//                selectmap.put("id", _item.idfromnode);
-//                selectmap.put("num", _item.num);
-//                selectmap.put("contactid", m_data.contactid);
-//            }catch (Exception e )
-//            {
-//                e.printStackTrace();
-//            }
-            list.put(_item.idfromnode);
+            if(_item.itemtype.equals("1")){
+                list.put(_item.idfromnode);
+            }
         }
-
         DateFormat fmt =new SimpleDateFormat("yyyy-MM-dd");
         try {
 
             String realCommitTime =  DateUtil.timeFrom(new Date());
             m_data.wantedcompletedtime =  realCommitTime;
-//            Date date = fmt.parse(m_data.repairTime.toString());
             Date date = fmt.parse(realCommitTime);
             Calendar calendar   =   new GregorianCalendar();
             calendar.setTime(date);
