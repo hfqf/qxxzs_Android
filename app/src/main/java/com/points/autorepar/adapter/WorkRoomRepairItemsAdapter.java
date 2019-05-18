@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.points.autorepar.MainApplication;
 import com.points.autorepar.R;
+import com.points.autorepar.activity.PayOffActivity;
 import com.points.autorepar.activity.serviceManager.SelectServiceCategoryActivity;
 import com.points.autorepar.activity.serviceManager.SelectServiceHomeActivity;
 import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
@@ -304,12 +305,20 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
                             }
 
                             if(_holder6.value2.getText().toString().length() == 0){
-                                Toast.makeText(m_context,"收费价格不能为空",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(m_context,"收费价格只能填写数字",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            if(!LoginUserUtil.isNumeric(_holder6.value2.getText().toString())){
+                                Toast.makeText(m_context,"收费价格只能填写数字",Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
                             if(_holder6.value3.getText().toString().length() == 0){
-                                Toast.makeText(m_context,"收费次数或数量不能为空",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(m_context,"收费次数只能填写数字",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            if(!LoginUserUtil.isNumeric(_holder6.value3.getText().toString())){
+                                Toast.makeText(m_context,"收费次数只能填写数字",Toast.LENGTH_SHORT).show();
                                 return;
                             }
 

@@ -146,9 +146,14 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
     private void  updatestorenum(final boolean isOut){
         for(int i=0;i<m_currentData.arrRepairItems.size();i++){
             final ADTReapirItemInfo item = m_currentData.arrRepairItems.get(i);
-            if(!item.itemtype.equals("0")){
-                return;
+            if(item != null){
+                if(item.itemtype != null){
+                    if(!item.itemtype.equals("0")){
+                        return;
+                    }
+                }
             }
+
             Map map = new HashMap();
             map.put("num", item.num);
             map.put("id", item.goodsId);

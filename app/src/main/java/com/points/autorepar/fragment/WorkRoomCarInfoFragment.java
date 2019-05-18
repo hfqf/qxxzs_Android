@@ -128,8 +128,10 @@ public class WorkRoomCarInfoFragment extends Fragment {
 
 
     private  void reloadDataAndRefreshView(){
-        m_adapter.m_data = m_currentData;
-        m_adapter.notifyDataSetChanged();
+        if(m_currentData != null){
+            m_adapter.m_data = m_currentData;
+            m_adapter.notifyDataSetChanged();
+        }
     }
 
     public RepairHistory getCurrentRepair(){

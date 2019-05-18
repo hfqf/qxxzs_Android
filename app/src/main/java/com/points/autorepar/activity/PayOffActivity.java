@@ -206,6 +206,14 @@ public class PayOffActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if(s.toString().length() == 0){
+                    Toast.makeText(PayOffActivity.this,"请填写数字",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!LoginUserUtil.isNumeric(s.toString())){
+                    Toast.makeText(PayOffActivity.this,"请填写数字",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 int Val= Integer.parseInt(s.toString());
                 i_discount = Val;
                 Val = total -i_discount-i_nopaynum;
