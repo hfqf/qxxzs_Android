@@ -18,6 +18,9 @@ public class LoginUserUtil {
      * @return
      */
     public static String getName(Context context){
+        if(context == null){
+            return  "";
+        }
         String key = context.getResources().getString(R.string.key_loginer_name);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -33,6 +36,9 @@ public class LoginUserUtil {
      * @return
      */
     public static String getTel(Context context){
+        if(context == null){
+            return "";
+        }
         String key = context.getResources().getString(R.string.key_loginer_tel);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -48,7 +54,9 @@ public class LoginUserUtil {
      * @return
      */
     public static String gethHeadUrl(Context context){
-
+        if(context == null){
+            return "";
+        }
         String key = context.getResources().getString(R.string.key_loginer_headurl);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -72,6 +80,9 @@ public class LoginUserUtil {
      * @return
      */
     public static String getPwd(Context context){
+        if(context == null){
+            return "";
+        }
         String key = context.getResources().getString(R.string.key_loginer_pwd);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -87,6 +98,9 @@ public class LoginUserUtil {
      * @return
      */
     public static int getVipLevel(Context context){
+        if(context == null){
+            return 0;
+        }
         String key = context.getResources().getString(R.string.key_loginer_level);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -102,6 +116,9 @@ public class LoginUserUtil {
      * @return
      */
     public static String getAddress(Context context){
+        if(context == null){
+            return "";
+        }
         String key = context.getResources().getString(R.string.key_loginer_address);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -118,6 +135,9 @@ public class LoginUserUtil {
      * @return
      */
     public static String getShopName(Context context){
+        if(context == null){
+            return "";
+        }
         String key = context.getResources().getString(R.string.key_loginer_shopname);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -129,6 +149,9 @@ public class LoginUserUtil {
     }
 
     public static String getShopAd(Context context){
+        if(context == null){
+            return "";
+        }
         String key = context.getResources().getString(R.string.key_loginer_shopname);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -140,6 +163,9 @@ public class LoginUserUtil {
     }
 
     public static String getShopTime(Context context){
+        if(context == null){
+            return "";
+        }
         String key = context.getResources().getString(R.string.key_loginer_shopname);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -155,6 +181,9 @@ public class LoginUserUtil {
      * @return
      */
     public static Boolean isDeviceModifyed(Context context){
+        if(context == null){
+            return false;
+        }
         String key = context.getResources().getString(R.string.key_loginer_device_modifed);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -171,6 +200,9 @@ public class LoginUserUtil {
      * @return
      */
     public static Boolean isContactAsynced(Context context){
+        if(context == null){
+            return false;
+        }
         String key = context.getResources().getString(R.string.KEY_loginer_IS_CONTACT_AYSNED);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -196,6 +228,9 @@ public class LoginUserUtil {
      * @return
      */
     public static Boolean isRepairAsynced(Context context){
+        if(context == null){
+            return false;
+        }
         String key = context.getResources().getString(R.string.KEY_loginer_IS_REPAIR_AYSNED);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -220,6 +255,9 @@ public class LoginUserUtil {
      * @return
      */
     public static  Boolean isFirstLogined(Context context){
+        if(context == null){
+            return false;
+        }
         String key = context.getResources().getString(R.string.KEY_loginer_IS_FIRST_LOGIN);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -237,6 +275,9 @@ public class LoginUserUtil {
      * @return
      */
     public static  String  getTodayTotalInput(Context context){
+        if(context == null){
+            return "";
+        }
         String key = context.getResources().getString(R.string.key_loginer_totalprice);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -253,6 +294,9 @@ public class LoginUserUtil {
      * @return
      */
     public static  String  getTodayTotalNum(Context context){
+        if(context == null){
+             return  "今天维修:0次";
+        }
         String key = context.getResources().getString(R.string.key_loginer_totalnum);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -269,6 +313,9 @@ public class LoginUserUtil {
      * @return
      */
     public static  String  getUserId(Context context){
+        if(context == null){
+            return  "";
+        }
         String key = context.getResources().getString(R.string.key_loginer_id);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -280,6 +327,9 @@ public class LoginUserUtil {
     }
 
     public static  Boolean  isEmployeeLogined(Context context){
+        if(context == null){
+            return  false;
+        }
         String key = context.getResources().getString(R.string.key_loginer_isCreater);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -297,6 +347,9 @@ public class LoginUserUtil {
      * @return
      */
     public static  int  roleType(Context context){
+        if(context == null){
+            return  0;
+        }
         String key = context.getResources().getString(R.string.key_loginer_roletype);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -309,6 +362,9 @@ public class LoginUserUtil {
 
 
     public static  Boolean  isCanAddNewRepair(Context context){
+        if(context == null){
+            return  false;
+        }
         if(!isEmployeeLogined(context)){
             return true;
         }else {
@@ -331,6 +387,9 @@ public class LoginUserUtil {
     }
 
     public static  Boolean  isCanAddContact(Context context){
+        if(context == null){
+            return  false;
+        }
         if(!isEmployeeLogined(context)){
             return true;
         }else {
@@ -354,6 +413,9 @@ public class LoginUserUtil {
 
 
     public static  Boolean  isCanEditContact(Context context){
+        if(context == null){
+            return  false;
+        }
         if(!isEmployeeLogined(context)){
             return true;
         }else {
@@ -376,6 +438,9 @@ public class LoginUserUtil {
     }
 
     public static  Boolean  isCanDelContact(Context context){
+        if(context == null){
+            return  false;
+        }
         if(!isEmployeeLogined(context)){
             return true;
         }else {
@@ -403,6 +468,9 @@ public class LoginUserUtil {
      * @return
      */
     public static  Boolean  isCanSeeRepairs(Context context){
+        if(context == null){
+            return  false;
+        }
         if(!isEmployeeLogined(context)){
             return true;
         }else {
@@ -426,6 +494,9 @@ public class LoginUserUtil {
 
 
     public static String getEmployeeTel(Context context){
+        if(context == null){
+            return  "";
+        }
         String key = context.getResources().getString(R.string.key_employee_tel);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);
@@ -437,6 +508,9 @@ public class LoginUserUtil {
     }
 
     public static String getEmployeePwd(Context context){
+        if(context == null){
+            return  "";
+        }
         String key = context.getResources().getString(R.string.key_employee_pwd);
         SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         String ret = sp.getString(key, null);

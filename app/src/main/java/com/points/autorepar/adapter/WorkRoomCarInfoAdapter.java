@@ -1119,8 +1119,7 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
 //        curimgnum= 0;
 
     }
-
-    private void uploadFileToBOS(final String fileName, final File file,final int type) {
+     void uploadFileToBOS(final String fileName, final File file,final int type) {
 
         String str[] = fileName.split("/");
         Map map = new HashMap();

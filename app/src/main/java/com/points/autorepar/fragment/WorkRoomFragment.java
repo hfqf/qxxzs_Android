@@ -1,7 +1,9 @@
 package com.points.autorepar.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,11 +39,13 @@ import com.points.autorepar.lib.cjj.MaterialRefreshLayout;
 import com.points.autorepar.lib.cjj.MaterialRefreshListener;
 import com.points.autorepar.activity.BaseActivity;
 import com.points.autorepar.lib.sortlistview.ClearEditText;
+import com.points.autorepar.lib.wheelview.WheelView;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.utils.DateUtil;
 import com.points.autorepar.utils.LoginUserUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -124,6 +128,7 @@ public class WorkRoomFragment extends Fragment {
                 startActivityForResult(intent, 1);
             }
         });
+
         m_indexIcon =  view.findViewById(R.id.workroom_index_icon);
 
         rereshIndexLocation();
@@ -452,5 +457,7 @@ public class WorkRoomFragment extends Fragment {
         pvTime.show();
 
     }
+
+
 
 }

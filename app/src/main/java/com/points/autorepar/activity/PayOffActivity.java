@@ -79,8 +79,6 @@ public class PayOffActivity extends BaseActivity {
             ADTReapirItemInfo info=m_data.arrRepairItems.get(i);
             if(info.workhourpay !=null)
             {
-                total = total+info.currentPrice+ Integer.parseInt(info.workhourpay);
-            }else {
                 total = total + info.currentPrice;
             }
         }
@@ -277,19 +275,23 @@ public class PayOffActivity extends BaseActivity {
         int totalMoney = 0;
         for(int i=0;i<m_data.arrRepairItems.size();i++){
             ADTReapirItemInfo _item = m_data.arrRepairItems.get(i);
-            if(_item.itemtype.equals("1")){
-                selectmap = new JSONObject();
-                try {
-                    selectmap.put("id", _item.service);
-                    selectmap.put("num", _item.num);
-                    selectmap.put("contactId", m_data.contactid);
-                }catch (Exception e )
-                {
-                    e.printStackTrace();
+            if(_item != null){
+                if(_item.itemtype != null){
+                    if(_item.itemtype.equals("1")){
+                        selectmap = new JSONObject();
+                        try {
+                            selectmap.put("id", _item.service);
+                            selectmap.put("num", _item.num);
+                            selectmap.put("contactId", m_data.contactid);
+                        }catch (Exception e )
+                        {
+                            e.printStackTrace();
+                        }
+                        list.put(selectmap);
+                    }else {
+                        totalMoney+=_item.currentPrice;
+                    }
                 }
-                list.put(selectmap);
-            }else {
-                totalMoney+=_item.currentPrice;
             }
         }
 
@@ -354,9 +356,13 @@ public class PayOffActivity extends BaseActivity {
         JSONObject selectmap = null;
         for(int i=0;i<m_data.arrRepairItems.size();i++){
             ADTReapirItemInfo _item = m_data.arrRepairItems.get(i);
-            if(_item.itemtype.equals("1")){
-                list.put(_item.idfromnode);
+            if(_item != null){
+                if(_item.itemtype != null){
+                    list.put(_item.idfromnode);
+                }
+
             }
+
         }
         DateFormat fmt =new SimpleDateFormat("yyyy-MM-dd");
         try {

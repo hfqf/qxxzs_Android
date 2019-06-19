@@ -189,7 +189,26 @@ public class InPurchaseActivity extends BaseActivity  {
         }
 
 
+        if(applynum.getText().toString().length()==0){
+            Toast.makeText(getApplicationContext(), "数量不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        if(applyprice.getText().toString().length()==0){
+            Toast.makeText(getApplicationContext(), "价格不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!LoginUserUtil.isNumeric(applynum.getText().toString())){
+            Toast.makeText(getApplicationContext(), "数量格式不对，只能是纯数字", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        if(!LoginUserUtil.isNumeric(applyprice.getText().toString())){
+            Toast.makeText(getApplicationContext(), "价格格式不对，只能是纯数字", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Map map = new HashMap();
 

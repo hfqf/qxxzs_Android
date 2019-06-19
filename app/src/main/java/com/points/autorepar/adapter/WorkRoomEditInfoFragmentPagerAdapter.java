@@ -65,6 +65,9 @@ public class WorkRoomEditInfoFragmentPagerAdapter extends FragmentPagerAdapter {
     public RepairHistory getCurrentRepariData(){
 
         RepairHistory _data1 = fragment1.getCurrentRepair();
+        if(_data1 == null){
+            return null;
+        }
         RepairHistory _data2 = fragment2.getCurrentRepair();
          _data1.arrRepairItems = _data2.arrRepairItems;
          return _data1;

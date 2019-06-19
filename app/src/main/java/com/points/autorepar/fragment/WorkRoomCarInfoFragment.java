@@ -42,7 +42,7 @@ public class WorkRoomCarInfoFragment extends Fragment {
     private WorkRoomCarInfoAdapter           m_adapter;
 
     private  String                          TAG  = "WorkRoomCarInfoFragment";
-    private  static WorkRoomEditActivity                  m_activityer;
+    private   WorkRoomEditActivity                m_activityer;
 
     public interface OnWorkRoomCarInfoFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -54,9 +54,8 @@ public class WorkRoomCarInfoFragment extends Fragment {
     }
 
     public static WorkRoomCarInfoFragment newInstance(WorkRoomEditActivity activityer, RepairHistory rep) {
-
-        m_activityer = activityer;
         WorkRoomCarInfoFragment fragment = new WorkRoomCarInfoFragment();
+        fragment.m_activityer = activityer;
         Bundle args = new Bundle();
         args.putParcelable("data",rep);
         fragment.setArguments(args);
@@ -70,6 +69,8 @@ public class WorkRoomCarInfoFragment extends Fragment {
             m_currentData = getArguments().getParcelable("data");
             m_adapter = new WorkRoomCarInfoAdapter(m_activityer,m_currentData);
         }
+
+
         if (!EventBus.getDefault().isRegistered(this)) {
 
             EventBus.getDefault().register(this);
@@ -129,12 +130,17 @@ public class WorkRoomCarInfoFragment extends Fragment {
 
     private  void reloadDataAndRefreshView(){
         if(m_currentData != null){
-            m_adapter.m_data = m_currentData;
-            m_adapter.notifyDataSetChanged();
+            if(m_adapter != null){
+                m_adapter.m_data = m_currentData;
+                m_adapter.notifyDataSetChanged();
+            }
         }
     }
 
     public RepairHistory getCurrentRepair(){
+        if(m_adapter == null){
+            return null;
+        }
         return m_adapter.m_data;
     }
     public void onEventMainThread(WorkRoomPicBackEvent event) {

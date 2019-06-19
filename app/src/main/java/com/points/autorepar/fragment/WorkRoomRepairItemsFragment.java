@@ -31,7 +31,7 @@ public class WorkRoomRepairItemsFragment extends Fragment {
     private ListView     m_listView;
     private WorkRoomRepairItemsAdapter  m_adapter;
     private  String                          TAG  = "WorkRoomRepairItemsFragment";
-    private static   WorkRoomEditActivity      m_activityeer;
+    private   WorkRoomEditActivity      m_activityeer;
 
     public interface OnWorkRoomRepairItemsFragmentInteractionListener {
         void onWorkRoomRepairItemsFragmentInteraction(Uri uri);
@@ -43,8 +43,8 @@ public class WorkRoomRepairItemsFragment extends Fragment {
 
 
     public static WorkRoomRepairItemsFragment newInstance(WorkRoomEditActivity activityer, RepairHistory rep) {
-        m_activityeer = activityer;
         WorkRoomRepairItemsFragment fragment = new WorkRoomRepairItemsFragment();
+        fragment.m_activityeer = activityer;
         Bundle args = new Bundle();
         args.putParcelable("data",rep);
         fragment.setArguments(args);

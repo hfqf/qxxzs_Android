@@ -324,8 +324,14 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
             @Override
             public void onClick(View v) {
 
+                RepairHistory _rep =  m_fragmentAdapter.getCurrentRepariData();
+                if(_rep == null){
+                    Toast.makeText(m_this,"数据异常，请重新操作",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                m_currentData = m_fragmentAdapter.getCurrentRepariData();
+                m_currentData =  _rep;
+
 
                 if(m_currentData.entershoptime.length() == 0 ){
                     Toast.makeText(m_this,"进店时间未填",Toast.LENGTH_SHORT).show();
@@ -374,7 +380,12 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
             @Override
             public void onClick(View v) {
 
-                m_currentData = m_fragmentAdapter.getCurrentRepariData();
+                RepairHistory _rep =  m_fragmentAdapter.getCurrentRepariData();
+                if(_rep == null){
+                    Toast.makeText(m_this,"数据异常，请重新操作",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                m_currentData =  _rep;
 
                 if(m_currentData.entershoptime.length() == 0 ){
                     Toast.makeText(m_this,"进店时间未填",Toast.LENGTH_SHORT).show();
@@ -677,8 +688,28 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
                 ADTReapirItemInfo info=m_currentData.arrRepairItems.get(i);
                 if(info.workhourpay ==null || "".equalsIgnoreCase(info.workhourpay))
                 {
+                    if(!LoginUserUtil.isNumeric(info.price)){
+                        Toast.makeText(m_this,info.type+"价格格式有误,请检查不要有空格等符号",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if(!LoginUserUtil.isNumeric(info.num)){
+                        Toast.makeText(m_this,info.type+"次数格式有误,请检查不要有空格等符号",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     total = total + Integer.parseInt(info.price)*Integer.parseInt(info.num);
                 }else {
+
+                    if(!LoginUserUtil.isNumeric(info.price)){
+                        Toast.makeText(m_this,info.type+"价格格式有误,请检查不要有空格等符号",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if(!LoginUserUtil.isNumeric(info.num)){
+                        Toast.makeText(m_this,info.type+"次数格式有误,请检查不要有空格等符号",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    
                     total = total+(Integer.parseInt(info.price)+ Integer.parseInt(info.workhourpay))*Integer.parseInt(info.num);
 
                 }

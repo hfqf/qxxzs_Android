@@ -955,50 +955,8 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
 
     }
 
-    public TakePhoto getTakePhoto(){
-        Log.e(TAG,getLocalClassName()+"getTakePhoto:1" + m_takePhoto);
-
-        if (m_takePhoto==null){
-            m_takePhoto= (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this,this));
-            Log.e(TAG,getLocalClassName()+"getTakePhoto:2" + m_takePhoto);
-        }
-        Log.e(TAG,getLocalClassName()+"getTakePhoto:3" + m_takePhoto);
-        CompressConfig compressConfig=new CompressConfig.Builder().setMaxSize(200*200).setMaxPixel(800).create();
-        m_takePhoto.onEnableCompress(compressConfig,true);
-        return m_takePhoto;
-    }
     @Override
-    public void takeSuccess(TResult result) {
-        Log.i(TAG,"takeSuccess：" + result.getImage().getCompressPath());
-        File file = new File(result.getImage().getCompressPath());
-        uploadFileToBOS(DateUtil.getPicNameFormTime(new Date(),this), file);
-    }
-    @Override
-    public void takeFail(TResult result,String msg) {
-        Log.i(TAG, "takeFail:" + msg);
-    }
-    @Override
-    public void takeCancel() {
-        Log.i(TAG, getResources().getString(com.points.autorepar.R.string.msg_operation_canceled));
-    }
-
-    @Override
-    public PermissionManager.TPermissionType invoke(InvokeParam invokeParam) {
-        PermissionManager.TPermissionType type= PermissionManager.checkPermission(TContextWrap.of(this),invokeParam.getMethod());
-        if(PermissionManager.TPermissionType.WAIT.equals(type)){
-//            this.invokeParam=invokeParam;
-        }
-        return type;
-    }
-
-
-    public CropOptions getCropOptions(){
-        CropOptions cropOptions=new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(true).create();
-        return  cropOptions;
-    }
-
-
-    private void uploadFileToBOS(final String fileName, final File file) {
+    public void uploadFileToBOS(final String fileName, final File file) {
 
         Map map = new HashMap();
         map.put("fileName", fileName);
@@ -1071,5 +1029,6 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
     }
 
     public void onRequestPermissionsResult() {
+
     }
 }

@@ -287,18 +287,20 @@ public class SettingFragment extends Fragment {
             set_rep_item_setting_ln.setVisibility(View.VISIBLE);
         }
 
-        if(m_parentActivity.imageLoader != null){
-            m_parentActivity.imageLoader.get(LoginUserUtil.gethHeadUrl(getActivity()), new ImageLoader.ImageListener() {
-                @Override
-                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                    m_head.setImageBitmap(imageContainer.getBitmap());
-                }
+        if(m_parentActivity != null){
+            if(m_parentActivity.imageLoader != null){
+                m_parentActivity.imageLoader.get(LoginUserUtil.gethHeadUrl(getActivity()), new ImageLoader.ImageListener() {
+                    @Override
+                    public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                        m_head.setImageBitmap(imageContainer.getBitmap());
+                    }
 
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    m_head.setImageResource(R.drawable.appicon);
-                }
-            },1000,1000);
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        m_head.setImageResource(R.drawable.appicon);
+                    }
+                },1000,1000);
+            }
         }
 
 

@@ -245,9 +245,6 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
         m_car_vImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                Toast.makeText(ContactAddNewActivity.this, "扫描时横竖屏都可以,最后选取的截图一定只能包含车牌文字,不能含有其它不相关的数字或字母。扫描识别有一定几率失败或不能完全识别，如果没识别成功可以在详情页再稍微编辑下。", Toast.LENGTH_LONG).show();
-
                 Intent intent = new Intent(ContactAddNewActivity.this, CameraActivity.class);
                 intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
                         FileUtil.getSaveFile(getApplication()).getAbsolutePath());
@@ -262,15 +259,14 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
         m_carz_vImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                Toast.makeText(ContactAddNewActivity.this, "扫描时横竖屏都可以,最后选取的截图一定只能包含车牌文字,不能含有其它不相关的数字或字母。扫描识别有一定几率失败或不能完全识别，如果没识别成功可以在详情页再稍微编辑下。", Toast.LENGTH_LONG).show();
-
-                Intent intent = new Intent(ContactAddNewActivity.this, CameraActivity.class);
-                intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
-                        FileUtil.getSaveFile(getApplication()).getAbsolutePath());
-                intent.putExtra(CameraActivity.KEY_CONTENT_TYPE,
-                        CameraActivity.CONTENT_TYPE_GENERAL);
-                startActivityForResult(intent, REQUEST_CODE_VEHICLE_LICENSE);
+                startSelectVinPicToUpload(2, new speUploadVinListener() {
+                    @Override
+                    public void onUploadVinPicSucceed(String vin) {
+                        if(vin.length() == 17){
+                            m_vinEditText.setText(vin);
+                        }
+                    }
+                });
 
             }
         });
@@ -550,75 +546,7 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
                 }
             });
         }
-        if (requestCode == REQUEST_CODE_VEHICLE_LICENSE && resultCode == Activity.RESULT_OK) {
-            String filePath = FileUtil.getSaveFile(ContactAddNewActivity.this).getAbsolutePath();
-            OcrRequestParams param = new OcrRequestParams();
-            param.setImageFile(new File(filePath));
-            param.putParam("detect_direction", true);
-            OCR.getInstance(ContactAddNewActivity.this).recognizeVehicleLicense(param, new OnResultListener<OcrResponseResult>() {
-                @Override
-                public void onResult(OcrResponseResult result) {
-                    // 调用成功，返回OcrResponseResult对象
-                    String str = result.getJsonRes();
-                    try {
-                        JSONObject obj = new JSONObject(str);
 
-                        String plate = "";
-                        String RegTime= "";
-                        String userName = "";
-                        String vinNO = "";
-                        String carType = "";
-                        int num = obj.optInt("words_result_num");
-                        if(num > 0) {
-                            JSONObject mapJSON = obj.getJSONObject("words_result");
-                            Iterator<String> iterator = mapJSON.keys();
-                            while (iterator.hasNext()) {
-                                String key = iterator.next();
-                                JSONObject keyJSON = mapJSON.getJSONObject(key);
-                                String words = keyJSON.getString("words");
-                                if("号牌号码".equalsIgnoreCase(key))
-                                {
-                                    plate = words;
-                                }else if("注册日期".equalsIgnoreCase(key))
-                                {
-                                    StringBuffer stringBuffer = new StringBuffer(words);
-                                    stringBuffer.insert(6,"-");
-                                    stringBuffer.insert(4,"-");
-                                    RegTime = stringBuffer.toString();
-                                }else if("所有人".equalsIgnoreCase(key))
-                                {
-                                    userName = words;
-                                }else if("车辆识别代号".equalsIgnoreCase(key))
-                                {
-                                    vinNO = words;
-                                }else if("品牌型号".equalsIgnoreCase(key))
-                                {
-                                    carType = words;
-                                }
-                            }
-
-                            mCarCode.setText(plate);
-                            m_vinEditText.setText(vinNO);
-                            m_carRegisterTimeEditText.setText(RegTime);
-                            mName.setText(userName);
-
-
-                            mCarType.setText(carType);
-
-
-                        }
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onError(OCRError error) {
-                    // 调用失败，返回OCRError对象
-                }
-            });
-        }
 
     }
 
@@ -886,55 +814,13 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
         MobclickAgent.onPause(this);
     }
 
-    /**
-     *  获取TakePhoto实例
-     * @return
-     */
-    public TakePhoto getTakePhoto(){
-        Log.e(TAG,getLocalClassName()+"getTakePhoto:1" + m_takePhoto);
 
-        if (m_takePhoto==null){
-            m_takePhoto= (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this,this));
-            Log.e(TAG,getLocalClassName()+"getTakePhoto:2" + m_takePhoto);
-        }
-        Log.e(TAG,getLocalClassName()+"getTakePhoto:3" + m_takePhoto);
-        CompressConfig compressConfig=new CompressConfig.Builder().setMaxSize(200*200).setMaxPixel(800).create();
-        m_takePhoto.onEnableCompress(compressConfig,true);
-        return m_takePhoto;
-    }
-    @Override
-    public void takeSuccess(TResult result) {
-        Log.i(TAG,"takeSuccess：" + result.getImage().getCompressPath());
-        File file = new File(result.getImage().getCompressPath());
-        uploadFileToBOS(DateUtil.getPicNameFormTime(new Date(),this), file);
-    }
-    @Override
-    public void takeFail(TResult result,String msg) {
-        Log.i(TAG, "takeFail:" + msg);
-    }
-    @Override
-    public void takeCancel() {
-        Log.i(TAG, getResources().getString(com.points.autorepar.R.string.msg_operation_canceled));
-    }
+
+
+
 
     @Override
-    public PermissionManager.TPermissionType invoke(InvokeParam invokeParam) {
-        PermissionManager.TPermissionType type= PermissionManager.checkPermission(TContextWrap.of(this),invokeParam.getMethod());
-        if(PermissionManager.TPermissionType.WAIT.equals(type)){
-//            this.invokeParam=invokeParam;
-        }
-        return type;
-    }
-
-
-    public CropOptions getCropOptions(){
-        CropOptions cropOptions=new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(true).create();
-        return  cropOptions;
-    }
-
-
-    private void uploadFileToBOS(final String fileName, final File file) {
-
+    public void uploadFileToBOS(final String fileName, final File file) {
         Map map = new HashMap();
         map.put("fileName", fileName);
         HttpManager.getInstance(this).startNormalFilePost("/file/picUpload", fileName,file, map, new Response.Listener<JSONObject>() {

@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.points.autorepar.MainApplication;
 import com.points.autorepar.R;
+import com.points.autorepar.activity.BaseActivity;
 import com.points.autorepar.activity.CommonWebviewActivity;
 import com.points.autorepar.activity.contact.ContactAddNewActivity;
 import com.points.autorepar.activity.contact.ContactInfoEditActivity;
@@ -206,21 +207,21 @@ public class ContactInfoAdapter extends BaseAdapter {
                 convertView = this.m_LInflater.inflate(R.layout.contact_info_cell_carvin, null);
                 ImageView contact_cartype_show = ((ImageView) convertView.findViewById(R.id.carz_v));
 
-                EditText contact_carnum = (EditText)convertView.findViewById(R.id.contact_car_vin);
+                final   EditText contact_carnum = (EditText)convertView.findViewById(R.id.contact_car_vin);
                 contact_carnum.setText(m_contact.getVin());
                 contact_carnum.addTextChangedListener(watcher5);
                 contact_cartype_show.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Toast.makeText(m_context, "扫描时横竖屏都可以,最后选取的截图一定只能包含车牌文字,不能含有其它不相关的数字或字母。扫描识别有一定几率失败或不能完全识别，如果没识别成功可以在详情页再稍微编辑下。", Toast.LENGTH_LONG).show();
 
-                        Intent intent = new Intent(m_context, CameraActivity.class);
-                        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
-                                FileUtil.getSaveFile(m_context).getAbsolutePath());
-                        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE,
-                                CameraActivity.CONTENT_TYPE_GENERAL);
-                        m_infoActivity.startActivityForResult(intent, 120);
-
+                        m_infoActivity.startSelectVinPicToUpload(2, new BaseActivity.speUploadVinListener() {
+                            @Override
+                            public void onUploadVinPicSucceed(String vin) {
+                                if(vin.length() == 17){
+                                    contact_carnum.setText(vin);
+                                }
+                            }
+                        });
 
                     }
                 });

@@ -493,9 +493,11 @@ public class ContactListActivity extends BaseActivity {
                         for (int i = 0; i < arr.length(); i++) {
                             JSONObject obj = arr.optJSONObject(i);
                             Contact con = DBService.queryContactCode(obj.optString("_id"));
-                            if(!con.getisVip().equals("1")){
-                                con.setIsVip("1");
-                                DBService.updateContact(con);
+                            if(con != null){
+                                if(!con.getisVip().equals("1")){
+                                    con.setIsVip("1");
+                                    DBService.updateContact(con);
+                                }
                             }
                         }
                         reloadDataAndRefreshView();

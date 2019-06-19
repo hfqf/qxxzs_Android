@@ -788,8 +788,8 @@ public class EmployeeAddNewActivity extends BaseActivity   {
         return  cropOptions;
     }
 
-
-    private void uploadFileToBOS(final String fileName, final File file) {
+    @Override
+    public void uploadFileToBOS(final String fileName, final File file) {
 
         Map map = new HashMap();
         map.put("fileName", fileName);

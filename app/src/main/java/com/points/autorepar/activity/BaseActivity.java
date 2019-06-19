@@ -103,7 +103,10 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
 
     private InvokeParam invokeParam;
     private speUploadListener m_listener;
-    public  int        m_uplaodType;//0更改用户头像,1修改联系人头像
+
+    private speUploadVinListener m_vinlistener;
+
+    public  int        m_uplaodType;//0更改用户头像,1修改联系人头像,2更新vin
 
     public static final int REQUEST_CODE_GENERAL = 105;
     public static final int REQUEST_CODE_GENERAL_BASIC = 106;
@@ -117,8 +120,11 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
 
     public interface speUploadListener{
         void uploadContactSucceed(String newHeadUrl);
-
         void uploadUserSucceed(String newHeadUrl);
+    }
+
+    public interface speUploadVinListener{
+        void onUploadVinPicSucceed(String vin);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +201,63 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
         this.m_listener = listener;
 
 
+        String[] arr = getResources().getStringArray(R.array.uploadpic);
 
+        View outerView = LayoutInflater.from(this).inflate(R.layout.wheel_view, null);
+        final WheelView wv = (WheelView) outerView.findViewById(R.id.wheel_view_wv);
+        wv.setItems(Arrays.asList(arr));
+        wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+            @Override
+            public void onSelected(int selectedIndex, String item) {
+                Log.e(TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
+            }
+        });
+
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("选择来源")
+                .setView(outerView)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        Log.e(TAG, "startSelectPicToUpload+OK" + wv.getSeletedItem());
+
+                        int index = wv.getSeletedIndex();
+
+                        File file=new File(Environment.getExternalStorageDirectory(), "/temp/"+System.currentTimeMillis() + ".jpg");
+                        Log.e(TAG, "startSelectPicToUpload+1" + wv.getSeletedIndex());
+
+                        if (!file.getParentFile().exists())file.getParentFile().mkdirs();
+                        Log.e(TAG, "startSelectPicToUpload+2" + wv.getSeletedIndex());
+                        Uri imageUri = Uri.fromFile(file);
+                        Log.e(TAG, "startSelectPicToUpload+3" + wv.getSeletedIndex());
+                        if(index == 1){
+                            Log.e(TAG, "startSelectPicToUpload+4" + wv.getSeletedIndex());
+                            Log.e(TAG, "startSelectPicToUpload+4" + m_takePhoto+imageUri);
+                            m_takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
+                            Log.e(TAG, "startSelectPicToUpload+5" + wv.getSeletedIndex());
+                        }else {
+                            Log.e(TAG, "startSelectPicToUpload+6" + wv.getSeletedIndex());
+                            m_takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
+                            Log.e(TAG, "startSelectPicToUpload+7" + wv.getSeletedIndex());
+                        }
+
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.e(TAG, "onCancel");
+                    }
+                })
+                .show();
+    }
+
+    public void startSelectVinPicToUpload(int uploadType,speUploadVinListener listener){
+
+        this.m_uplaodType = uploadType;
+        this.m_vinlistener = listener;
 
         String[] arr = getResources().getStringArray(R.array.uploadpic);
 
@@ -283,7 +345,11 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
     public void takeSuccess(TResult result) {
         Log.i(TAG,"takeSuccess：" + result.getImage().getCompressPath());
         File file = new File(result.getImage().getCompressPath());
-        uploadFileToBOS(DateUtil.getPicNameFormTime(new Date(),this), file);
+        if(this.m_uplaodType == 0 || this.m_uplaodType == 1){
+            uploadFileToBOS(DateUtil.getPicNameFormTime(new Date(),this), file);
+        }else if(this.m_uplaodType == 2){
+            uploadVinFileToServer(DateUtil.getPicNameFormTime(new Date(),this), file);
+        }
     }
     @Override
     public void takeFail(TResult result,String msg) {
@@ -310,8 +376,7 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
     }
 
 
-    private void uploadFileToBOS(final String fileName, final File file) {
-
+    public void uploadFileToBOS(final String fileName, final File file) {
         Map map = new HashMap();
         map.put("fileName", fileName);
         HttpManager.getInstance(this).startNormalFilePost("/file/picUpload", fileName,file, map, new Response.Listener<JSONObject>() {
@@ -336,6 +401,23 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
 
     }
 
+    public void uploadVinFileToServer(final String fileName, final File file) {
+        Map map = new HashMap();
+        map.put("fileName", fileName);
+        HttpManager.getInstance(this).startNormalFilePost("/file/vinPicUpload", fileName,file, map, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                    final   String _vin = jsonObject.optString("ret");
+                    m_vinlistener.onUploadVinPicSucceed(_vin);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), "上传图片失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
 
     @Override

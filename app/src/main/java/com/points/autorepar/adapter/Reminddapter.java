@@ -658,7 +658,7 @@ public class Reminddapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                             if(obj == null)
                             {
-                                Toast.makeText(context,"数据异常",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context,"数据异常,请重试",Toast.LENGTH_SHORT).show();
                                 return ;
                             }
                             repFromServer.addition =obj.optString("addition").replace(" ", "");

@@ -87,8 +87,20 @@ public class AddOrEditSubServiceActivity extends BaseActivity {
                         return;
                     }
 
+
+
                     if( m_typeInput2.getText().toString().length() == 0){
                         ToastUtil.showToast(m_this,"价格不能为空");
+                        return;
+                    }
+
+                    if(!LoginUserUtil.isNumeric(m_typeInput2.getText().toString())){
+                        ToastUtil.showToast(m_this,"服务价格不是纯数字,请检查");
+                        return;
+                    }
+
+                    if(!LoginUserUtil.isNumeric(m_typeInput3.getText().toString())){
+                        ToastUtil.showToast(m_this,"工时价格不是纯数字,请检查");
                         return;
                     }
 
@@ -164,6 +176,16 @@ public class AddOrEditSubServiceActivity extends BaseActivity {
 
                     if( m_typeInput2.getText().toString().length() == 0){
                         ToastUtil.showToast(m_this,"价格不能为空");
+                        return;
+                    }
+
+                    if(!LoginUserUtil.isNumeric(m_typeInput2.getText().toString())){
+                        ToastUtil.showToast(m_this,"服务价格不是纯数字,请检查");
+                        return;
+                    }
+
+                    if(!LoginUserUtil.isNumeric(m_typeInput3.getText().toString())){
+                        ToastUtil.showToast(m_this,"工时价格不是纯数字,请检查");
                         return;
                     }
 

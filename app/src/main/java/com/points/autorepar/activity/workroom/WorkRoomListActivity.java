@@ -206,6 +206,15 @@ public class WorkRoomListActivity extends BaseActivity  implements BtInterface {
         setContentView(R.layout.fragment_workroom);
 
             m_list =  (ListView) findViewById(R.id.id_workroomlist);
+
+        m_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RepairHistory rep =  m_arrData.get(i);
+                delOneRep(rep);
+                return false;
+            }
+        });
             m_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -741,4 +750,72 @@ public class WorkRoomListActivity extends BaseActivity  implements BtInterface {
         });
     }
 
+
+    private void delOneRep(final RepairHistory rep){
+        String[] arr = getResources().getStringArray(R.array.more_setting_1);
+
+        View outerView = LayoutInflater.from(m_this).inflate(R.layout.wheel_view, null);
+        final WheelView wv = (WheelView) outerView.findViewById(R.id.wheel_view_wv);
+        wv.setItems(Arrays.asList(arr));
+        wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+            @Override
+            public void onSelected(int selectedIndex, String item) {
+                Log.e(TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
+            }
+        });
+
+        new AlertDialog.Builder(m_this)
+                .setTitle("选择操作")
+                .setView(outerView)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        Log.e(TAG, "OK" + wv.getSeletedIndex()+which);
+                        if(wv.getSeletedIndex() == 0){
+                            deleteOneRepairServerAndLocalDB(rep);
+                        }else if(wv.getSeletedIndex() == 1){
+
+                        }else if(wv.getSeletedIndex() == 2){
+
+                        }
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.e(TAG, "onCancel");
+                    }
+                })
+                .show();
+    }
+
+    private void deleteOneRepairServerAndLocalDB(RepairHistory rep){
+        final RepairHistory _rep = rep;
+        Map map = new HashMap();
+        map.put("owner", LoginUserUtil.getTel(m_this));
+        map.put("id", rep.idfromnode);
+        showWaitView();
+        HttpManager.getInstance(m_this).deleteOneContact("/repair/del", map, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                stopWaitingView();
+                if(jsonObject.optInt("code") == 1){
+                    reloadDataAndRefreshView();
+                }
+                else {
+                    Toast.makeText(m_this,"删除失败",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                stopWaitingView();
+                Toast.makeText(m_this,"删除失败",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 }

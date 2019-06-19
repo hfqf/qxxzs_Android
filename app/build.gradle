@@ -23,8 +23,8 @@ android {
         applicationId "com.points.autorepar"
         minSdkVersion 18 //4.0
         targetSdkVersion 25
-        versionCode  64
-        versionName "3.6.0.4"
+        versionCode  71
+        versionName "3.6.0.11"
 
         flavorDimensions "21"
 
@@ -87,6 +87,7 @@ android {
             buildConfigField "boolean", "LOG_DEBUG", "false"
 
             minifyEnabled false
+            useProguard false
             zipAlignEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -136,7 +137,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/pinyin4j-2.5.0.jar')
     implementation files('libs/zxing.jar')
     implementation files('libs/SocialSDK_QQ_Simplify.jar')
@@ -182,8 +183,8 @@ dependencies {
 
     implementation 'com.github.lygttpod:SuperTextView:2.1.7'
     implementation 'com.squareup.picasso:picasso:2.4.0'
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
-    compile 'com.squareup.picasso:picasso:2.4.0'
+    implementation 'com.squareup.okhttp:okhttp:2.4.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    implementation 'com.squareup.picasso:picasso:2.4.0'
 
 }
