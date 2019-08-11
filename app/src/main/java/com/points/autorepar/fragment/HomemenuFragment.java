@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.points.autorepar.MainApplication;
 import com.points.autorepar.R;
+import com.points.autorepar.activity.BookkeepActivity;
 import com.points.autorepar.activity.EditUserInfoActivity;
 import com.points.autorepar.activity.MainTabbarActivity;
 import com.points.autorepar.activity.Store.WarnPurchaseListActivity;
@@ -192,7 +193,7 @@ public class HomemenuFragment extends Fragment {
         lstImageItem = new ArrayList<HashMap<String, Object>>();
 
         if(!LoginUserUtil.isEmployeeLogined(getActivity())){
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 10; i++) {
                 if(i==0){
                     HashMap<String, Object> map = new HashMap<String, Object>();
                     map.put("icon", R.drawable.home_gd);
@@ -245,6 +246,11 @@ public class HomemenuFragment extends Fragment {
                     map.put("icon", R.drawable.home_ck);
                     map.put("name", "仓库管理");
                     lstImageItem.add(map);
+                }else if(i==9){
+                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    map.put("icon", R.drawable.home_jz);
+                    map.put("name", "记账");
+                    lstImageItem.add(map);
                 }
             }
         }else {
@@ -254,7 +260,7 @@ public class HomemenuFragment extends Fragment {
                     map.put("name", "仓库管理");
                     lstImageItem.add(map);
             }else  if(MainApplication.getInstance().getUserType(getActivity()) == 3){
-                for (int i = 0; i < 9; i++) {
+                for (int i = 0; i < 10; i++) {
                     if(i==0){
                         HashMap<String, Object> map = new HashMap<String, Object>();
                         map.put("icon", R.drawable.home_gd);
@@ -307,7 +313,13 @@ public class HomemenuFragment extends Fragment {
                         map.put("icon", R.drawable.home_ck);
                         map.put("name", "仓库管理");
                         lstImageItem.add(map);
+                    }else if(i==9){
+                        HashMap<String, Object> map = new HashMap<String, Object>();
+                        map.put("icon", R.drawable.home_jz);
+                        map.put("name", "记账");
+                        lstImageItem.add(map);
                     }
+
                 }
             }
         }
@@ -389,13 +401,14 @@ public class HomemenuFragment extends Fragment {
                     else if(i==7){
                         Intent intent = new Intent(getActivity(), EmployeeListActivity.class);
                         startActivity(intent);
-                    }else{
+                    }else if(i==8){
                         Intent intent = new Intent(getActivity(),StoreActivity.class);
+                        startActivity(intent);
+                    }else if(i==9){//记账
+                        Intent intent = new Intent(getActivity(),BookkeepActivity.class);
                         startActivity(intent);
                     }
                 }
-
-
             }
         });
         getTopImage();

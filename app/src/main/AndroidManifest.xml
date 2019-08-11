@@ -412,6 +412,10 @@
         <activity android:name=".activity.VipHomeActivity">
         </activity>
 
+        <activity android:name=".activity.BookkeepActivity">
+        </activity>
+
+
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
     </application>
