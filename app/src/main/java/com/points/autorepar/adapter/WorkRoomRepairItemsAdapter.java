@@ -57,18 +57,15 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
 
     private int selectedIndex = 0;
 
-    private static   WorkRoomEditActivity m_activity1;
+    private  WorkRoomEditActivity m_activity1;
     private LinearLayout  m_addView;
 
-    public WorkRoomRepairItemsAdapter(WorkRoomEditActivity context, RepairHistory rep) {
-        this.m_activity1  = context;
+    public WorkRoomRepairItemsAdapter(Context context, RepairHistory rep) {
+        this.m_activity1 = (WorkRoomEditActivity )context;
         this.m_context   = context;
         this.m_LInflater = LayoutInflater.from(context);
         this.m_data   = rep;
-
     }
-
-
 
     @Override
     public int getCount(){

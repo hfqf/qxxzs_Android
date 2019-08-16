@@ -23,8 +23,8 @@ android {
         applicationId "com.points.autorepar"
         minSdkVersion 18 //4.0
         targetSdkVersion 25
-        versionCode  72
-        versionName "3.6.2"
+        versionCode  73
+        versionName "3.6.2.1"
 
         flavorDimensions "21"
 

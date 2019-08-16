@@ -31,8 +31,6 @@ public class WorkRoomRepairItemsFragment extends Fragment {
     private ListView     m_listView;
     private WorkRoomRepairItemsAdapter  m_adapter;
     private  String                          TAG  = "WorkRoomRepairItemsFragment";
-    private   WorkRoomEditActivity      m_activityeer;
-
     public interface OnWorkRoomRepairItemsFragmentInteractionListener {
         void onWorkRoomRepairItemsFragmentInteraction(Uri uri);
     }
@@ -42,9 +40,8 @@ public class WorkRoomRepairItemsFragment extends Fragment {
     }
 
 
-    public static WorkRoomRepairItemsFragment newInstance(WorkRoomEditActivity activityer, RepairHistory rep) {
+    public static WorkRoomRepairItemsFragment newInstance( RepairHistory rep) {
         WorkRoomRepairItemsFragment fragment = new WorkRoomRepairItemsFragment();
-        fragment.m_activityeer = activityer;
         Bundle args = new Bundle();
         args.putParcelable("data",rep);
         fragment.setArguments(args);
@@ -124,6 +121,7 @@ public class WorkRoomRepairItemsFragment extends Fragment {
     public  void  onStart() {
         super.onStart();
         Log.e(TAG, "onStart");
+
         reloadDataAndRefreshView();
     }
 
@@ -135,7 +133,7 @@ public class WorkRoomRepairItemsFragment extends Fragment {
 
 
     private  void reloadDataAndRefreshView(){
-        m_adapter = new WorkRoomRepairItemsAdapter(m_activityeer,m_currentData);
+        m_adapter = new WorkRoomRepairItemsAdapter(getActivity(),m_currentData);
         m_listView.setAdapter(m_adapter);
     }
 

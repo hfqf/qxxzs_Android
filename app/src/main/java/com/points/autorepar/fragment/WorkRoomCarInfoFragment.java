@@ -42,7 +42,6 @@ public class WorkRoomCarInfoFragment extends Fragment {
     private WorkRoomCarInfoAdapter           m_adapter;
 
     private  String                          TAG  = "WorkRoomCarInfoFragment";
-    private   WorkRoomEditActivity                m_activityer;
 
     public interface OnWorkRoomCarInfoFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -53,9 +52,8 @@ public class WorkRoomCarInfoFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static WorkRoomCarInfoFragment newInstance(WorkRoomEditActivity activityer, RepairHistory rep) {
+    public static WorkRoomCarInfoFragment newInstance( RepairHistory rep) {
         WorkRoomCarInfoFragment fragment = new WorkRoomCarInfoFragment();
-        fragment.m_activityer = activityer;
         Bundle args = new Bundle();
         args.putParcelable("data",rep);
         fragment.setArguments(args);
@@ -67,15 +65,12 @@ public class WorkRoomCarInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             m_currentData = getArguments().getParcelable("data");
-            m_adapter = new WorkRoomCarInfoAdapter(m_activityer,m_currentData);
+            m_adapter = new WorkRoomCarInfoAdapter(getActivity() ,m_currentData);
         }
-
-
         if (!EventBus.getDefault().isRegistered(this)) {
-
             EventBus.getDefault().register(this);
-
         }
+
     }
 
     @Override
@@ -124,6 +119,9 @@ public class WorkRoomCarInfoFragment extends Fragment {
     public  void  onStart() {
         super.onStart();
         Log.e(TAG, "onStart");
+
+
+
         reloadDataAndRefreshView();
     }
 

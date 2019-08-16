@@ -585,8 +585,15 @@ public class SelectServiceCategoryActivity extends BaseActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
+                    if(editable.toString().length() == 0){
+                        Toast.makeText(SelectServiceCategoryActivity.this,"请填写数字",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(!LoginUserUtil.isNumeric(editable.toString())){
+                        Toast.makeText(SelectServiceCategoryActivity.this,"请填写数字",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     String originText = editable.toString();
-
                     data.get(position).saleprice = originText;
                     notifyDataSetChanged();
                 }

@@ -434,120 +434,113 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
     public void onActivityResult(int requestCode
             , int resultCode, Intent intent)
     {
-        // 当requestCode、resultCode同时为0，也就是处理特定的结果
-        getTakePhoto().onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == 1 && resultCode == 1)
-        {
-            Bundle data = intent.getExtras();
-            mCarType_str = data.getString("mCarType_str");
-            mCarType.setText(mCarType_str);
-            mKey_str = data.getString("mKey_str");
-//            contact_cartype_show.setVisibility(View.VISIBLE);
-        }
+        if(resultCode != RESULT_CANCELED) {
+            // 当requestCode、resultCode同时为0，也就是处理特定的结果
+            getTakePhoto().onActivityResult(requestCode, resultCode, intent);
+            if (requestCode == 1 && resultCode == 1) {
+                Bundle data = intent.getExtras();
+                mCarType_str = data.getString("mCarType_str");
+                mCarType.setText(mCarType_str);
+                mKey_str = data.getString("mKey_str");
+            }
+            if (requestCode == REQUEST_CODE_GENERAL && resultCode == Activity.RESULT_OK) {
+                RecognizeService.recGeneral(ContactAddNewActivity.this, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
+                        new RecognizeService.ServiceListener() {
+                            @Override
+                            public void onResult(String result) {
+                                infoPopText(result);
+                            }
+                        });
+            }
+            if (requestCode == REQUEST_CODE_GENERAL_BASIC && resultCode == Activity.RESULT_OK) {
+                RecognizeService.recGeneralBasic(ContactAddNewActivity.this, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
+                        new RecognizeService.ServiceListener() {
+                            @Override
+                            public void onResult(String result) {
+                                infoPopText(result);
+                            }
+                        });
+            }
+            if (requestCode == REQUEST_CODE_GENERAL_ENHANCED && resultCode == Activity.RESULT_OK) {
+                RecognizeService.recGeneralEnhanced(ContactAddNewActivity.this, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
+                        new RecognizeService.ServiceListener() {
+                            @Override
+                            public void onResult(String result) {
+                                infoPopText(result);
+                            }
+                        });
+            }
+            if (requestCode == REQUEST_CODE_GENERAL_WEBIMAGE && resultCode == Activity.RESULT_OK) {
+                RecognizeService.recWebimage(ContactAddNewActivity.this, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
+                        new RecognizeService.ServiceListener() {
+                            @Override
+                            public void onResult(String result) {
+                                infoPopText(result);
+                            }
+                        });
+            }
+            if (requestCode == REQUEST_CODE_BANKCARD && resultCode == Activity.RESULT_OK) {
+                RecognizeService.recBankCard(ContactAddNewActivity.this, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
+                        new RecognizeService.ServiceListener() {
+                            @Override
+                            public void onResult(String result) {
+                                infoPopText(result);
+                            }
+                        });
+            }
 
+            if (requestCode == REQUEST_CODE_GENERAL && resultCode == Activity.RESULT_OK) {
+                RecognizeService.recGeneral(ContactAddNewActivity.this, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
+                        new RecognizeService.ServiceListener() {
+                            @Override
+                            public void onResult(String result) {
+                                infoPopText(result);
+                            }
+                        });
+            }
 
+            if (requestCode == REQUEST_CODE_GENERAL && resultCode == Activity.RESULT_OK) {
+                RecognizeService.recGeneral(ContactAddNewActivity.this, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
+                        new RecognizeService.ServiceListener() {
+                            @Override
+                            public void onResult(String result) {
+                                infoPopText(result);
+                            }
+                        });
+            }
 
-
-        if (requestCode == REQUEST_CODE_GENERAL && resultCode == Activity.RESULT_OK) {
-            RecognizeService.recGeneral(ContactAddNewActivity.this,FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
-                    new RecognizeService.ServiceListener() {
-                        @Override
-                        public void onResult(String result) {
-                            infoPopText(result);
-                        }
-                    });
-        }
-        if (requestCode == REQUEST_CODE_GENERAL_BASIC && resultCode == Activity.RESULT_OK) {
-            RecognizeService.recGeneralBasic(ContactAddNewActivity.this,FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
-                    new RecognizeService.ServiceListener() {
-                        @Override
-                        public void onResult(String result) {
-                            infoPopText(result);
-                        }
-                    });
-        }
-        if (requestCode == REQUEST_CODE_GENERAL_ENHANCED && resultCode == Activity.RESULT_OK) {
-            RecognizeService.recGeneralEnhanced(ContactAddNewActivity.this,FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
-                    new RecognizeService.ServiceListener() {
-                        @Override
-                        public void onResult(String result) {
-                            infoPopText(result);
-                        }
-                    });
-        }
-        if (requestCode == REQUEST_CODE_GENERAL_WEBIMAGE && resultCode == Activity.RESULT_OK) {
-            RecognizeService.recWebimage(ContactAddNewActivity.this,FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
-                    new RecognizeService.ServiceListener() {
-                        @Override
-                        public void onResult(String result) {
-                            infoPopText(result);
-                        }
-                    });
-        }
-        if (requestCode == REQUEST_CODE_BANKCARD && resultCode == Activity.RESULT_OK) {
-            RecognizeService.recBankCard(ContactAddNewActivity.this,FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
-                    new RecognizeService.ServiceListener() {
-                        @Override
-                        public void onResult(String result) {
-                            infoPopText(result);
-                        }
-                    });
-        }
-
-        if (requestCode == REQUEST_CODE_GENERAL && resultCode == Activity.RESULT_OK) {
-            RecognizeService.recGeneral(ContactAddNewActivity.this,FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
-                    new RecognizeService.ServiceListener() {
-                        @Override
-                        public void onResult(String result) {
-                            infoPopText(result);
-                        }
-                    });
-        }
-
-        if (requestCode == REQUEST_CODE_GENERAL && resultCode == Activity.RESULT_OK) {
-            RecognizeService.recGeneral(ContactAddNewActivity.this,FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
-                    new RecognizeService.ServiceListener() {
-                        @Override
-                        public void onResult(String result) {
-                            infoPopText(result);
-                        }
-                    });
-        }
-
-        if (requestCode == REQUEST_CODE_LICENSE_PLATE && resultCode == Activity.RESULT_OK) {
-            String filePath = FileUtil.getSaveFile(ContactAddNewActivity.this).getAbsolutePath();
-            OcrRequestParams param = new OcrRequestParams();
-            param.setImageFile(new File(filePath));
-            OCR.getInstance(ContactAddNewActivity.this).recognizeLicensePlate(param, new OnResultListener<OcrResponseResult>() {
-                @Override
-                public void onResult(OcrResponseResult result) {
-                    // 调用成功，返回OcrResponseResult对象
-                    String str = result.getJsonRes();
-                    try {
-                        JSONObject obj = new JSONObject(str);
+            if (requestCode == REQUEST_CODE_LICENSE_PLATE && resultCode == Activity.RESULT_OK) {
+                String filePath = FileUtil.getSaveFile(ContactAddNewActivity.this).getAbsolutePath();
+                OcrRequestParams param = new OcrRequestParams();
+                param.setImageFile(new File(filePath));
+                OCR.getInstance(ContactAddNewActivity.this).recognizeLicensePlate(param, new OnResultListener<OcrResponseResult>() {
+                    @Override
+                    public void onResult(OcrResponseResult result) {
+                        // 调用成功，返回OcrResponseResult对象
+                        String str = result.getJsonRes();
+                        try {
+                            JSONObject obj = new JSONObject(str);
 
                             JSONObject mapJSON = obj.getJSONObject("words_result");
-                                String words = mapJSON.getString("number");
+                            String words = mapJSON.getString("number");
                             mCarCode.setText(words);
-
 
 
 //                        }
 
-                    }catch (Exception e){
-                        e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
 
-                @Override
-                public void onError(OCRError error) {
-                    // 调用失败，返回OCRError对象
-                    Toast.makeText(ContactAddNewActivity.this,"调用失败",Toast.LENGTH_LONG).show();
-                }
-            });
+                    @Override
+                    public void onError(OCRError error) {
+                        // 调用失败，返回OCRError对象
+                        Toast.makeText(ContactAddNewActivity.this, "调用失败", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
         }
-
-
     }
 
     private TextWatcher nextYearCheckTime = new TextWatcher() {

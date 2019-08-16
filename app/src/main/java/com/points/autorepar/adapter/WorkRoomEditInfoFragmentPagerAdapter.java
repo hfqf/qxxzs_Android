@@ -40,10 +40,9 @@ public class WorkRoomEditInfoFragmentPagerAdapter extends FragmentPagerAdapter {
     public WorkRoomEditInfoFragmentPagerAdapter(WorkRoomEditActivity activityer, FragmentManager fm, RepairHistory rep) {
         super(fm);
         this.fragmetnmanager=fm;
-
         listfragment=new ArrayList<Fragment>();
-        fragment1 =  WorkRoomCarInfoFragment.newInstance(activityer, rep);
-        fragment2 =  WorkRoomRepairItemsFragment.newInstance(activityer,rep);
+        fragment1 =  WorkRoomCarInfoFragment.newInstance(rep);
+        fragment2 =  WorkRoomRepairItemsFragment.newInstance(rep);
         listfragment.add(fragment1);
         listfragment.add(fragment2);
         this.listfragment=listfragment;

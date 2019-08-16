@@ -286,11 +286,13 @@ public class ContactFragment extends Fragment {
             filterDateList = SourceDateList;
         }else{
             filterDateList.clear();
-            for(SortModel sortModel : SourceDateList){
-                Contact carcode = sortModel.contact;
-                String name = sortModel.getName();
-                if(name.indexOf(filterStr.toString()) != -1||carcode.getTel().indexOf(filterStr.toString()) != -1  ||carcode.getCarCode().indexOf(filterStr.toString()) != -1  || characterParser.getSelling(name).startsWith(filterStr.toString())){
-                    filterDateList.add(sortModel);
+            if(SourceDateList != null){
+                for(SortModel sortModel : SourceDateList){
+                    Contact carcode = sortModel.contact;
+                    String name = sortModel.getName();
+                    if(name.indexOf(filterStr.toString()) != -1||carcode.getTel().indexOf(filterStr.toString()) != -1  ||carcode.getCarCode().indexOf(filterStr.toString()) != -1  || characterParser.getSelling(name).startsWith(filterStr.toString())){
+                        filterDateList.add(sortModel);
+                    }
                 }
             }
         }

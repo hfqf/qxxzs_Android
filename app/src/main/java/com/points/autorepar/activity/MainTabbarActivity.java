@@ -1,15 +1,19 @@
 package com.points.autorepar.activity;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -47,6 +51,7 @@ import android.widget.Toast;
 import com.points.autorepar.fragment.WorkRoomFragment;
 import com.points.autorepar.http.HttpManager;
 import com.points.autorepar.lib.BluetoothPrinter.PrinterActivity;
+import com.points.autorepar.lib.BluetoothPrinter.util.ToastUtil;
 import  com.points.autorepar.lib.ocr.ui.camera.CameraActivity;
 import  com.points.autorepar.lib.ocr.ui.camera.FileUtil;
 import com.points.autorepar.utils.LoginUserUtil;
@@ -114,6 +119,8 @@ public class MainTabbarActivity extends BaseActivity implements
         setTabSelection(0);
         initAccessTokenWithAkSk();
         m_lastIndex = 0;
+
+        checkPermission();
 
     }
 
@@ -619,5 +626,17 @@ public class MainTabbarActivity extends BaseActivity implements
     public void onMyUnFinishedRepairFragmentSelectedIndex(int index) {
 
     }
+
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(MainTabbarActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // 进入这儿表示没有权限
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainTabbarActivity.this, Manifest.permission.CAMERA)) {
+                Toast.makeText(MainTabbarActivity.this, "请打开应用的相机权限,否则使用某些功能会导致程序异常", Toast.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(MainTabbarActivity.this, new String[]{Manifest.permission.CAMERA}, 100);
+            }
+        }
+    }
+
 
 }

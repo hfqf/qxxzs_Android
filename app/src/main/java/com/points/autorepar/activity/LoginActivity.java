@@ -456,23 +456,25 @@ public class LoginActivity extends BaseActivity {
             editor.putString(key_emplyeeTel, employee_tel);
             editor.putString(key_emplyeePwd, employee_pwd);
 
-
             JSONObject creater = userInfoObject.optJSONObject("creater");
-            isdirectadditem = creater.optString("isdirectadditem");
-            tel = creater.optString("tel");
-            iscanaddnewcontact = userInfoObject.optString("iscanaddnewcontact");
-            iscandelcontact = userInfoObject.optString("iscandelcontact");
-            iscaneditcontact = userInfoObject.optString("iscaneditcontact");
-            iscanseecontactrepairs = userInfoObject.optString("iscanseecontactrepairs");
-            iscankaidan = userInfoObject.optString("iscankaidan");
-             isneeddispatch = userInfoObject.optString("isneeddispatch");
-            isneeddirectaddcartype = creater.optString("isneeddirectaddcartype");
-             address              = creater.optString("address");
-             shopname              = creater.optString("shopname");
-             roletype               = userInfoObject.optString("roletype");
+            if(creater != null){
+                isdirectadditem = creater.optString("isdirectadditem");
+                tel = creater.optString("tel");
+                iscanaddnewcontact = userInfoObject.optString("iscanaddnewcontact");
+                iscandelcontact = userInfoObject.optString("iscandelcontact");
+                iscaneditcontact = userInfoObject.optString("iscaneditcontact");
+                iscanseecontactrepairs = userInfoObject.optString("iscanseecontactrepairs");
+                iscankaidan = userInfoObject.optString("iscankaidan");
+                isneeddispatch = userInfoObject.optString("isneeddispatch");
+                isneeddirectaddcartype = creater.optString("isneeddirectaddcartype");
+                address              = creater.optString("address");
+                shopname              = creater.optString("shopname");
+                roletype               = userInfoObject.optString("roletype");
 
-            MainApplication.getInstance().setUserType(LoginActivity.this,Integer.parseInt(roletype));
-            MainApplication.getInstance().setCreatePushID(LoginActivity.this,userInfoObject.optString("pushid"));
+                MainApplication.getInstance().setUserType(LoginActivity.this,Integer.parseInt(roletype));
+                MainApplication.getInstance().setCreatePushID(LoginActivity.this,userInfoObject.optString("pushid"));
+            }
+
         }else {
 
 

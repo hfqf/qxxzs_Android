@@ -82,9 +82,8 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
     private ArrayList<String> picUrls = new ArrayList<String>();
 
 
-    public WorkRoomCarInfoAdapter(WorkRoomEditActivity context, RepairHistory rep) {
-
-        this.m_activity = context;
+    public WorkRoomCarInfoAdapter(Context context, RepairHistory rep) {
+        this.m_activity = (WorkRoomEditActivity)context;
         this.m_context   = context;
         this.m_LInflater = LayoutInflater.from(context);
         this.m_data   = rep;
