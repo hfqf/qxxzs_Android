@@ -1051,40 +1051,43 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        // 当requestCode、resultCode同时为0，也就是处理特定的结果
-        if (requestCode == 2 )
-        {
-            File file = new File(mCurrentPhotoPath);
-            Luban.with(WorkRoomEditActivity.this)
-                    .load(file)
-                    .setCompressListener(new OnCompressListener() {
-                        @Override
-                        public void onStart() {
+        if(resultCode != RESULT_CANCELED){
+            // 当requestCode、resultCode同时为0，也就是处理特定的结果
+            if (requestCode == 2 )
+            {
+                File file = new File(mCurrentPhotoPath);
+                Luban.with(WorkRoomEditActivity.this)
+                        .load(file)
+                        .setCompressListener(new OnCompressListener() {
+                            @Override
+                            public void onStart() {
 //                            Toast.makeText(WorkRoomEditActivity.this, "I'm start", Toast.LENGTH_SHORT).show();
-                        }
+                            }
 
-                        @Override
-                        public void onSuccess(File file) {
-                            Log.i("path", file.getAbsolutePath());
-                            boolean ret = file.exists();
-                            mCurrentPhotoPath = file.getAbsolutePath();
-                            EventBus.getDefault().post(
-                                    new WorkRoomPicEvent(mCurrentPhotoPath));
-                        }
+                            @Override
+                            public void onSuccess(File file) {
+                                Log.i("path", file.getAbsolutePath());
+                                boolean ret = file.exists();
+                                mCurrentPhotoPath = file.getAbsolutePath();
+                                EventBus.getDefault().post(
+                                        new WorkRoomPicEvent(mCurrentPhotoPath));
+                            }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                            Log.i("err", "err");
-                        }
-                    }).launch();
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                Log.i("err", "err");
+                            }
+                        }).launch();
 
 
 
-        }else if(requestCode == 1)
-        {
-            finish();
+            }else if(requestCode == 1)
+            {
+                finish();
+            }
         }
+
     }
     String mCurrentPhotoPath;
     private static final int MY_PERMISSIONS_REQUEST_CALL_CAMERA = 2;

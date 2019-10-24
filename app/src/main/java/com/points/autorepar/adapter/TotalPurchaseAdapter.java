@@ -86,7 +86,7 @@ public class TotalPurchaseAdapter extends BaseAdapter {
 		viewHolder.num.setText("x"+mContent.num);
 //		viewHolder.username.setText("操作人:"+mContent.dealer_username);
 //
-		final String url = MainApplication.consts(this.mContext).BOS_SERVER+mContent.good_headurl+".png";
+		final String url = MainApplication.consts(this.mContext).BOS_SERVER+mContent.good_headurl+(mContent.good_headurl.contains(".png")?"":".png");
 		final BaseActivity activity = (BaseActivity) this.mContext;
 
 
