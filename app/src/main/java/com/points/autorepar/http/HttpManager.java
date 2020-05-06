@@ -63,7 +63,7 @@ public class HttpManager {
         Log.e(TAG, "startNormalPost:url" + url + "paras" + LoggerUtil.jsonFromObject(paras));
         JSONObject jsonPara = new JSONObject(paras);
         String postUrl = MainApplication.consts().HTTP_URL + url;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, postUrl, jsonPara, listener, errorListener);
+        XZSJsonObjectRequest request = new XZSJsonObjectRequest(Request.Method.GET, postUrl, jsonPara, listener, errorListener);
         Log.e(TAG, postUrl);
         Log.e(TAG, request.toString());
         mVolleyRequestQueue.add(request);
@@ -77,7 +77,7 @@ public class HttpManager {
         Log.e(TAG, "startNormalPost:url" + url + "paras" + LoggerUtil.jsonFromObject(paras));
         JSONObject jsonPara = new JSONObject(paras);
         String postUrl = MainApplication.consts().HTTP_URL + url;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, jsonPara, listener, errorListener);
+        XZSJsonObjectRequest request = new XZSJsonObjectRequest(Request.Method.POST, postUrl, jsonPara, listener, errorListener);
         Log.e(TAG, postUrl);
         Log.e(TAG, request.toString());
         mVolleyRequestQueue.add(request);
@@ -91,7 +91,7 @@ public class HttpManager {
         Log.e(TAG, "startNormalPost:url" + url + "paras" + LoggerUtil.jsonFromObject(paras));
         JSONObject jsonPara = new JSONObject(paras);
         String postUrl = MainApplication.consts().HTTP_URL + url;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, jsonPara, listener, errorListener);
+        XZSJsonObjectRequest request = new XZSJsonObjectRequest(Request.Method.POST, postUrl, jsonPara, listener, errorListener);
         Log.e(TAG, postUrl);
         Log.e(TAG, request.toString());
         mVolleyRequestQueue.add(request);
@@ -103,7 +103,7 @@ public class HttpManager {
                                                Response.ErrorListener errorListener) {
         Log.e(TAG, "startNormalPost:url" + url + "paras" + LoggerUtil.jsonFromObject(jsonObject));
         String postUrl = MainApplication.consts().HTTP_URL + url;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObject, listener, errorListener);
+        XZSJsonObjectRequest request = new XZSJsonObjectRequest(Request.Method.POST, postUrl, jsonObject, listener, errorListener);
         Log.e(TAG, postUrl);
         Log.e(TAG, request.toString());
         mVolleyRequestQueue.add(request);
@@ -117,7 +117,7 @@ public class HttpManager {
         Log.e(TAG, "startNormalPost:url" + url + "paras" + LoggerUtil.jsonFromObject(paras));
         JSONObject jsonPara = new JSONObject(paras);
         String postUrl = MainApplication.consts().HTTP_URL + url;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, jsonPara, listener, errorListener);
+        XZSJsonObjectRequest request = new XZSJsonObjectRequest(Request.Method.POST, postUrl, jsonPara, listener, errorListener);
         Log.e(TAG, postUrl);
         Log.e(TAG, request.toString());
         mVolleyRequestQueue.add(request);

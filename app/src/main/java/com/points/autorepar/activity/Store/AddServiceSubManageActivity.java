@@ -144,11 +144,11 @@ public class AddServiceSubManageActivity extends BaseActivity  {
 
         map.put("owner", LoginUserUtil.getTel(AddServiceSubManageActivity.this));
 
-        String url = "/warehousegoodssubtype/add";
+        String url = "";
 
         if(type == 1)
         {
-            url = "/warehousegoodssubtype/add";
+            url = "/warehousegoodssubtype/add2";
         }else{
             url = "/warehousegoodssubtype/update";
             map.put("id", id);
@@ -165,15 +165,7 @@ public class AddServiceSubManageActivity extends BaseActivity  {
                                 if(response.optInt("code") == 1 )
                                 {
                                     Toast.makeText(getApplicationContext(),"操作成功",Toast.LENGTH_SHORT).show();
-
-                                    JSONObject ret = response.optJSONObject("ret");
-
-                                    if(type ==1 ) {
-                                        String subids = ret.optString("_id");
-                                        submitBtnClicked2(subids);
-                                    }else {
-                                         finish();
-                                    }
+                                    finish();
                                 }else{
                                     Toast.makeText(getApplicationContext(),"操作失败",Toast.LENGTH_SHORT).show();
                                 }
@@ -197,79 +189,7 @@ public class AddServiceSubManageActivity extends BaseActivity  {
 
                             }
                         });
-
     }
-
-
-    ///提交添加
-    private void   submitBtnClicked2(String subids){
-
-        if (applycompany_et.getText().length() == 0) {
-            Toast.makeText(getApplicationContext(), "名称不能为空", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-
-
-
-        Map map = new HashMap();
-
-        JSONArray arrItmes = new JSONArray();
-
-        for(int i =0;i<subtypelist.size();i++)
-        {
-            ServiceManageSubInfo info = subtypelist.get(i);
-            arrItmes.put(info.id);
-        }
-        arrItmes.put(subids);
-        map.put("subids", arrItmes);
-        map.put("id", toptypeid);
-
-        map.put("owner", LoginUserUtil.getTel(AddServiceSubManageActivity.this));
-
-        String url = "/warehousegoodstoptype/addRef";
-
-
-
-        showWaitView();
-        HttpManager.getInstance(this).addContact(url,
-                map,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        stopWaitingView();
-                        if(response.optInt("code") == 1 )
-                        {
-                            Toast.makeText(getApplicationContext(),"操作成功",Toast.LENGTH_SHORT).show();
-                            finish();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"操作失败",Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, error.getMessage(), error);
-                        Handler mainHandler = new Handler(Looper.getMainLooper());
-                        mainHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                //已在主线程中，可以更新UI
-                                stopWaitingView();
-                                Toast.makeText(getApplicationContext(),"操作失败",Toast.LENGTH_SHORT).show();
-
-                            }
-                        });
-
-                    }
-                });
-
-    }
-
-
 
     /**umeng统计
      *
