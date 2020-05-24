@@ -16,6 +16,7 @@ import com.points.autorepar.MainApplication;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.bean.Contact;
 import com.points.autorepar.bean.RepairHistory;
+import com.points.autorepar.utils.SpeImageLoader.SpeImageLoaderUtil;
 
 import java.util.List;
 
@@ -84,22 +85,12 @@ public class RepairHistoryAdapter extends BaseAdapter {
         BaseActivity activity = (BaseActivity) this.m_context;
         if(customer != null){
             url = MainApplication.consts(this.m_context).BOS_SERVER+customer.getHeadurl();
-
         }
 
 
         final ViewHolder _holder = holder;
         holder.mHead.setImageResource(R.drawable.appicon);
-        activity.imageLoader.get(url, new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                _holder.mHead.setImageBitmap(imageContainer.getBitmap());
-            }
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                _holder.mHead.setImageResource(R.drawable.appicon);
-            }
-        },200,200);
+        SpeImageLoaderUtil.loadImage(this.m_context,_holder.mHead,url,R.drawable.appicon,R.drawable.appicon);
         if(customer !=null){
             holder.mName.setText(customer.getName());
             holder.mCarInfo.setText(customer.getCarCode()+" "+customer.getCarType());

@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
 import android.util.Log;
+
+import SpeDBHelper.SpeSqlteHelper;
 import cn.jpush.android.api.JPushInterface;
 
 
@@ -53,6 +55,9 @@ public class MainApplication extends Application {
         Log.d(TAG, "onCreate");
         super.onCreate();
         m_this = this;
+
+        SpeSqlteHelper.init();
+
         SDKInitializer.initialize(this);
         SDKInitializer.setCoordType(CoordType.BD09LL);
         JPushInterface.setDebugMode(consts.isDev()); 	// 设置开启日志,发布时请关闭日志
