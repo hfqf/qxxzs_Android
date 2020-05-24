@@ -4,11 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,53 +14,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.bigkoo.pickerview.TimePickerView;
 import com.points.autorepar.R;
 import com.points.autorepar.activity.ImgDisplayActivity;
 import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
 import com.points.autorepar.bean.Contact;
 import com.points.autorepar.bean.RepairHistory;
-import com.points.autorepar.bean.WorkRoomPicBackEvent;
-import com.points.autorepar.bean.WorkRoomPicEvent;
 import com.points.autorepar.common.Consts;
-import com.points.autorepar.http.HttpManager;
 import com.points.autorepar.lib.wheelview.WheelView;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.utils.DateUtil;
-import com.points.autorepar.utils.LoginUserUtil;
+import com.points.autorepar.utils.SpeImageLoader.SpeImageLoaderUtil;
 
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import de.greenrobot.event.EventBus;
 
-//import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
 /**
  * Created by points on 16/11/28.
@@ -75,10 +51,8 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
     private  final  String TAG = "WorkRoomCarInfoAdapter";
     private  WorkRoomEditActivity m_activity;
     private static String str_img1,str_img2,str_img3;
-    private static String mCurrentPhotoPath;
     private static int imgnum;
     private static  int curimgnum;
-    private int uploadImgCount;
     private ArrayList<String> picUrls = new ArrayList<String>();
 
 
@@ -151,24 +125,8 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
 
             }else{
                 holder.img1.setVisibility(View.VISIBLE);
-//                boolean status = str_img1.contains("http");
                 String strUrl = Consts.HTTP_URL+"/file/pic/"+str_img1+".png";
-//                holder.img2.setImageResource(R.drawable.addimg);
-//                if(status) {
-                    final ImageView imageView1 = holder.img1;
-
-
-                    m_activity.imageLoader.get(strUrl, new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            imageView1.setImageBitmap(imageContainer.getBitmap());
-                        }
-
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            imageView1.setImageResource(R.drawable.appicon);
-                        }
-                    },1000,1000);
+                SpeImageLoaderUtil.loadImage(m_activity,holder.img1,strUrl,R.drawable.appicon,R.drawable.appicon);
 
                 holder.img1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -240,10 +198,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                     }
                 });
 
-//                }else{
-//                    Bitmap bitmap = getLoacalBitmap(str_img1);
-//                    holder.img1.setImageBitmap(bitmap);
-//                }
             }
 
             if(str_img2 == null ||"".equalsIgnoreCase(str_img2) ||"null".equalsIgnoreCase(str_img2))
@@ -251,24 +205,9 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                 holder.img2.setVisibility(View.INVISIBLE);
             }else{
                 holder.img2.setVisibility(View.VISIBLE);
-//                boolean status = str_img2.contains("http");
-//                holder.img3.setImageResource(R.drawable.addimg);
+
                 String strUrl = Consts.HTTP_URL+"/file/pic/"+str_img2+".png";
-//                if(status) {
-                    final ImageView imageView1 = holder.img2;
-
-
-                    m_activity.imageLoader.get(strUrl, new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            imageView1.setImageBitmap(imageContainer.getBitmap());
-                        }
-
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            imageView1.setImageResource(R.drawable.appicon);
-                        }
-                    },1000,1000);
+                SpeImageLoaderUtil.loadImage(m_activity,holder.img2,strUrl,R.drawable.appicon,R.drawable.appicon);
 
                 holder.img2.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -339,13 +278,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                         return true;
                     }
                 });
-
-//
-//                }else{
-//                    Bitmap bitmap = getLoacalBitmap(str_img2);
-//                    holder.img2.setImageBitmap(bitmap);
-//                }
-
             }
 
 
@@ -359,11 +291,8 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
             holder.addimg.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
                             curimgnum = imgnum+1;
                             m_activity.showCamera();
-
-
                         }
             });
 
@@ -373,21 +302,8 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
             }else{
                 holder.img3.setVisibility(View.VISIBLE);
 
-//                boolean status = str_img3.contains("http");
-//                if(status) {
-                    final ImageView imageView1 = holder.img3;
                 String strUrl = Consts.HTTP_URL+"/file/pic/"+str_img3+".png";
-                    m_activity.imageLoader.get(strUrl, new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            imageView1.setImageBitmap(imageContainer.getBitmap());
-                        }
-
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            imageView1.setImageResource(R.drawable.appicon);
-                        }
-                    },1000,1000);
+                SpeImageLoaderUtil.loadImage(m_activity,holder.img3,strUrl,R.drawable.appicon,R.drawable.appicon);
 
                 holder.img3.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -457,10 +373,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                     }
                 });
 
-//                }else{
-//                    Bitmap bitmap = getLoacalBitmap(str_img3);
-//                    holder.img3.setImageBitmap(bitmap);
-//                }
             }
             return convertView;
         }
@@ -1060,155 +972,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
         }).build();
         pvTime.setDate(Calendar.getInstance());//注：根据需求来决定是否使用该方法（一般是精确到秒的情况），此项可以在弹出选择器的时候重新设置当前时间，避免在初始化之后由于时间已经设定，导致选中时间与当前时间不匹配的问题。
         pvTime.show();
-    }
-
-
-//    public void onActivityResult(int requestCode, int resultCode, Intent data)
-//    {
-//        // 当requestCode、resultCode同时为0，也就是处理特定的结果
-//        if (requestCode == 0 && resultCode == 1)
-//        {
-//            // 取出Intent里的Extras数据
-//            Bundle bundle = data.getExtras();
-//            // 取出Bundle中的数据
-//            String resultCity = bundle.getString("data");
-//            // 修改city文本框的内容
-////            city.setText(resultCity);
-//            set_img1 = resultCity;
-//        }
-//    }
-    private File createImageFile() {
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        File image = null;
-        try {
-            image = File.createTempFile(
-                    generateFileName(),  /* prefix */
-                    ".jpg",         /* suffix */
-                    storageDir      /* directory */
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    public static String generateFileName() {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        return imageFileName;
-    }
-    public void onEventMainThread(WorkRoomPicEvent event) {
-        String data = event.getMsgPic();
-
-        final String strPic = data;
-
-        if(curimgnum == 0)
-            return;
-        final int num = curimgnum;
-        m_activity.runOnUiThread(new Runnable() {
-            public void run() {
-                uploadFileToBOS(strPic,new File(strPic),num);
-            }
-        });
-
-        imgnum = curimgnum;
-
-//        curimgnum= 0;
-
-    }
-     void uploadFileToBOS(final String fileName, final File file,final int type) {
-
-        String str[] = fileName.split("/");
-        Map map = new HashMap();
-        String  filename = LoginUserUtil.getTel(m_context)+"_"+System.currentTimeMillis();
-        map.put("fileName", filename);
-        boolean ret = file.exists();
-        HttpManager.getInstance(m_context).startNormalFilePost("/file/picUpload", filename,file, map, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                String strUrl = jsonObject.optString("url");
-                int ret = jsonObject.optInt("code");
-                if(ret != 1)
-                {
-                    return ;
-                }
-
-                if(strUrl ==null || "".equalsIgnoreCase(strUrl))
-                {
-//                    url = strUrl;
-                }else{
-
-                        if(picUrls.size()<type)
-                        {
-                            picUrls.add(strUrl);
-                        }else{
-                            picUrls.set(type-1,strUrl);
-                        }
-
-                        if(type==1)
-                        {
-                            str_img1 = strUrl;
-                        }else if(type==2)
-                        {
-                            str_img2 = strUrl;
-                        }else if(type ==3)
-                        {
-                            str_img3 = strUrl;
-                        }
-                        setDataPic();
-                }
-//                initImg(url);
-
-                EventBus.getDefault().post(
-                        new WorkRoomPicBackEvent(mCurrentPhotoPath));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-//                Toast?.makeText(getApplicationContext(), "上传图片失败", Toast.LENGTH_SHORT).show();
-                int i=0;
-            }
-        });
-
-    }
-
-
-
-
-
-    public static Bitmap getLoacalBitmap(String url) {
-        try {
-            FileInputStream fis = new FileInputStream(url);
-            return BitmapFactory.decodeStream(fis);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Bitmap getHttpBitmap(String url) {
-        URL myFileUrl = null;
-        Bitmap bitmap = null;
-        try {
-
-            myFileUrl = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        try {
-            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-            conn.setConnectTimeout(0);
-            conn.setDoInput(true);
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            bitmap = BitmapFactory.decodeStream(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
     }
 
     public void init_Img(String url)
