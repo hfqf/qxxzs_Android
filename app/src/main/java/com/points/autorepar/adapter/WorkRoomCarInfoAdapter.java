@@ -38,8 +38,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-import de.greenrobot.event.EventBus;
-
 
 /**
  * Created by points on 16/11/28.
@@ -64,13 +62,9 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
 
         init_Img(rep.pics);
 
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
     }
 
     public void unRegisterBus(){
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
