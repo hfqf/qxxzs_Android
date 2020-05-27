@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.points.autorepar.R;
+import com.points.autorepar.activity.BaseActivity;
 import com.points.autorepar.activity.ImgDisplayActivity;
 import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
 import com.points.autorepar.bean.Contact;
@@ -286,7 +287,17 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
                             curimgnum = imgnum+1;
-                            m_activity.showCamera();
+                            m_activity.startSelectPicToUpload(0, new BaseActivity.speUploadListener() {
+                                @Override
+                                public void uploadContactSucceed(String newHeadUrl) {
+                                    Log.d(TAG,newHeadUrl);
+                                }
+
+                                @Override
+                                public void uploadUserSucceed(String newHeadUrl) {
+                                    Log.d(TAG,newHeadUrl);
+                                }
+                            });
                         }
             });
 
