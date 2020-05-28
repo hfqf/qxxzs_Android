@@ -49,9 +49,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
     public RepairHistory    m_data;
     private  final  String TAG = "WorkRoomCarInfoAdapter";
     private  WorkRoomEditActivity m_activity;
-    private static String str_img1,str_img2,str_img3;
-    private static int imgnum;
-    private static  int curimgnum;
     private ArrayList<String> picUrls = new ArrayList<String>();
 
 
@@ -112,273 +109,114 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
             holder.img2 = (ImageView) convertView.findViewById(R.id.img2);
             holder.img3 = (ImageView) convertView.findViewById(R.id.img3);
             holder.addimg =(ImageView)convertView.findViewById(R.id.addimg);
-            convertView.setTag(holder);
-
-            if(str_img1 == null ||"".equalsIgnoreCase(str_img1)||"null".equalsIgnoreCase(str_img1))
-            {
-                holder.img1.setVisibility(View.INVISIBLE);
-
-            }else{
-                holder.img1.setVisibility(View.VISIBLE);
-                String strUrl = Consts.HTTP_URL+"/file/pic/"+str_img1+".png";
-                SpeImageLoaderUtil.loadImage(m_activity,holder.img1,strUrl,R.drawable.appicon,R.drawable.appicon);
-
-                holder.img1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//
-                        Intent inte = new Intent(m_context,
-                                ImgDisplayActivity.class);
-                        Bundle bu = new Bundle();
-                        ArrayList imglist = new ArrayList();
-                        if(!"".equalsIgnoreCase(str_img1)&& !"null".equalsIgnoreCase(str_img1))
-                        {
-                            String url= Consts.HTTP_URL+"/file/pic/" +str_img1+".png";
-                            imglist.add(url);
-                        }
-
-                        if(!"".equalsIgnoreCase(str_img2)&& !"null".equalsIgnoreCase(str_img2))
-                        {
-                            String url= Consts.HTTP_URL+"/file/pic/" +str_img2+".png";
-                            imglist.add(url);
-                        }
-
-                        if(!"".equalsIgnoreCase(str_img3)&& !"null".equalsIgnoreCase(str_img3))
-                        {
-                            String url= Consts.HTTP_URL+"/file/pic/" +str_img3+".png";
-                            imglist.add(url);
-                        }
-
-                        bu.putSerializable("images", (Serializable) imglist);
-                        inte.putExtra("bundle", bu);
-                        inte.putExtra("position", 0);
-                        m_context.startActivity(inte);
-                    }
-                });
-
-                holder.img1.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        final AlertDialog.Builder normalDialog =
-                                new AlertDialog.Builder(m_activity);
-                        normalDialog.setTitle("删除此照片,不可恢复!");
-                        normalDialog.setMessage("确认删除?");
-                        normalDialog.setPositiveButton("确定",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-
-//                                            initImg("");
-                                            if(picUrls.size()>0)
-                                            {
-                                                curimgnum--;
-                                                str_img1 = "";
-                                                picUrls.remove(0);
-                                                setDataPic();
-                                            }
-
-                                    }
-                                });
-                        normalDialog.setNegativeButton("取消",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //...To-do
-                                    }
-                                });
-                        // 显示
-                        normalDialog.show();
-                        return true;
-                    }
-                });
-
-            }
-
-            if(str_img2 == null ||"".equalsIgnoreCase(str_img2) ||"null".equalsIgnoreCase(str_img2))
-            {
-                holder.img2.setVisibility(View.INVISIBLE);
-            }else{
-                holder.img2.setVisibility(View.VISIBLE);
-
-                String strUrl = Consts.HTTP_URL+"/file/pic/"+str_img2+".png";
-                SpeImageLoaderUtil.loadImage(m_activity,holder.img2,strUrl,R.drawable.appicon,R.drawable.appicon);
-
-                holder.img2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//
-                        Intent inte = new Intent(m_context,
-                                ImgDisplayActivity.class);
-                        Bundle bu = new Bundle();
-                        ArrayList imglist = new ArrayList();
-                        if(!"".equalsIgnoreCase(str_img1) && !"null".equalsIgnoreCase(str_img1))
-                        {
-                            String url= Consts.HTTP_URL+"/file/pic/" +str_img1+".png";
-                            imglist.add(url);
-                        }
-
-                        if(!"".equalsIgnoreCase(str_img2) && !"null".equalsIgnoreCase(str_img2))
-                        {
-                            String url= Consts.HTTP_URL+"/file/pic/" +str_img2+".png";
-                            imglist.add(url);
-                        }
-
-                        if(!"".equalsIgnoreCase(str_img3)&& !"null".equalsIgnoreCase(str_img3))
-                        {
-                            String url= Consts.HTTP_URL+"/file/pic/" +str_img3+".png";
-                            imglist.add(url);
-                        }
-
-                        bu.putSerializable("images", (Serializable) imglist);
-                        inte.putExtra("bundle", bu);
-                        inte.putExtra("position", 0);
-                        m_context.startActivity(inte);
-                    }
-                });
-
-                holder.img2.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        final AlertDialog.Builder normalDialog =
-                                new AlertDialog.Builder(m_activity);
-                        normalDialog.setTitle("删除此照片,不可恢复!");
-                        normalDialog.setMessage("确认删除?");
-                        normalDialog.setPositiveButton("确定",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-
-                                            if(picUrls.size()>0)
-                                            {
-                                                curimgnum--;
-                                                str_img2 = "";
-                                                picUrls.remove(1);
-                                                setDataPic();
-                                            }
-
-
-                                    }
-                                });
-                        normalDialog.setNegativeButton("取消",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //...To-do
-                                    }
-                                });
-                        // 显示
-                        normalDialog.show();
-                        return true;
-                    }
-                });
-            }
-
 
             holder.addimg.setImageResource(R.drawable.addimg);
-            if(imgnum == 3)
-            {
+            if(picUrls.size() == 3) {
                 holder.addimg.setVisibility(View.INVISIBLE);
             }else{
                 holder.addimg.setVisibility(View.VISIBLE);
             }
-            holder.addimg.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            curimgnum = imgnum+1;
-                            m_activity.startSelectPicToUpload(0, new BaseActivity.speUploadListener() {
-                                @Override
-                                public void uploadContactSucceed(String newHeadUrl) {
-                                    Log.d(TAG,newHeadUrl);
-                                }
 
-                                @Override
-                                public void uploadUserSucceed(String newHeadUrl) {
-                                    Log.d(TAG,newHeadUrl);
-                                }
-                            });
+            holder.addimg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    m_activity.startSelectPicToUpload(0, new BaseActivity.speUploadListener() {
+                        @Override
+                        public void uploadContactSucceed(String newHeadUrl) {
+                            Log.d(TAG,newHeadUrl);
+                            picUrls.add(newHeadUrl);
+
+                            String str = "";
+                            for(int i=0;i<picUrls.size();i++){
+                                String _s = picUrls.get(i)+",";
+                                str +=  _s;
+                            }
+                            m_data.pics = str;
+                            notifyDataSetChanged();
                         }
+
+                        @Override
+                        public void uploadUserSucceed(String newHeadUrl) {
+                            Log.d(TAG,newHeadUrl);
+                            picUrls.add(newHeadUrl);
+
+                            String str = "";
+                            for(int i=0;i<picUrls.size();i++){
+                                String _s = picUrls.get(i)+",";
+                                str +=  _s;
+                            }
+                            m_data.pics = str;
+                            notifyDataSetChanged();
+                        }
+                    });
+                }
+            });
+            convertView.setTag(holder);
+            holder.img1.setVisibility(View.INVISIBLE);
+            holder.img2.setVisibility(View.INVISIBLE);
+            holder.img3.setVisibility(View.INVISIBLE);
+            for(int i=0;i<picUrls.size();i++){
+                String strUrl = "";
+                if(picUrls.get(i).contains("png")){
+                    strUrl = Consts.HTTP_URL+"/file/pic/"+picUrls.get(i);
+                }else {
+                    strUrl = Consts.HTTP_URL+"/file/pic/"+picUrls.get(i)+".png";
+                }
+                if(i==0){
+                    holder.img1.setVisibility(View.VISIBLE);
+                    SpeImageLoaderUtil.loadImage(m_activity,holder.img1,strUrl,R.drawable.appicon,R.drawable.appicon);
+                }else if (i==1){
+                    holder.img2.setVisibility(View.VISIBLE);
+                    SpeImageLoaderUtil.loadImage(m_activity,holder.img2,strUrl,R.drawable.appicon,R.drawable.appicon);
+                }else if (i==2){
+                    holder.img3.setVisibility(View.VISIBLE);
+                    SpeImageLoaderUtil.loadImage(m_activity,holder.img3,strUrl,R.drawable.appicon,R.drawable.appicon);
+                }
+            }
+
+            holder.img1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkFullImage(0);
+                }
             });
 
-            if(str_img3 == null ||"".equalsIgnoreCase(str_img3)||"null".equalsIgnoreCase(str_img3))
-            {
-                holder.img3.setVisibility(View.INVISIBLE);
-            }else{
-                holder.img3.setVisibility(View.VISIBLE);
+            holder.img1.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    deleteImg(0);
+                    return true;
+                }
+            });
+            holder.img2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkFullImage(1);
+                }
+            });
 
-                String strUrl = Consts.HTTP_URL+"/file/pic/"+str_img3+".png";
-                SpeImageLoaderUtil.loadImage(m_activity,holder.img3,strUrl,R.drawable.appicon,R.drawable.appicon);
+            holder.img2.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    deleteImg(1);
+                    return true;
+                }
+            });
+            holder.img3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkFullImage(2);
+                }
+            });
 
-                holder.img3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//
-                        Intent inte = new Intent(m_context,
-                                ImgDisplayActivity.class);
-                        Bundle bu = new Bundle();
-                        ArrayList imglist = new ArrayList();
-                        if(!"".equalsIgnoreCase(str_img1)&& !"null".equalsIgnoreCase(str_img1))
-                        {
-                            String url= Consts.HTTP_URL+"/file/pic/" +str_img1+".png";
-                            imglist.add(url);
-                        }
+            holder.img3.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    deleteImg(2);
+                    return true;
+                }
+            });
 
-                        if(!"".equalsIgnoreCase(str_img2)&& !"null".equalsIgnoreCase(str_img2))
-                        {
-                            String url= Consts.HTTP_URL+"/file/pic/" +str_img2+".png";
-                            imglist.add(url);
-                        }
-
-                        if(!"".equalsIgnoreCase(str_img3)&& !"null".equalsIgnoreCase(str_img3))
-                        {
-                            String url= Consts.HTTP_URL+"/file/pic/" +str_img3+".png";
-                            imglist.add(url);
-                        }
-
-                        bu.putSerializable("images", (Serializable) imglist);
-                        inte.putExtra("bundle", bu);
-                        inte.putExtra("position", 0);
-                        m_context.startActivity(inte);
-                    }
-                });
-
-                holder.img3.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        final AlertDialog.Builder normalDialog =
-                                new AlertDialog.Builder(m_activity);
-                        normalDialog.setTitle("删除此照片,不可恢复!");
-                        normalDialog.setMessage("确认删除?");
-                        normalDialog.setPositiveButton("确定",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                            if(picUrls.size()>0)
-                                            {
-                                                curimgnum--;
-                                                str_img3 = "";
-                                                picUrls.remove(2);
-                                                setDataPic();
-                                            }
-
-                                    }
-                                });
-                        normalDialog.setNegativeButton("取消",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //...To-do
-                                    }
-                                });
-                        // 显示
-                        normalDialog.show();
-                        return true;
-                    }
-                });
-
-            }
             return convertView;
         }
         else if( position > 0 && position < 7)
@@ -979,85 +817,60 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
         pvTime.show();
     }
 
-    public void init_Img(String url)
-    {
-        if(url== null || "".equalsIgnoreCase(url))
-        {
-            str_img1 = "";
-            str_img2 = "";
-            str_img3 = "";
-            imgnum = 0;
+
+    public void init_Img(String url) {
+        if(url== null || "".equalsIgnoreCase(url)){
+
         }else{
             String[] parts = url.split(",");
-            imgnum = parts.length;
-
-            if (parts != null) {
-                if (parts.length != 0) {
-                    if (parts.length == 1) {
-                        str_img1 = parts[0];
-                        str_img2= "";
-                        str_img3 = "";
-                        imgnum = 1;
-                        picUrls.add(str_img1);
-                    }
-                    if (parts.length == 2) {
-                        str_img1 = parts[0];
-                        str_img2 = parts[1];
-                        str_img3 = "";
-                        imgnum = 2;
-                        picUrls.add(str_img1);
-                        picUrls.add(str_img2);
-                    }
-                    if (parts.length == 3) {
-                        str_img1 = parts[0];
-                        str_img2 = parts[1];
-                        str_img3 = parts[2];
-                        imgnum = 3;
-                        picUrls.add(str_img1);
-                        picUrls.add(str_img2);
-                        picUrls.add(str_img3);
-
-                    }
-                }
+            for(int i=0;i<parts.length;i++){
+                picUrls.add(parts[i]);
             }
         }
         m_data.pics = url;
         notifyDataSetChanged();
     }
 
-    void setDataPic()
-    {
-        String url = "";
-        str_img1 ="";
-        str_img2 ="";
-        str_img3 = "";
-        if(picUrls.size() == 0)
-        {
-            url = "";
-        }else {
-            for (int i = 0; i < picUrls.size(); i++) {
-                if (i == 0) {
-                    url = picUrls.get(0);
-                } else {
-                    url = url + "," + picUrls.get(i);
-                }
 
-                switch (i)
-                {
-                    case 0:
-                        str_img1 = picUrls.get(i);
-                        break;
-                    case 1:
-                        str_img2 = picUrls.get(i);
-                        break;
-                    case 2:
-                        str_img3 = picUrls.get(i);
-                        break;
-                }
-            }
-        }
-        m_data.pics = url;
-        notifyDataSetChanged();
+    private void checkFullImage(int index){
+        Intent inte = new Intent(m_context,
+                ImgDisplayActivity.class);
+        Bundle bu = new Bundle();
+        bu.putSerializable("images", (Serializable) picUrls);
+        inte.putExtra("bundle", bu);
+        inte.putExtra("position", index);
+        m_context.startActivity(inte);
+    }
+
+    private void deleteImg(final int index){
+        final AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(m_activity);
+        normalDialog.setTitle("删除此照片,不可恢复!");
+        normalDialog.setMessage("确认删除?");
+        normalDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(picUrls.size()>0) {
+                            picUrls.remove(index);
+                            String str = "";
+                            for(int i=0;i<picUrls.size();i++){
+                                String _s = picUrls.get(i)+",";
+                                str +=  _s;
+                            }
+                            m_data.pics = str;
+                            notifyDataSetChanged();
+                        }
+
+                    }
+                });
+        normalDialog.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        normalDialog.show();
     }
 
 }
