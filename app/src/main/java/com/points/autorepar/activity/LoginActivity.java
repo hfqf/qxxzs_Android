@@ -220,7 +220,7 @@ public class LoginActivity extends BaseActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
-                                        String url =   "https://fir.im/qxxzsAndroid";
+                                        String url =   "https://autorepairhelper.oss-cn-hangzhou.aliyuncs.com/app/AutoRepairHelper.apk";
                                         Intent intent = new Intent();
                                         intent.setAction("android.intent.action.VIEW");
                                         Uri content_url = Uri.parse(url);
