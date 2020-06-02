@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
@@ -138,16 +139,11 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
 
 
         Window window = getWindow();
-//设置透明状态栏,这样才能让 ContentView 向上
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-//需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-////设置状态栏颜色
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//            window.setStatusBarColor(getResources().getColor(R.color.colorTabbarTitleNormal));
-//        }
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            window.setStatusBarColor(getResources().getColor(R.color.white));
+        }
 
         LayoutInflater inflater = getLayoutInflater();
         m_loadingView  = (LinearLayout) inflater.inflate(R.layout.loadingviewlayout, null);

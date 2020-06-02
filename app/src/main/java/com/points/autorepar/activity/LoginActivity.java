@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
-import android.support.annotation.UiThread;
+//import android.support.v4.app.FragmentManager;
+import android.support.design.widget.BottomSheetDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
@@ -37,7 +39,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,21 +82,6 @@ public class LoginActivity extends BaseActivity {
      */
     private  void  distributViews(){
 
-
-        m_head = (ImageView) findViewById(R.id.login_icon);
-        imageLoader.get(LoginUserUtil.gethHeadUrl(this), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                m_head.setImageBitmap(imageContainer.getBitmap());
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                m_head.setImageResource(R.drawable.appicon);
-            }
-        },1000,1000);
-
-
         m_registerBtn = (Button) findViewById(R.id.login_register);
         m_registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,18 +93,23 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+
         m_loginBtn = (Button) findViewById(R.id.login_login);
         m_loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+//                BottomSheetDialog dialog = new BottomSheetDialog(m_this);
+//                View view = LayoutInflater.from(LoginActivity.this).inflate(R.layout.design_bottom_sheet_dialog1, null);
+//                dialog.setContentView(view);
+//                dialog.show();
                 startLogin();
 
             }
         });
 
 
-         mRoleCheckBox = (CheckBox) findViewById(R.id.checkBox);
+        mRoleCheckBox = (CheckBox) findViewById(R.id.checkBox);
         mRoleCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -153,38 +144,13 @@ public class LoginActivity extends BaseActivity {
         mVersion.setText(String.valueOf(Consts.getLocalVersionName(this)));
     }
 
-
-
-
-
-
-
     /**umeng统计
      *
      */
-
-
     public void onResume() {
         isForeground = true;
         super.onResume();
-
-
-
         MobclickAgent.onResume(this);
-        imageLoader.get(LoginUserUtil.gethHeadUrl(this), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                m_head.setImageBitmap(imageContainer.getBitmap());
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                m_head.setImageResource(R.drawable.appicon);
-            }
-        },1000,1000);
-
-
-
     }
 
     private  void checkUpdate(){
@@ -386,8 +352,6 @@ public class LoginActivity extends BaseActivity {
       *设置用户本地标识,处理返回的数据
       */
     private void processReturnedData(JSONObject userInfoObject) {
-
-
         String key1 = getApplicationContext().getResources().getString(R.string.key_loginer_name);
         String key2 = getApplicationContext().getResources().getString(R.string.key_loginer_tel);
         String key3 = getApplicationContext().getResources().getString(R.string.key_loginer_level);
@@ -580,13 +544,9 @@ public class LoginActivity extends BaseActivity {
      * 检查此次登录是否需要同步数据
      */
     private void  checkAsync(JSONObject userInfoObject){
-
         DBService.deleteAllContact();
         getAllContactsFromServer(userInfoObject.optString("creatertel"));
-
     }
-
-
 
     /**
      *  清除本地联系人数据,同时同步服务器上的所有联系人数据
