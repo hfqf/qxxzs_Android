@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: :ncalendar-release:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/ncalendar-release.aar/75e8a5a9c5a1745acfef067282143acb/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/ncalendar-release.aar/75e8a5a9c5a1745acfef067282143acb/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
