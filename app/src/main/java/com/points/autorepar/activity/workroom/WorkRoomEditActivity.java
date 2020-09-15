@@ -1049,38 +1049,13 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
     public void  onWorkRoomRepairItemsFragmentInteraction(Uri uri){
 
     }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        getTakePhoto().onActivityResult(requestCode, resultCode, data);
         if(resultCode != RESULT_CANCELED){
             // 当requestCode、resultCode同时为0，也就是处理特定的结果
-            if (requestCode == 2 )
-            {
-                File file = new File(mCurrentPhotoPath);
-                Luban.with(WorkRoomEditActivity.this)
-                        .load(file)
-                        .setCompressListener(new OnCompressListener() {
-                            @Override
-                            public void onStart() {
-//                            Toast.makeText(WorkRoomEditActivity.this, "I'm start", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onSuccess(File file) {
-                                Log.i("path", file.getAbsolutePath());
-                                boolean ret = file.exists();
-                                mCurrentPhotoPath = file.getAbsolutePath();
-                                EventBus.getDefault().post(
-                                        new WorkRoomPicEvent(mCurrentPhotoPath));
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                e.printStackTrace();
-                                Log.i("err", "err");
-                            }
-                        }).launch();
-
-
+            if (requestCode == 2 ) {
 
             }else if(requestCode == 1)
             {
@@ -1089,77 +1064,9 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
         }
 
     }
-    String mCurrentPhotoPath;
-    private static final int MY_PERMISSIONS_REQUEST_CALL_CAMERA = 2;
-    public void showCamera()
-    {
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CALL_PHONE},
-                        MY_PERMISSIONS_REQUEST_CALL_CAMERA);
-            }else {
-                takepic();
-            }
-//        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-        if (requestCode == MY_PERMISSIONS_REQUEST_CALL_CAMERA) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                takepic();
-            } else {
-                showToast("权限已拒绝,请手动打开");
-            }
-        }else if (requestCode == MY_PERMISSIONS_REQUEST_CALL_CAMERA){
-            for (int i = 0; i < grantResults.length; i++) {
-                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                    //判断是否勾选禁止后不再询问
-                    boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(WorkRoomEditActivity.this, permissions[i]);
-                    if (showRequestPermission) {
-                        showToast("权限未申请");
-                    }
-                }
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-    private void showToast(String string){
-        Toast.makeText(WorkRoomEditActivity.this,string,Toast.LENGTH_LONG).show();
-    }
-
-
-    public void takepic()
-    {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-//                            File photoFile = null;
-            mCurrentPhotoPath = Environment.getExternalStorageDirectory()+ "/temp/"+System.currentTimeMillis() + ".jpg";
-            File file=new File(mCurrentPhotoPath);
-            Uri imageUri = Uri.fromFile(file);
-            // Continue only if the File was successfully created
-            if (file != null) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        imageUri);
-//                                m_takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
-            }
-        }
-        startActivityForResult(takePictureIntent, 2);
-
-    }
-
 
     public void clearownemoney(RepairHistory m_data){
-
-
         try {
-
-
             Map cv = new HashMap();
             cv.put("id", m_data.idfromnode);
 
@@ -1219,9 +1126,7 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
 
                     }
                     EventBus.getDefault().post(new RefEvent());
-//                    Toast.makeText(WorkRoomEditActivity.this,"更新成功",Toast.LENGTH_SHORT).show();
                 }else {
-//                    Toast.makeText(WorkRoomEditActivity.this,"更新失败",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -1235,4 +1140,7 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
         });
     }
 
+    public void onRequestPermissionsResult() {
+
+    }
 }

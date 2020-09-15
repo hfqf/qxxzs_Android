@@ -121,7 +121,7 @@ public class ADTReapirItemInfo implements Parcelable {
             isNumber = false;
         }
         if(isNumber){
-            item.currentPrice = (Integer.parseInt(item.price)+Integer.parseInt(item.workhourpay))*Integer.parseInt(item.num);
+            item.currentPrice = (int)((Float.parseFloat(item.price)+Float.parseFloat(item.workhourpay))*Float.parseFloat(item.num));
         }else {
             item.currentPrice = 0;
         }

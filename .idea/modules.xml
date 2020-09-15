@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BaseLibModule/BaseLibModule.iml" filepath="$PROJECT_DIR$/BaseLibModule/BaseLibModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BuContactmodule/BuContactmodule.iml" filepath="$PROJECT_DIR$/BuContactmodule/BuContactmodule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BuWarehouseModule/BuWarehouseModule.iml" filepath="$PROJECT_DIR$/BuWarehouseModule/BuWarehouseModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qxxzs_Android2.iml" filepath="$PROJECT_DIR$/qxxzs_Android2.iml" />
+    </modules>
+  </component>
+</project>

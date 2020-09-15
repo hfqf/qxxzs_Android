@@ -636,11 +636,7 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
         map.put("name", mName.getText().toString());
         map.put("tel", mTel.getText().toString());
         map.put("carcode", mCarCode.getText().toString());
-        if(mCarType_str == null || mCarType_str.equalsIgnoreCase("null"))
-        {
-            mCarType_str = "";
-        }
-        map.put("cartype", mCarType_str);
+        map.put("cartype", mCarType.getText().toString());
         map.put("carId", mKey_str);
         map.put("owner", LoginUserUtil.getTel(this).toString());
         map.put("headurl",m_headUrl == null ?"":m_headUrl);

@@ -59,6 +59,7 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.points.autorepar.utils.MatrixImageView;
+import com.points.autorepar.utils.SpeImageLoader.SpeImageLoaderUtil;
 
 @SuppressLint("UseSparseArrays")
 public class ImgDisplayActivity extends BaseActivity implements OnClickListener {
@@ -197,34 +198,7 @@ public class ImgDisplayActivity extends BaseActivity implements OnClickListener 
 				final MatrixImageView imgView = (MatrixImageView) initView
 						.findViewById(R.id.display_img);
 				String url = (String)imageList.get(position);
-				mLoader.displayImage(url, imgView,
-						clazzImageOption);
-				mLoader.loadImage(url,
-						clazzImageOption, new ImageLoadingListener() {
-
-							@Override
-							public void onLoadingStarted(String arg0, View arg1) {
-								imgView.setEnabled(false);
-							}
-
-							@Override
-							public void onLoadingFailed(String arg0, View arg1,
-                                                        FailReason arg2) {
-							}
-
-							@Override
-							public void onLoadingComplete(String arg0, View arg1,
-                                                          Bitmap arg2) {
-								imgView.setEnabled(true);
-							}
-
-							@Override
-							public void onLoadingCancelled(String arg0, View arg1) {
-							}
-						});
-				if (isShowButton) {
-
-				}
+				SpeImageLoaderUtil.loadUrlImage(ImgDisplayActivity.this,imgView,url);
 				container.addView(initView, 0);
 				return initView;
 			}

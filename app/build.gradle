@@ -16,15 +16,15 @@ android {
 
     compileSdkVersion 26
 
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '26.0.0'
 
 
     defaultConfig {
         applicationId "com.points.autorepar"
         minSdkVersion 18 //4.0
         targetSdkVersion 26
-        versionCode  74
-        versionName "3.6.2.2"
+        versionCode  78
+        versionName "3.6.2.6"
 
         flavorDimensions "21"
 
@@ -136,7 +136,9 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':BaseLibModule')
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/pinyin4j-2.5.0.jar')
     implementation files('libs/zxing.jar')
@@ -186,5 +188,7 @@ dependencies {
     implementation 'com.squareup.okhttp:okhttp:2.4.0'
     implementation 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
     implementation 'com.squareup.picasso:picasso:2.4.0'
+
+
 
 }
