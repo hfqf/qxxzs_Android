@@ -114,12 +114,17 @@ public class RepairHistoryAdapter extends BaseAdapter {
                 holder.mTotalPrice1.setText("优惠：￥"+con.saleMoney);
             }
 
-            if(Integer.parseInt(con.ownnum)==0||"".equalsIgnoreCase(con.saleMoney)){
+            if(con.ownnum == null){
                 holder.mTotalPrice.setVisibility(View.GONE);
             }else {
-                holder.mTotalPrice.setVisibility(View.VISIBLE);
-                holder.mTotalPrice.setText("欠：￥"+con.ownnum);
+                if(Integer.parseInt(con.ownnum)==0||"".equalsIgnoreCase(con.saleMoney)){
+                    holder.mTotalPrice.setVisibility(View.GONE);
+                }else {
+                    holder.mTotalPrice.setVisibility(View.VISIBLE);
+                    holder.mTotalPrice.setText("欠：￥"+con.ownnum);
+                }
             }
+
             int money = Integer.parseInt(con.totalPrice)-Integer.parseInt(con.saleMoney);
             holder.mTotal.setText("实 ￥："+money);
 
