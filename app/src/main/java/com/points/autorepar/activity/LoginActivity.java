@@ -14,10 +14,15 @@ import android.os.Looper;
 import android.provider.Settings;
 //import android.support.v4.app.FragmentManager;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.*;
 
 import cn.jpush.android.api.JPushInterface;
@@ -27,6 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.points.autorepar.MainApplication;
 import com.points.autorepar.common.Consts;
+import com.points.autorepar.dialog.PrivacyBottomDialog;
 import com.points.autorepar.http.HttpManager;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.bean.Contact;
@@ -41,6 +47,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class LoginActivity extends BaseActivity {
@@ -74,8 +82,17 @@ public class LoginActivity extends BaseActivity {
         m_container =  bg;
         distributViews();
         checkUpdate();
-    }
 
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                checkPrivacy();
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(task, 000);
+    }
 
     /**
      * 给xml控件分配变量
@@ -98,13 +115,7 @@ public class LoginActivity extends BaseActivity {
         m_loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                BottomSheetDialog dialog = new BottomSheetDialog(m_this);
-//                View view = LayoutInflater.from(LoginActivity.this).inflate(R.layout.design_bottom_sheet_dialog1, null);
-//                dialog.setContentView(view);
-//                dialog.show();
-                startLogin();
-
+                startLogin(false);
             }
         });
 
@@ -151,6 +162,14 @@ public class LoginActivity extends BaseActivity {
         isForeground = true;
         super.onResume();
         MobclickAgent.onResume(this);
+
+    }
+
+    private void checkPrivacy(){
+        if(LoginUserUtil.needShowPrivacy(m_this)){
+            Intent intent = new Intent(m_this,PrivacyActivity.class);
+            startActivity(intent);
+        }
     }
 
     private  void checkUpdate(){
@@ -204,7 +223,7 @@ public class LoginActivity extends BaseActivity {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             //...To-do
-                                            startLogin();
+                                            startLogin(true);
                                         }
                                     });
                         }
@@ -213,7 +232,7 @@ public class LoginActivity extends BaseActivity {
                         normalDialog.show();
 
                     }else{
-                        startLogin();
+                        startLogin(true);
                     }
 
 
@@ -224,7 +243,7 @@ public class LoginActivity extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                startLogin();
+                startLogin(true);
             }
         });
     }
@@ -249,16 +268,23 @@ public class LoginActivity extends BaseActivity {
     /**
      * 登录
      */
-    private  void startLogin(){
-        if(mNameText.getText().length() == 0){
-            Toast.makeText(getApplicationContext(),"用户名不能为空",Toast.LENGTH_SHORT).show();
-            return;
+    private  void startLogin(boolean autologin){
+
+        if(autologin){
+            if(mNameText.getText().length() == 0 || mPwdText.getText().length() == 0){
+                return;
+            }
+        }else {
+            if(mNameText.getText().length() == 0 ){
+                Toast.makeText(getApplicationContext(),"用户名不能为空",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(mPwdText.getText().length() == 0){
+                Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();;
+                return;
+            }
         }
 
-        if(mPwdText.getText().length() == 0){
-            Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();;
-            return;
-        }
 
         hideKeyboard();
 

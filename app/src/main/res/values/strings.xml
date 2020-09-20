@@ -72,6 +72,8 @@
     <string name="key_loginer_isCreater">key_loginer_isCreater</string>
     <string name="key_loginer_id">key_loginer_id</string>
 
+    <string name="key_loginer_privacy">key_loginer_privacy</string>
+
 
     <string name="KEY_loginer_IS_CONTACT_AYSNED">KEY_IS_CONTACT_AYSNED</string>
     <string name="KEY_loginer_IS_REPAIR_AYSNED">KEY_IS_REPAIR_AYSNED</string>

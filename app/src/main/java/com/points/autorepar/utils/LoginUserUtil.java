@@ -529,4 +529,32 @@ public class LoginUserUtil {
         }
         return true;
     }
+
+
+    public static  boolean  needShowPrivacy(Context context){
+        if(context == null){
+            return  true;
+        }
+        String key = context.getResources().getString(R.string.key_loginer_privacy);
+        SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
+        String ret = sp.getString(key, null);
+        if(ret == null)
+        {
+            return  true;
+        }
+        if(ret.equalsIgnoreCase("1"))
+        {
+            return  false;
+        }
+        return true;
+    }
+
+    public static void setPrivacy(Context context){
+        SharedPreferences sp = context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        String key = context.getResources().getString(R.string.key_loginer_privacy);
+        editor.putString(key, "1");
+        editor.commit();
+    }
+
 }

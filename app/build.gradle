@@ -14,17 +14,17 @@ android {
         }
     }
 
-    compileSdkVersion 26
+    compileSdkVersion 27
 
-    buildToolsVersion '26.0.0'
+    buildToolsVersion '27.0.3'
 
 
     defaultConfig {
         applicationId "com.points.autorepar"
         minSdkVersion 18 //4.0
         targetSdkVersion 26
-        versionCode  80
-        versionName "3.6.2.8"
+        versionCode  81
+        versionName "3.7.0"
 
         flavorDimensions "21"
 

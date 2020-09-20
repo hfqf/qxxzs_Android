@@ -22,6 +22,7 @@ import com.points.autorepar.common.Consts;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.utils.ExampleUtil;
 import com.tencent.smtt.sdk.QbSdk;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -72,6 +73,7 @@ public class MainApplication extends Application {
         PlatformConfig.setWeixin("wxa42d0599cb05e642", "38dc4064cec86568247f68f6500a5e4a");
         PlatformConfig.setQQZone("1105896878", "KnZBOHak1zXW6ElA");
         UMShareAPI.get(this);
+
         QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
 
             @Override
@@ -236,8 +238,6 @@ public class MainApplication extends Application {
 
     public static void setCreatePushID(Context m_context,String setCreatePushID)
     {
-
-
         SharedPreferences sp = m_context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("CreatePushID", setCreatePushID);
@@ -523,8 +523,6 @@ public class MainApplication extends Application {
 
     public static void setshopserviceName(Context m_context,String shopserviceName)
     {
-
-
         SharedPreferences sp = m_context.getSharedPreferences(key_sp, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("shopserviceName", shopserviceName);

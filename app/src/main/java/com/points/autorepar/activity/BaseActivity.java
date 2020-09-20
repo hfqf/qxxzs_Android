@@ -61,6 +61,7 @@ import com.points.autorepar.platerecognizer.base.BitmapCache;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.utils.DateUtil;
 import com.points.autorepar.utils.LoginUserUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
@@ -750,4 +751,16 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+
+    }
 }
