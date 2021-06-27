@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/agentweb-4.0.2.aar/553dceb250aae367163236e8a4260469/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/agentweb-4.0.2.aar/553dceb250aae367163236e8a4260469/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/agentweb-4.0.2.aar/553dceb250aae367163236e8a4260469/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.just.agentweb/agentweb/4.0.2/61acc475bc7c8079f8a1394f30e8fe817c0f01e1/agentweb-4.0.2-javadoc.jar!/" />

@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/loadingbar-1.4.4.aar/551f4a568412827d02c98dc47679353c/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/loadingbar-1.4.4.aar/551f4a568412827d02c98dc47679353c/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/loadingbar-1.4.4.aar/551f4a568412827d02c98dc47679353c/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.dyhdyh.loadingbar/loadingbar/1.4.4/297d1c0428dfbf9dbb341db6a6cbd2b4caa85b2d/loadingbar-1.4.4-javadoc.jar!/" />

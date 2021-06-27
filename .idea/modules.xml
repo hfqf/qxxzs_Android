@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BaseLibModule/BaseLibModule.iml" filepath="$PROJECT_DIR$/BaseLibModule/BaseLibModule.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BuContactmodule/BuContactmodule.iml" filepath="$PROJECT_DIR$/BuContactmodule/BuContactmodule.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BuWarehouseModule/BuWarehouseModule.iml" filepath="$PROJECT_DIR$/BuWarehouseModule/BuWarehouseModule.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/qxxzs_Android2.iml" filepath="$PROJECT_DIR$/qxxzs_Android2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/BaseLibModule/qxxzs_Android2.BaseLibModule.iml" filepath="$PROJECT_DIR$/.idea/modules/BaseLibModule/qxxzs_Android2.BaseLibModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/BuContactmodule/qxxzs_Android2.BuContactmodule.iml" filepath="$PROJECT_DIR$/.idea/modules/BuContactmodule/qxxzs_Android2.BuContactmodule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/BuWarehouseModule/qxxzs_Android2.BuWarehouseModule.iml" filepath="$PROJECT_DIR$/.idea/modules/BuWarehouseModule/qxxzs_Android2.BuWarehouseModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/qxxzs_Android2.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/qxxzs_Android2.app.iml" />
     </modules>
   </component>
 </project>

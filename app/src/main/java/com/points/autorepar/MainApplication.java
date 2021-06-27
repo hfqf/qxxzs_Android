@@ -15,6 +15,7 @@ import SpeDBHelper.SpeSqlteHelper;
 import cn.jpush.android.api.JPushInterface;
 
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.points.autorepar.activity.MainTabbarActivity;
@@ -56,9 +57,8 @@ public class MainApplication extends Application {
         Log.d(TAG, "onCreate");
         super.onCreate();
         m_this = this;
-
+        initAllSdks();
         SpeSqlteHelper.init();
-
         SDKInitializer.initialize(this);
         SDKInitializer.setCoordType(CoordType.BD09LL);
         JPushInterface.setDebugMode(consts.isDev()); 	// 设置开启日志,发布时请关闭日志
@@ -529,4 +529,14 @@ public class MainApplication extends Application {
         editor.commit();
     }
 
+    /**
+     *初始化ARouter
+     */
+    private void initAllSdks(){
+//        if(consts().isDev()){
+            ARouter.openLog();     // 打印日志
+            ARouter.openDebug();
+//        }
+        ARouter.init(this);
+    }
 }

@@ -28,6 +28,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -52,6 +53,7 @@ import com.points.autorepar.bean.ADTReapirItemInfo;
 import com.points.autorepar.bean.Contact;
 import com.points.autorepar.bean.PurchaseRejectedInfo;
 import com.points.autorepar.bean.RepairHistory;
+import com.points.autorepar.common.ArouterConst;
 import com.points.autorepar.common.Consts;
 import com.points.autorepar.http.HttpManager;
 import com.points.autorepar.sql.DBService;
@@ -381,8 +383,7 @@ public class HomemenuFragment extends Fragment {
                         startActivity(intent);
                     }
                     else if(i==3){
-                        Intent intent = new Intent(getActivity(), ContactListActivity.class);
-                        startActivityForResult(intent,1001);
+                        ARouter.getInstance().build(ArouterConst.Arouter_ContactListActivity).navigation(getActivity(),1001);
                     }
                     else if(i==4){
                         Intent intent = new Intent(getActivity(), VipHomeActivity.class);

@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/multi-image-selector-debug.aar/04c0f098efbabad428a55a1cb692a608/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/multi-image-selector-debug.aar/04c0f098efbabad428a55a1cb692a608/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/multi-image-selector-debug.aar/04c0f098efbabad428a55a1cb692a608/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

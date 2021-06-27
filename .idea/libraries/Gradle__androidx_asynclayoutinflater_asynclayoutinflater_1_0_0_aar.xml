@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-1.0.0.aar/9c90cdf43cfc91d6c8b15110266507fe/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-1.0.0.aar/9c90cdf43cfc91d6c8b15110266507fe/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-1.0.0.aar/9c90cdf43cfc91d6c8b15110266507fe/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

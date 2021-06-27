@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -45,6 +46,7 @@ import com.points.autorepar.activity.contact.ContactAddNewActivity;
 import com.points.autorepar.MainApplication;
 import com.points.autorepar.activity.contact.ContactInfoEditActivity;
 import com.points.autorepar.activity.contact.SelectContactActivity;
+import com.points.autorepar.activity.repair.RepairHistoryListActivity;
 import com.points.autorepar.activity.repair.RepairInfoEditActivity;
 import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
 import com.points.autorepar.bean.ADTReapirItemInfo;
@@ -128,13 +130,24 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
     public interface speUploadVinListener{
         void onUploadVinPicSucceed(String vin);
     }
+
+    /**
+     * post请求
+     */
+    public interface PostApiListener{
+        void onUploadVinPicSucceed(String vin);
+
+        void onGetRepairHistory(ArrayList<RepairHistory> list);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         getTakePhoto().onCreate(savedInstanceState);
 
         super.onCreate(savedInstanceState);
-
+        ARouter.getInstance().inject(this);
 
         m_takePhoto= getTakePhoto();
 
@@ -520,89 +533,34 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                             return;
                         }else{
                             if(arr.size() >0) {
-                                Contact contact = (Contact)arr.get(0);
-                                final RepairHistory rep =  new RepairHistory();
-                                rep.addition = "";
-                                rep.repairType = "";
-                                rep.circle = "1";
-                                rep.totalKm = "";
-                                rep.isClose = "0";
-                                rep.isreaded = "0";
-                                rep.carCode = contact.getCarCode();
-                                rep.contactid =contact.getIdfromnode();
-                                rep.iswatiinginshop = "0";
-                                rep.customremark = "";
-                                rep.wantedcompletedtime = "";
-                                rep.entershoptime = "";
+                                final  Contact contact = (Contact)arr.get(0);
 
-                                ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
-                                rep.arrRepairItems = arrItems;
-//                                Intent intent = new Intent(getBaseContext(),WorkRoomEditActivity.class);
-//                                intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
-//                                startActivityForResult(intent, 0);
-
-                                JSONArray arrItmes = new JSONArray();
-                                Map cv = new HashMap();
-                                cv.put("carcode", rep.carCode);
-                                cv.put("totalkm", rep.totalKm);
-                                cv.put("repairetime",rep.repairTime);
-                                cv.put("repairtype", rep.repairType);
-                                cv.put("addition", rep.addition);
-                                cv.put("tipcircle", rep.tipCircle);
-                                cv.put("circle", rep.circle);
-                                cv.put("isclose", rep.isClose) ;
-                                cv.put("isreaded", rep.isClose);
-                                cv.put("owner", LoginUserUtil.getTel(getBaseContext()));
-                                cv.put("id", "");
-                                cv.put("items", arrItmes);
-                                cv.put("contactid", rep.contactid);
-                                cv.put("iswatiinginshop", rep.iswatiinginshop);
-                                cv.put("customremark", rep.customremark);
-                                cv.put("wantedcompletedtime", rep.wantedcompletedtime);
-                                cv.put("entershoptime", rep.entershoptime);
-
-                                showWaitView();
-                                HttpManager.getInstance(getBaseContext()).updateOneRepair("/repair/add4", cv, new Response.Listener<JSONObject>() {
+                                havedRepairHistory(contact, new PostApiListener() {
                                     @Override
-                                    public void onResponse(JSONObject jsonObject) {
-
-                                        stopWaitingView();
-                                        if(jsonObject.optInt("code") == 1){
-                                            Toast.makeText(getBaseContext(),"开始接单",Toast.LENGTH_SHORT).show();
-                                            rep.idfromnode = jsonObject.optJSONObject("ret").optString("_id");
-                                            rep.state = jsonObject.optJSONObject("ret").optString("state");
-                                            rep.owner = jsonObject.optJSONObject("ret").optString("owner");
-                                            ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
-                                            rep.arrRepairItems = arrItems;
-                                            Intent intent = new Intent(getBaseContext(),WorkRoomEditActivity.class);
-                                            intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
-                                            startActivityForResult(intent, 1);
-
-                                        }else {
-                                            Toast.makeText(getBaseContext(),"开单失败",Toast.LENGTH_SHORT).show();
-                                        }
+                                    public void onUploadVinPicSucceed(String vin) {
 
                                     }
-                                }, new Response.ErrorListener() {
                                     @Override
-                                    public void onErrorResponse(VolleyError volleyError) {
-
-                                        stopWaitingView();
-                                        Toast.makeText(getApplicationContext(),"开单失败",Toast.LENGTH_SHORT).show();
+                                    public void onGetRepairHistory(ArrayList<RepairHistory> arr ) {
+                                        if(arr!=null){
+                                            if(arr.size()>0){
+                                                Intent intent = new  Intent(BaseActivity.this,RepairHistoryListActivity.class);
+                                                intent.putExtra(String.valueOf(R.string.key_parcel_allhistory), arr);
+                                                intent.putExtra(String.valueOf(R.string.key_contact_edit_para), contact);
+                                                startActivity(intent);
+                                            }else {
+                                                addNewRepair(contact);
+                                            }
+                                        }else {
+                                            Toast.makeText(getBaseContext(), "扫描失败,请调整角度或方向或距离再试一次", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
 
-                            }else{
+
+
                             }
-
                         }
-
-
-
-
-
-
-
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -629,13 +587,6 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
             startActivity(intent);
         }
         if (requestCode == REQUEST_CODE_VEHICLE_LICENSE && resultCode == Activity.RESULT_OK) {
-//            RecognizeService.recGeneral(FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
-//                    new RecognizeService.ServiceListener() {
-//                        @Override
-//                        public void onResult(String result) {
-//                            infoPopText1(result);
-//                        }
-//                    });
             OcrRequestParams param = new OcrRequestParams();
             param.setImageFile(new File(filePath));
             param.putParam("detect_direction", true);
@@ -683,7 +634,6 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                                 }
                             }
 
-
                             final ArrayList arr = DBService.queryContactNameByCarcode(plate);
                             if(arr == null ||arr.size()==0){
                                 Intent intent = new Intent(getBaseContext(), ContactAddNewActivity.class);
@@ -696,30 +646,77 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                                 return;
                             }else {
                                 if (arr.size() > 0) {
+                                    //如果这个用户已经创建，需要判断是否已经有记录，方便老板查看历史记录
+                                   final   Contact contact = (Contact) arr.get(0);
+                                    havedRepairHistory(contact, new PostApiListener() {
+                                        @Override
+                                        public void onUploadVinPicSucceed(String vin) {
+
+                                        }
+                                        @Override
+                                        public void onGetRepairHistory(ArrayList<RepairHistory> arr ) {
+                                            if(arr!=null){
+                                                if(arr.size()>0){
+                                                    Intent intent = new  Intent(BaseActivity.this,RepairHistoryListActivity.class);
+                                                    intent.putExtra(String.valueOf(R.string.key_parcel_allhistory), arr);
+                                                    startActivity(intent);
+                                                }else {
+                                                    Intent intent = new  Intent(getBaseContext(),ContactInfoEditActivity.class);
+                                                    intent.putExtra(String.valueOf(R.string.key_contact_edit_para), contact);
+                                                    startActivityForResult(intent,1);
+                                                }
+                                            }else {
+                                                Toast.makeText(getBaseContext(), "扫描失败,请调整角度或方向或距离再试一次", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                } else {
                                     Contact contact = (Contact) arr.get(0);
                                     Intent intent = new  Intent(getBaseContext(),ContactInfoEditActivity.class);
                                     intent.putExtra(String.valueOf(R.string.key_contact_edit_para), contact);
                                     startActivityForResult(intent,1);
-                                } else {
-
                                 }
                             }
-
-
-
                         }
-
                     }catch (Exception e){
                         e.printStackTrace();
                     }
                 }
-
                 @Override
                 public void onError(OCRError error) {
                     // 调用失败，返回OCRError对象
                 }
             });
         }
+
+    }
+
+    private void havedRepairHistory(Contact con, final PostApiListener listern){
+        Map map = new HashMap();
+        map.put("owner", con.getOwner());
+        map.put("contactid", con.getIdfromnode());
+        map.put("carcode", con.getCarCode());
+        HttpManager.getInstance(this).queryContactAllRepair("/repair/queryOneAll3", map, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                if(jsonObject.optInt("code") == 1){
+                    ArrayList<RepairHistory> arr = getArrayRepair2(jsonObject);
+                    if(listern!=null){
+                        listern.onGetRepairHistory(arr);
+                    }else {
+
+                    }
+                }
+                else {
+                    listern.onGetRepairHistory(null);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                listern.onGetRepairHistory( null);
+            }
+        });
 
     }
 
@@ -762,5 +759,144 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
         super.onPause();
         MobclickAgent.onPause(this);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //暂时不能放开，放开了导致崩溃
+//        ARouter.getInstance().destroy();
+    }
+
+
+    protected ArrayList<RepairHistory> getArrayRepair2(JSONObject ret){
+        JSONArray arr = ret.optJSONArray("ret");
+
+        ArrayList<RepairHistory> arrRep = new ArrayList();
+        if (arr.length() > 0) {
+            for (int i = 0; i < arr.length(); i++) {
+                RepairHistory repFromServer = new RepairHistory();
+                JSONObject obj = arr.optJSONObject(i);
+                repFromServer.addition =obj.optString("addition").replace(" ", "");
+                repFromServer.carCode =obj.optString("carcode").replace(" ", "");
+                repFromServer.circle =obj.optString("circle");
+                repFromServer.isreaded = obj.optString("isreaded");
+                repFromServer.isClose = obj.optString("isclose");
+                repFromServer.owner =obj.optString("owner");
+                repFromServer.repairTime =obj.optString("repairetime");
+                repFromServer.repairType =obj.optString("repairtype");
+                repFromServer.tipCircle =obj.optString("tipcircle");
+                repFromServer.totalKm =obj.optString("totalkm");
+                repFromServer.idfromnode =obj.optString("_id");
+                repFromServer.inserttime =obj.optString("inserttime");
+                repFromServer.pics = obj.optString("pics");
+
+                repFromServer.state =obj.optString("state");
+                repFromServer.customremark =obj.optString("customremark");
+                repFromServer.wantedcompletedtime =obj.optString("wantedcompletedtime");
+                repFromServer.iswatiinginshop =obj.optString("iswatiinginshop");
+                repFromServer.entershoptime =obj.optString("entershoptime");
+                repFromServer.contactid =obj.optString("contactid");
+                repFromServer.saleMoney = obj.optString("saleMoney");
+
+
+                if(repFromServer.entershoptime.length()==0){
+                    repFromServer.entershoptime =   repFromServer.inserttime;
+                }
+
+                JSONArray items = obj.optJSONArray("items");
+                ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
+                int totalPrice = 0;
+                if(items != null){
+                    for(int j=0;j<items.length();j++){
+                        JSONObject itemObj = items.optJSONObject(j);
+                        ADTReapirItemInfo item = ADTReapirItemInfo.fromWithJsonObj(itemObj);
+                        totalPrice+=item.currentPrice;
+
+                        arrItems.add(item);
+                    }
+                }
+                repFromServer.arrRepairItems = arrItems;
+                repFromServer.totalPrice = String.valueOf(totalPrice);
+
+                Contact con = DBService.queryContact(repFromServer.carCode);
+                if(con != null){
+                    arrRep.add(repFromServer);
+                }
+            }
+        }
+        return arrRep;
+    }
+
+    /**
+     * 开单
+     * @param contact
+     */
+    protected void addNewRepair(Contact contact){
+        final RepairHistory rep =  new RepairHistory();
+        rep.addition = "";
+        rep.repairType = "";
+        rep.circle = "1";
+        rep.totalKm = "";
+        rep.isClose = "0";
+        rep.isreaded = "0";
+        rep.carCode = contact.getCarCode();
+        rep.contactid =contact.getIdfromnode();
+        rep.iswatiinginshop = "0";
+        rep.customremark = "";
+        rep.wantedcompletedtime = "";
+        rep.entershoptime = "";
+
+        ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
+        rep.arrRepairItems = arrItems;
+        JSONArray arrItmes = new JSONArray();
+        Map cv = new HashMap();
+        cv.put("carcode", rep.carCode);
+        cv.put("totalkm", rep.totalKm);
+        cv.put("repairetime",rep.repairTime);
+        cv.put("repairtype", rep.repairType);
+        cv.put("addition", rep.addition);
+        cv.put("tipcircle", rep.tipCircle);
+        cv.put("circle", rep.circle);
+        cv.put("isclose", rep.isClose) ;
+        cv.put("isreaded", rep.isClose);
+        cv.put("owner", LoginUserUtil.getTel(getBaseContext()));
+        cv.put("id", "");
+        cv.put("items", arrItmes);
+        cv.put("contactid", rep.contactid);
+        cv.put("iswatiinginshop", rep.iswatiinginshop);
+        cv.put("customremark", rep.customremark);
+        cv.put("wantedcompletedtime", rep.wantedcompletedtime);
+        cv.put("entershoptime", rep.entershoptime);
+
+        showWaitView();
+        HttpManager.getInstance(getBaseContext()).updateOneRepair("/repair/add4", cv, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+                stopWaitingView();
+                if(jsonObject.optInt("code") == 1){
+                    Toast.makeText(getBaseContext(),"开始接单",Toast.LENGTH_SHORT).show();
+                    rep.idfromnode = jsonObject.optJSONObject("ret").optString("_id");
+                    rep.state = jsonObject.optJSONObject("ret").optString("state");
+                    rep.owner = jsonObject.optJSONObject("ret").optString("owner");
+                    ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
+                    rep.arrRepairItems = arrItems;
+                    Intent intent = new Intent(getBaseContext(),WorkRoomEditActivity.class);
+                    intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
+                    startActivityForResult(intent, 1);
+
+                }else {
+                    Toast.makeText(getBaseContext(),"开单失败",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                stopWaitingView();
+                Toast.makeText(getApplicationContext(),"开单失败",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

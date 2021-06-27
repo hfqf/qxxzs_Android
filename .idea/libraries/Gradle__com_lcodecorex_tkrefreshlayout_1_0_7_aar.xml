@@ -6,6 +6,7 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/a774b5cd4695c63b26892c44e722e07d/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/a774b5cd4695c63b26892c44e722e07d/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/a774b5cd4695c63b26892c44e722e07d/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lcodecorex/tkrefreshlayout/1.0.7/6fc1e3c8a06655bced9f61e453c7842b65b3bfca/tkrefreshlayout-1.0.7-javadoc.jar!/" />
