@@ -4,6 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/dynamicbox-1.2.aar/46ce385190ddc5a2023c08301931f3a6/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/dynamicbox-1.2.aar/46ce385190ddc5a2023c08301931f3a6/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/dynamicbox-1.2.aar/46ce385190ddc5a2023c08301931f3a6/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/dynamicbox-1.2.aar/53f266b4e8994f53c9f777e100dd3ce7/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/dynamicbox-1.2.aar/53f266b4e8994f53c9f777e100dd3ce7/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/dynamicbox-1.2.aar/53f266b4e8994f53c9f777e100dd3ce7/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.medyo/dynamicbox/1.2/2d085ec3e8ea267fd9155353be59146168841d82/dynamicbox-1.2-javadoc.jar!/" />

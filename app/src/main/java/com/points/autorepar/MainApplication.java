@@ -20,10 +20,10 @@ import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.points.autorepar.activity.MainTabbarActivity;
 import com.points.autorepar.common.Consts;
+import com.points.autorepar.dbutil.HFSmartDBUpdateManager;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.utils.ExampleUtil;
 import com.tencent.smtt.sdk.QbSdk;
-import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -57,6 +57,7 @@ public class MainApplication extends Application {
         Log.d(TAG, "onCreate");
         super.onCreate();
         m_this = this;
+        HFSmartDBUpdateManager.getInstance(this);
         initAllSdks();
         SpeSqlteHelper.init();
         SDKInitializer.initialize(this);

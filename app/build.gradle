@@ -22,7 +22,7 @@ android {
     defaultConfig {
         applicationId "com.points.autorepar"
         minSdkVersion 18 //4.0
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode  82
         versionName "3.7.1"
 
@@ -120,15 +120,6 @@ android {
 
     productFlavors {
         product{}
-        q360{}
-        baidu{}
-        qq{}
-        ali{}
-        huawei{}
-        oppo{}
-        vivo{}
-        meizu{}
-        xiaomi{}
     }
 
     productFlavors.all { flavor ->

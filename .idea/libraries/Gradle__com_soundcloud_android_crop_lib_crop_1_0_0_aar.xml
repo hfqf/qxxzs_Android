@@ -4,6 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/lib_crop-1.0.0.aar/d083386daf54766a0e7f1b8729adcb9d/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/lib_crop-1.0.0.aar/d083386daf54766a0e7f1b8729adcb9d/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/lib_crop-1.0.0.aar/d083386daf54766a0e7f1b8729adcb9d/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/lib_crop-1.0.0.aar/66acf49d7c6e15bbdf5c5b2cda226c45/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/lib_crop-1.0.0.aar/66acf49d7c6e15bbdf5c5b2cda226c45/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/lib_crop-1.0.0.aar/66acf49d7c6e15bbdf5c5b2cda226c45/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.soundcloud.android.crop/lib_crop/1.0.0/6ca6214e189fed255a63e2f1192f8b6703f22b0d/lib_crop-1.0.0-javadoc.jar!/" />

@@ -2,11 +2,15 @@
   <library name="Gradle: com.alibaba:arouter-api:1.3.1@aar">
     <ANNOTATIONS>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/arouter-api-1.3.1.aar/61fe899d926fe05c133be1ecfd75ae29/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/arouter-api-1.3.1.aar/d9b1e4c163d0acaab3d0f56aa6a20dcd/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/arouter-api-1.3.1.aar/61fe899d926fe05c133be1ecfd75ae29/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/arouter-api-1.3.1.aar/61fe899d926fe05c133be1ecfd75ae29/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/arouter-api-1.3.1.aar/61fe899d926fe05c133be1ecfd75ae29/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/arouter-api-1.3.1.aar/d9b1e4c163d0acaab3d0f56aa6a20dcd/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/arouter-api-1.3.1.aar/d9b1e4c163d0acaab3d0f56aa6a20dcd/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/arouter-api-1.3.1.aar/d9b1e4c163d0acaab3d0f56aa6a20dcd/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

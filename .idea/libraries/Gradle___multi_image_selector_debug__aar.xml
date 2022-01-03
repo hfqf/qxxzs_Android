@@ -4,6 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/multi-image-selector-debug.aar/04c0f098efbabad428a55a1cb692a608/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/multi-image-selector-debug.aar/04c0f098efbabad428a55a1cb692a608/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/multi-image-selector-debug.aar/04c0f098efbabad428a55a1cb692a608/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/multi-image-selector-debug.aar/56c773cd96cf5189000ed15c71e8c463/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/multi-image-selector-debug.aar/56c773cd96cf5189000ed15c71e8c463/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/multi-image-selector-debug.aar/56c773cd96cf5189000ed15c71e8c463/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
