@@ -186,7 +186,6 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
 
 
 
-    //                   WebActivity.actionStart(StoreActivity.this, weburl,title);
 
 
 
@@ -245,13 +244,12 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
         m_car_vImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ContactAddNewActivity.this, CameraActivity.class);
-                intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
-                        FileUtil.getSaveFile(getApplication()).getAbsolutePath());
-                intent.putExtra(CameraActivity.KEY_CONTENT_TYPE,
-                        CameraActivity.CONTENT_TYPE_GENERAL);
-                startActivityForResult(intent, REQUEST_CODE_LICENSE_PLATE);
-
+             startSelectLicensePlatePicToUpload(3, new speUploadLicensePlateListener() {
+                 @Override
+                 public void onUploadLicensePlatePicSucceed(String licensePlate) {
+                     mCarCode.setText(licensePlate);
+                 }
+             });
             }
         });
 

@@ -61,7 +61,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="70dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:paddingTop="20dp">
                     <ImageButton
                         android:clickable="false"

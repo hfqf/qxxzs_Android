@@ -23,8 +23,8 @@ android {
         applicationId "com.points.autorepar"
         minSdkVersion 18 //4.0
         targetSdkVersion 27
-        versionCode  82
-        versionName "3.7.1"
+        versionCode  83
+        versionName "3.7.2"
 
         flavorDimensions "21"
 
@@ -183,7 +183,7 @@ dependencies {
 
     implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
 
-    implementation 'com.github.lygttpod:SuperTextView:2.1.7'
+    implementation 'com.github.chenBingX:SuperTextView:v3.1.4'
     implementation 'com.squareup.picasso:picasso:2.4.0'
     implementation 'com.squareup.okhttp:okhttp:2.4.0'
     implementation 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'

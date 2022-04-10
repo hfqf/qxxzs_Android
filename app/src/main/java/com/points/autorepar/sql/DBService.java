@@ -390,7 +390,7 @@ public class DBService extends SQLiteOpenHelper {
     public  static ArrayList queryContactNameByCarcode(String carcode){
         Log.e(TAG,"queryAllContactName");
         SQLiteDatabase db = instance.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM contact WHERE carcode = ?", new String[]{carcode});
+        Cursor c = db.rawQuery("SELECT * FROM contact WHERE carcode = ? or vin = ?", new String[]{carcode,carcode});
 
         ArrayList<Contact> arr = new ArrayList<>();
         while (c.moveToNext()) {
