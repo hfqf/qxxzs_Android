@@ -25,6 +25,7 @@ import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.OcrRequestParams;
 import com.baidu.ocr.sdk.model.OcrResponseResult;
+import com.bumptech.glide.Glide;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
@@ -289,29 +290,9 @@ public class ContactAddNewActivity extends BaseActivity  implements  DatePickerD
                    @Override
                    public void uploadContactSucceed(String newHeadUrl) {
                        m_headUrl = newHeadUrl;
-
                       final String url = MainApplication.consts(m_this).BOS_SERVER+m_headUrl;
-
-                       mQueue.getCache().remove(url);
-
-                       Handler mainHandler = new Handler(Looper.getMainLooper());
-                       mainHandler.post(new Runnable() {
-                           @Override
-                           public void run() {
-
-                               imageLoader.get(url, new ImageLoader.ImageListener() {
-                                   @Override
-                                   public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                                       m_addHeadBtn.setImageBitmap(imageContainer.getBitmap());
-                                   }
-                                   @Override
-                                   public void onErrorResponse(VolleyError volleyError) {
-
-                                   }
-                               },1000,1000);
-                           }
-                       });
-
+                       Glide.get(m_this).clearMemory();
+                       Glide.with(m_this).load(url).into(m_addHeadBtn);
                    }
 
                    @Override
