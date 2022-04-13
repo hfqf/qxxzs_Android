@@ -13,6 +13,7 @@ import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
 import com.points.autorepar.MainApplication;
 import com.points.autorepar.activity.BaseActivity;
 import com.points.autorepar.adapter.RepairHistoryAdapter;
+import com.points.autorepar.bean.Contact;
 import com.points.autorepar.bean.RepairHistory;
 import com.umeng.analytics.MobclickAgent;
 
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 public class RepairHistoryListActivity extends BaseActivity {
 
     private ArrayList<RepairHistory> m_currentData;
+    private Contact m_contact;
     private ListView                 m_listView;
     private RepairHistoryAdapter     m_adapter;
     private MainApplication MainApplication;
@@ -42,11 +44,11 @@ public class RepairHistoryListActivity extends BaseActivity {
 
         Button mAddBtn = (Button)findViewById(R.id.common_navi_add);
         mAddBtn.setVisibility(View.INVISIBLE);
+        mAddBtn.setText("开单");
         mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                addNewRepair(m_contact);
             }
         });
 
@@ -65,6 +67,10 @@ public class RepairHistoryListActivity extends BaseActivity {
 
         MainApplication = (MainApplication) getApplication();
         m_currentData = getIntent().getParcelableArrayListExtra(String.valueOf(R.string.key_parcel_allhistory));
+        m_contact = getIntent().getParcelableExtra(String.valueOf(R.string.key_contact_edit_para));
+        if(m_contact!=null){
+            mAddBtn.setVisibility(View.VISIBLE);
+        }
         m_listView = (ListView)findViewById(R.id.id_repair_listview);
         m_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -109,12 +109,12 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
     }
 
     private void openPublishVew(){
-        ln_1_1.setVisibility(View.INVISIBLE);
-        ln_1_2.setVisibility(View.INVISIBLE);
-        ln_1_3.setVisibility(View.INVISIBLE);
-        ln_2_1.setVisibility(View.INVISIBLE);
-        ln_2_2.setVisibility(View.INVISIBLE);
-        ln_2_3.setVisibility(View.INVISIBLE);
+//        ln_1_1.setVisibility(View.INVISIBLE);
+//        ln_1_2.setVisibility(View.INVISIBLE);
+//        ln_1_3.setVisibility(View.INVISIBLE);
+//        ln_2_1.setVisibility(View.INVISIBLE);
+//        ln_2_2.setVisibility(View.INVISIBLE);
+//        ln_2_3.setVisibility(View.INVISIBLE);
         rl_mainarea.startAnimation(AnimationUtils.loadAnimation(context,R.anim.anim_fade_in));
         btn_close.startAnimation(AnimationUtils.loadAnimation(context,R.anim.anim_rotate_right));
         handler.postDelayed(new Runnable() {
@@ -124,13 +124,13 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                 ln_1_1.startAnimation(AnimationUtils.loadAnimation(context,R.anim.anim_translate_up));
             }
         },100);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ln_1_2.setVisibility(View.VISIBLE);
-                ln_1_2.startAnimation(AnimationUtils.loadAnimation(context,R.anim.anim_translate_up));
-            }
-        },200);
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                ln_1_2.setVisibility(View.VISIBLE);
+//                ln_1_2.startAnimation(AnimationUtils.loadAnimation(context,R.anim.anim_translate_up));
+//            }
+//        },200);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

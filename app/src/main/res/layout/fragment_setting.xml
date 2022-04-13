@@ -291,7 +291,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/set_share"
-                    android:text="分享汽修小助手"
+                    android:text="隐私政策和用户协议"
                     android:textSize="18dp"
                     android:textColor="#302d2d"
                     android:gravity="left|center_vertical"

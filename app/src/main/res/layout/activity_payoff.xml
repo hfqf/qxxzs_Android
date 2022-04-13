@@ -17,31 +17,17 @@
             android:orientation="vertical">
 
 
-            <com.allen.library.SuperTextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="#66000000"
-                stv:sCenterTopTextString=" "
-                android:id="@+id/tv1"
-                stv:sCenterViewGravity="left_center"
-                stv:sLeftTopTextString="编号"
-                stv:sLeftViewGravity="left_center"
-                stv:sRightTextColor="#000000"
-                stv:sRightTextSize="12dp"
-                stv:sRightTextString="订单合计：1000元"  />
+                android:id="@+id/tv1" />
 
-            <com.allen.library.SuperTextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="#66000000"
-                stv:sCenterTopTextString=" "
-                android:id="@+id/tv2"
-                stv:sCenterViewGravity="left_center"
-                stv:sLeftTopTextString="合计金额"
-                stv:sLeftViewGravity="left_center"
-                stv:sRightTextColor="@color/Blue"
-                stv:sRightTextSize="12dp"
-                stv:sRightTextString=""  />
+                android:id="@+id/tv2" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -262,18 +248,10 @@
 
 
 
-            <com.allen.library.SuperTextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                stv:sCenterTopTextString=" "
-                android:id="@+id/tv3"
-                stv:sLeftTopTextColor="@color/text_orange"
-                stv:sCenterViewGravity="left_center"
-                stv:sLeftTopTextString="实收金额"
-                stv:sLeftViewGravity="left_center"
-                stv:sRightTextColor="@color/text_orange"
-                stv:sRightTextSize="12dp"
-                stv:sRightTextString=""  />
+                android:id="@+id/tv3" />
 
 
             <Button

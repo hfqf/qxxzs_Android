@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.allen.library.SuperTextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
@@ -51,7 +50,7 @@ public class PayOffActivity extends BaseActivity {
 
     private int m_type;
     private RepairHistory m_data;
-    private SuperTextView tv1, tv2,tv3, pay_stv1, pay_stv2, pay_stv3,pay_stv4;
+    private TextView tv1, tv2,tv3, pay_stv1, pay_stv2, pay_stv3,pay_stv4;
 
     private ImageView img1,img2,img3,img4;
     private EditText ed_discount,edit_nopaynum;
@@ -90,12 +89,12 @@ public class PayOffActivity extends BaseActivity {
         i_nopaynum = 0;
 
         m_type = 1;
-        tv1.setRightString(m_data.idfromnode+"");
-        tv2.setRightString("￥"+total);
+        tv1.setText(m_data.idfromnode+"");
+        tv2.setText("￥"+total);
 
 
         int Val = total -i_discount-i_nopaynum;
-        tv3.setRightString("￥"+Val);
+        tv3.setText("￥"+Val);
     }
 
     private void initView() {
@@ -105,9 +104,9 @@ public class PayOffActivity extends BaseActivity {
         common_navi_add.setVisibility(View.GONE);
         TextView title = (TextView)findViewById(R.id.common_navi_title);
         title.setText("支付");
-        tv1 = (SuperTextView) findViewById(R.id.tv1);
-        tv2 = (SuperTextView) findViewById(R.id.tv2);
-        tv3 = (SuperTextView) findViewById(R.id.tv3);
+        tv1 =  findViewById(R.id.tv1);
+        tv2 =  findViewById(R.id.tv2);
+        tv3 =  findViewById(R.id.tv3);
 
         img1 = (ImageView) findViewById(R.id.img_1);
         img2 = (ImageView) findViewById(R.id.img_2);
@@ -125,7 +124,7 @@ public class PayOffActivity extends BaseActivity {
             public void onClick(View v) {
                 setPayType(1);
                 int Val = total -i_discount-i_nopaynum;
-                tv3.setRightString("￥"+Val);
+                tv3.setText("￥"+Val);
                 ed_discount.setVisibility(View.VISIBLE);
                 edit_nopaynum.setVisibility(View.VISIBLE);
             }
@@ -147,7 +146,7 @@ public class PayOffActivity extends BaseActivity {
                 }
                 ed_discount.setVisibility(View.INVISIBLE);
                 edit_nopaynum.setVisibility(View.INVISIBLE);
-                tv3.setRightString("￥0");
+                tv3.setText("￥0");
                 setPayType(2);
 
             }
@@ -158,7 +157,7 @@ public class PayOffActivity extends BaseActivity {
             public void onClick(View v) {
                 setPayType(3);
                 int Val = total -i_discount-i_nopaynum;
-                tv3.setRightString("￥"+Val);
+                tv3.setText("￥"+Val);
                 ed_discount.setVisibility(View.VISIBLE);
                 edit_nopaynum.setVisibility(View.VISIBLE);
             }
@@ -169,7 +168,7 @@ public class PayOffActivity extends BaseActivity {
             public void onClick(View v) {
                 setPayType(4);
                 int Val = total -i_discount-i_nopaynum;
-                tv3.setRightString("￥"+Val);
+                tv3.setText("￥"+Val);
                 ed_discount.setVisibility(View.VISIBLE);
                 edit_nopaynum.setVisibility(View.VISIBLE);
             }
@@ -215,7 +214,7 @@ public class PayOffActivity extends BaseActivity {
                 int Val= Integer.parseInt(s.toString());
                 i_discount = Val;
                 Val = total -i_discount-i_nopaynum;
-                tv3.setRightString("￥"+Val);
+                tv3.setText("￥"+Val);
 
             }
         });
@@ -246,7 +245,7 @@ public class PayOffActivity extends BaseActivity {
                 int Val= Integer.parseInt(s.toString());
                 i_nopaynum = Val;
                 Val = total -i_discount-i_nopaynum;
-                tv3.setRightString("￥"+Val);
+                tv3.setText("￥"+Val);
 
             }
         });

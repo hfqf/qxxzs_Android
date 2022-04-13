@@ -42,6 +42,7 @@ import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
 import com.points.autorepar.adapter.ContactInfoAdapter;
 import com.points.autorepar.bean.ADTReapirItemInfo;
 import com.points.autorepar.bean.RepairHistory;
+import com.points.autorepar.bean.UpdateCarcodeEvent;
 import com.points.autorepar.http.HttpManager;
 import com.points.autorepar.activity.BaseActivity;
 import com.points.autorepar.lib.ocr.ui.camera.FileUtil;
@@ -65,6 +66,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
+
 public class ContactInfoEditActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
     private final  String  TAG = "ContactInfoEditActivity";
 
@@ -76,6 +79,7 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
     private Button mSeeAllBtn;
     private Button mdeleteContactBtn;
     private Button mAddNewRepBtn;
+    private Button mCloseTipBtn;
 
     private Button mOpenCardBtn;
     private Button mChargeCardBtn;
@@ -105,6 +109,7 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_info_edit);
+        EventBus.getDefault().register(this);
         m_this = this;
         m_currentContact = getIntent().getParcelableExtra(String.valueOf(R.string.key_contact_edit_para));
 
@@ -328,6 +333,14 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                         });
                 // 显示
                 normalDialog.show();
+
+            }
+        });
+
+        mCloseTipBtn = (Button)mFooterView.findViewById(R.id.contact_edit_closetip);
+        mCloseTipBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
@@ -1031,4 +1044,16 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
     public void onRequestPermissionsResult() {
 
     }
+
+    public void onEventMainThread(UpdateCarcodeEvent event) {
+        String data = event.getCode();
+        startSelectLicensePlatePicToUpload(3, new speUploadLicensePlateListener() {
+            @Override
+            public void onUploadLicensePlatePicSucceed(String licensePlate) {
+                m_adapter.m_contact.setCarCode(licensePlate);
+                m_adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
 }

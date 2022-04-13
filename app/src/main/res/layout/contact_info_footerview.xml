@@ -7,7 +7,21 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:text="关闭提醒"
+        android:id="@+id/contact_edit_closetip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/delborder"
+        android:textColor="#fefefe"
+        android:textSize="16dp" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
         android:text="删除此联系人"
+        android:layout_below="@+id/contact_edit_closetip"
         android:id="@+id/contact_edit_deletecontact"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

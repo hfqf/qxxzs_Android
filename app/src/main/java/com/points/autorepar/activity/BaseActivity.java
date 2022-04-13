@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -28,12 +29,6 @@ import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.OcrRequestParams;
 import com.baidu.ocr.sdk.model.OcrResponseResult;
-import com.baidubce.BceClientException;
-import com.baidubce.BceServiceException;
-import com.baidubce.auth.DefaultBceCredentials;
-import com.baidubce.services.bos.BosClient;
-import com.baidubce.services.bos.BosClientConfiguration;
-import com.baidubce.services.bos.model.PutObjectResponse;
 import com.dyhdyh.widget.loading.dialog.LoadingDialog;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
@@ -44,14 +39,14 @@ import com.points.autorepar.activity.Store.AddPurchaseActivity;
 import com.points.autorepar.activity.contact.ContactAddNewActivity;
 import com.points.autorepar.MainApplication;
 import com.points.autorepar.activity.contact.ContactInfoEditActivity;
-import com.points.autorepar.activity.contact.SelectContactActivity;
-import com.points.autorepar.activity.repair.RepairInfoEditActivity;
+import com.points.autorepar.activity.repair.RepairHistoryListActivity;
 import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
 import com.points.autorepar.bean.ADTReapirItemInfo;
 import com.points.autorepar.bean.Contact;
 import com.points.autorepar.bean.PurchaseRejectedInfo;
 import com.points.autorepar.bean.RepairHistory;
-import com.points.autorepar.bean.RepairerInfo;
+import com.points.autorepar.bean.UpdateCarcodeEvent;
+import com.points.autorepar.bean.WorkRoomEvent;
 import com.points.autorepar.common.Consts;
 import com.points.autorepar.http.HttpManager;
 import com.points.autorepar.lib.ocr.ui.camera.FileUtil;
@@ -61,6 +56,7 @@ import com.points.autorepar.platerecognizer.base.BitmapCache;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.utils.DateUtil;
 import com.points.autorepar.utils.LoginUserUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
@@ -84,6 +80,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.ThreadMode;
+
+
 public class BaseActivity extends Activity implements  TakePhoto.TakeResultListener,InvokeListener {
 
     public  RequestQueue mQueue;
@@ -106,8 +106,9 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
     private speUploadListener m_listener;
 
     private speUploadVinListener m_vinlistener;
+    private speUploadLicensePlateListener m_licensePlatelistener;
 
-    public  int        m_uplaodType;//0更改用户头像,1修改联系人头像,2更新vin
+    public  int        m_uplaodType;//0更改用户头像,1修改联系人头像,2更新vin 3更新车牌号
 
     public static final int REQUEST_CODE_GENERAL = 105;
     public static final int REQUEST_CODE_GENERAL_BASIC = 106;
@@ -127,13 +128,31 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
     public interface speUploadVinListener{
         void onUploadVinPicSucceed(String vin);
     }
+
+    /**
+     * 上传车牌号识别
+     */
+    public interface speUploadLicensePlateListener{
+        void onUploadLicensePlatePicSucceed(String licensePlate);
+    }
+
+    /**
+     * post请求
+     */
+    public interface PostApiListener{
+        void onUploadVinPicSucceed(String vin);
+
+        void onGetRepairHistory(ArrayList<RepairHistory> list);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         getTakePhoto().onCreate(savedInstanceState);
 
         super.onCreate(savedInstanceState);
-
+        ARouter.getInstance().inject(this);
 
         m_takePhoto= getTakePhoto();
 
@@ -181,7 +200,6 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
     @Override
     public void finish() {
         super.finish();
-
     }
 
 
@@ -308,6 +326,56 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                 .show();
     }
 
+    public void startSelectLicensePlatePicToUpload(int uploadType,speUploadLicensePlateListener listener){
+
+        this.m_uplaodType = 3;
+        this.m_licensePlatelistener = listener;
+
+        String[] arr = getResources().getStringArray(R.array.uploadpic);
+
+        View outerView = LayoutInflater.from(this).inflate(R.layout.wheel_view, null);
+        final WheelView wv = (WheelView) outerView.findViewById(R.id.wheel_view_wv);
+        wv.setItems(Arrays.asList(arr));
+        wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+            @Override
+            public void onSelected(int selectedIndex, String item) {
+                Log.e(TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
+            }
+        });
+
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("选择来源")
+                .setView(outerView)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        Log.e(TAG, "startSelectPicToUpload+OK" + wv.getSeletedItem());
+
+                        int index = wv.getSeletedIndex();
+
+                        File file=new File(Environment.getExternalStorageDirectory(), "/temp/"+System.currentTimeMillis() + ".jpg");
+                        Log.e(TAG, "startSelectPicToUpload+1" + wv.getSeletedIndex());
+
+                        if (!file.getParentFile().exists())file.getParentFile().mkdirs();
+                        Uri imageUri = Uri.fromFile(file);
+                        if(index == 1){
+                            m_takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
+                        }else {
+                            m_takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
+                        }
+
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.e(TAG, "onCancel");
+                    }
+                })
+                .show();
+    }
 
 
 
@@ -345,6 +413,8 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
             uploadFileToBOS(DateUtil.getPicNameFormTime(new Date(),this), file);
         }else if(this.m_uplaodType == 2){
             uploadVinFileToServer(DateUtil.getPicNameFormTime(new Date(),this), file);
+        }else if(this.m_uplaodType == 3){
+            uploadLicensePlateFileToServer(DateUtil.getPicNameFormTime(new Date(),this), file);
         }
     }
     @Override
@@ -415,6 +485,23 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
 
     }
 
+    public void uploadLicensePlateFileToServer(final String fileName, final File file) {
+        Map map = new HashMap();
+        map.put("fileName", fileName);
+        HttpManager.getInstance(this).startNormalFilePost("/file/licensePlatePicUpload", fileName,file, map, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                final   String _vin = jsonObject.optString("ret");
+                m_licensePlatelistener.onUploadLicensePlatePicSucceed(_vin);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), "上传图片失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -502,106 +589,12 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                 @Override
                 public void onResult(OcrResponseResult result) {
                     // 调用成功，返回OcrResponseResult对象
-
                     String str = result.getJsonRes();
                     try {
                         JSONObject obj = new JSONObject(str);
-
                         JSONObject mapJSON = obj.getJSONObject("words_result");
                         String words = mapJSON.getString("number");
-
-
-                        final ArrayList arr = DBService.queryContactNameByCarcode(words);
-                        if(arr == null ||arr.size()==0){
-                            Intent intent = new Intent(getBaseContext(),ContactAddNewActivity.class);
-                            intent.putExtra("plate",words);
-                            startActivity(intent);
-                            return;
-                        }else{
-                            if(arr.size() >0) {
-                                Contact contact = (Contact)arr.get(0);
-                                final RepairHistory rep =  new RepairHistory();
-                                rep.addition = "";
-                                rep.repairType = "";
-                                rep.circle = "1";
-                                rep.totalKm = "";
-                                rep.isClose = "0";
-                                rep.isreaded = "0";
-                                rep.carCode = contact.getCarCode();
-                                rep.contactid =contact.getIdfromnode();
-                                rep.iswatiinginshop = "0";
-                                rep.customremark = "";
-                                rep.wantedcompletedtime = "";
-                                rep.entershoptime = "";
-
-                                ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
-                                rep.arrRepairItems = arrItems;
-//                                Intent intent = new Intent(getBaseContext(),WorkRoomEditActivity.class);
-//                                intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
-//                                startActivityForResult(intent, 0);
-
-                                JSONArray arrItmes = new JSONArray();
-                                Map cv = new HashMap();
-                                cv.put("carcode", rep.carCode);
-                                cv.put("totalkm", rep.totalKm);
-                                cv.put("repairetime",rep.repairTime);
-                                cv.put("repairtype", rep.repairType);
-                                cv.put("addition", rep.addition);
-                                cv.put("tipcircle", rep.tipCircle);
-                                cv.put("circle", rep.circle);
-                                cv.put("isclose", rep.isClose) ;
-                                cv.put("isreaded", rep.isClose);
-                                cv.put("owner", LoginUserUtil.getTel(getBaseContext()));
-                                cv.put("id", "");
-                                cv.put("items", arrItmes);
-                                cv.put("contactid", rep.contactid);
-                                cv.put("iswatiinginshop", rep.iswatiinginshop);
-                                cv.put("customremark", rep.customremark);
-                                cv.put("wantedcompletedtime", rep.wantedcompletedtime);
-                                cv.put("entershoptime", rep.entershoptime);
-
-                                showWaitView();
-                                HttpManager.getInstance(getBaseContext()).updateOneRepair("/repair/add4", cv, new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject jsonObject) {
-
-                                        stopWaitingView();
-                                        if(jsonObject.optInt("code") == 1){
-                                            Toast.makeText(getBaseContext(),"开始接单",Toast.LENGTH_SHORT).show();
-                                            rep.idfromnode = jsonObject.optJSONObject("ret").optString("_id");
-                                            rep.state = jsonObject.optJSONObject("ret").optString("state");
-                                            rep.owner = jsonObject.optJSONObject("ret").optString("owner");
-                                            ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
-                                            rep.arrRepairItems = arrItems;
-                                            Intent intent = new Intent(getBaseContext(),WorkRoomEditActivity.class);
-                                            intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
-                                            startActivityForResult(intent, 1);
-
-                                        }else {
-                                            Toast.makeText(getBaseContext(),"开单失败",Toast.LENGTH_SHORT).show();
-                                        }
-
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError volleyError) {
-
-                                        stopWaitingView();
-                                        Toast.makeText(getApplicationContext(),"开单失败",Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-                            }else{
-                            }
-
-                        }
-
-
-
-
-
-
-
+                        checkNewCarcode(words);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -628,13 +621,6 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
             startActivity(intent);
         }
         if (requestCode == REQUEST_CODE_VEHICLE_LICENSE && resultCode == Activity.RESULT_OK) {
-//            RecognizeService.recGeneral(FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
-//                    new RecognizeService.ServiceListener() {
-//                        @Override
-//                        public void onResult(String result) {
-//                            infoPopText1(result);
-//                        }
-//                    });
             OcrRequestParams param = new OcrRequestParams();
             param.setImageFile(new File(filePath));
             param.putParam("detect_direction", true);
@@ -682,7 +668,6 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                                 }
                             }
 
-
                             final ArrayList arr = DBService.queryContactNameByCarcode(plate);
                             if(arr == null ||arr.size()==0){
                                 Intent intent = new Intent(getBaseContext(), ContactAddNewActivity.class);
@@ -695,30 +680,77 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                                 return;
                             }else {
                                 if (arr.size() > 0) {
+                                    //如果这个用户已经创建，需要判断是否已经有记录，方便老板查看历史记录
+                                   final   Contact contact = (Contact) arr.get(0);
+                                    havedRepairHistory(contact, new PostApiListener() {
+                                        @Override
+                                        public void onUploadVinPicSucceed(String vin) {
+
+                                        }
+                                        @Override
+                                        public void onGetRepairHistory(ArrayList<RepairHistory> arr ) {
+                                            if(arr!=null){
+                                                if(arr.size()>0){
+                                                    Intent intent = new  Intent(BaseActivity.this,RepairHistoryListActivity.class);
+                                                    intent.putExtra(String.valueOf(R.string.key_parcel_allhistory), arr);
+                                                    startActivity(intent);
+                                                }else {
+                                                    Intent intent = new  Intent(getBaseContext(),ContactInfoEditActivity.class);
+                                                    intent.putExtra(String.valueOf(R.string.key_contact_edit_para), contact);
+                                                    startActivityForResult(intent,1);
+                                                }
+                                            }else {
+                                                Toast.makeText(getBaseContext(), "扫描失败,请调整角度或方向或距离再试一次", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                } else {
                                     Contact contact = (Contact) arr.get(0);
                                     Intent intent = new  Intent(getBaseContext(),ContactInfoEditActivity.class);
                                     intent.putExtra(String.valueOf(R.string.key_contact_edit_para), contact);
                                     startActivityForResult(intent,1);
-                                } else {
-
                                 }
                             }
-
-
-
                         }
-
                     }catch (Exception e){
                         e.printStackTrace();
                     }
                 }
-
                 @Override
                 public void onError(OCRError error) {
                     // 调用失败，返回OCRError对象
                 }
             });
         }
+
+    }
+
+    private void havedRepairHistory(Contact con, final PostApiListener listern){
+        Map map = new HashMap();
+        map.put("owner", con.getOwner());
+        map.put("contactid", con.getIdfromnode());
+        map.put("carcode", con.getCarCode());
+        HttpManager.getInstance(this).queryContactAllRepair("/repair/queryOneAll3", map, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                if(jsonObject.optInt("code") == 1){
+                    ArrayList<RepairHistory> arr = getArrayRepair2(jsonObject);
+                    if(listern!=null){
+                        listern.onGetRepairHistory(arr);
+                    }else {
+
+                    }
+                }
+                else {
+                    listern.onGetRepairHistory(null);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                listern.onGetRepairHistory( null);
+            }
+        });
 
     }
 
@@ -750,4 +782,203 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        //暂时不能放开，放开了导致崩溃
+//        ARouter.getInstance().destroy();
+    }
+
+
+    protected ArrayList<RepairHistory> getArrayRepair2(JSONObject ret){
+        JSONArray arr = ret.optJSONArray("ret");
+
+        ArrayList<RepairHistory> arrRep = new ArrayList();
+        if (arr.length() > 0) {
+            for (int i = 0; i < arr.length(); i++) {
+                RepairHistory repFromServer = new RepairHistory();
+                JSONObject obj = arr.optJSONObject(i);
+                repFromServer.addition =obj.optString("addition").replace(" ", "");
+                repFromServer.carCode =obj.optString("carcode").replace(" ", "");
+                repFromServer.circle =obj.optString("circle");
+                repFromServer.isreaded = obj.optString("isreaded");
+                repFromServer.isClose = obj.optString("isclose");
+                repFromServer.owner =obj.optString("owner");
+                repFromServer.repairTime =obj.optString("repairetime");
+                repFromServer.repairType =obj.optString("repairtype");
+                repFromServer.tipCircle =obj.optString("tipcircle");
+                repFromServer.totalKm =obj.optString("totalkm");
+                repFromServer.idfromnode =obj.optString("_id");
+                repFromServer.inserttime =obj.optString("inserttime");
+                repFromServer.pics = obj.optString("pics");
+
+                repFromServer.state =obj.optString("state");
+                repFromServer.customremark =obj.optString("customremark");
+                repFromServer.wantedcompletedtime =obj.optString("wantedcompletedtime");
+                repFromServer.iswatiinginshop =obj.optString("iswatiinginshop");
+                repFromServer.entershoptime =obj.optString("entershoptime");
+                repFromServer.contactid =obj.optString("contactid");
+                repFromServer.saleMoney = obj.optString("saleMoney");
+
+
+                if(repFromServer.entershoptime.length()==0){
+                    repFromServer.entershoptime =   repFromServer.inserttime;
+                }
+
+                JSONArray items = obj.optJSONArray("items");
+                ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
+                int totalPrice = 0;
+                if(items != null){
+                    for(int j=0;j<items.length();j++){
+                        JSONObject itemObj = items.optJSONObject(j);
+                        ADTReapirItemInfo item = ADTReapirItemInfo.fromWithJsonObj(itemObj);
+                        totalPrice+=item.currentPrice;
+
+                        arrItems.add(item);
+                    }
+                }
+                repFromServer.arrRepairItems = arrItems;
+                repFromServer.totalPrice = String.valueOf(totalPrice);
+
+                Contact con = DBService.queryContact(repFromServer.carCode);
+                if(con != null){
+                    arrRep.add(repFromServer);
+                }
+            }
+        }
+        return arrRep;
+    }
+
+    /**
+     * 开单
+     * @param contact
+     */
+    protected void addNewRepair(Contact contact){
+        final RepairHistory rep =  new RepairHistory();
+        rep.addition = "";
+        rep.repairType = "";
+        rep.circle = "1";
+        rep.totalKm = "";
+        rep.isClose = "0";
+        rep.isreaded = "0";
+        rep.carCode = contact.getCarCode();
+        rep.contactid =contact.getIdfromnode();
+        rep.iswatiinginshop = "0";
+        rep.customremark = "";
+        rep.wantedcompletedtime = "";
+        rep.entershoptime = "";
+
+        ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
+        rep.arrRepairItems = arrItems;
+        JSONArray arrItmes = new JSONArray();
+        Map cv = new HashMap();
+        cv.put("carcode", rep.carCode);
+        cv.put("totalkm", rep.totalKm);
+        cv.put("repairetime",rep.repairTime);
+        cv.put("repairtype", rep.repairType);
+        cv.put("addition", rep.addition);
+        cv.put("tipcircle", rep.tipCircle);
+        cv.put("circle", rep.circle);
+        cv.put("isclose", rep.isClose) ;
+        cv.put("isreaded", rep.isClose);
+        cv.put("owner", LoginUserUtil.getTel(getBaseContext()));
+        cv.put("id", "");
+        cv.put("items", arrItmes);
+        cv.put("contactid", rep.contactid);
+        cv.put("iswatiinginshop", rep.iswatiinginshop);
+        cv.put("customremark", rep.customremark);
+        cv.put("wantedcompletedtime", rep.wantedcompletedtime);
+        cv.put("entershoptime", rep.entershoptime);
+
+        showWaitView();
+        HttpManager.getInstance(getBaseContext()).updateOneRepair("/repair/add4", cv, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+                stopWaitingView();
+                if(jsonObject.optInt("code") == 1){
+                    Toast.makeText(getBaseContext(),"开始接单",Toast.LENGTH_SHORT).show();
+                    rep.idfromnode = jsonObject.optJSONObject("ret").optString("_id");
+                    rep.state = jsonObject.optJSONObject("ret").optString("state");
+                    rep.owner = jsonObject.optJSONObject("ret").optString("owner");
+                    ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
+                    rep.arrRepairItems = arrItems;
+                    Intent intent = new Intent(getBaseContext(),WorkRoomEditActivity.class);
+                    intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
+                    startActivityForResult(intent, 1);
+
+                }else {
+                    Toast.makeText(getBaseContext(),"开单失败",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                stopWaitingView();
+                Toast.makeText(getApplicationContext(),"开单失败",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    /**
+     * 根据车牌号跳转至新建客户或历史工单页面
+     * @param words
+     */
+    public void checkNewCarcode(String words){
+        final ArrayList arr = DBService.queryContactNameByCarcode(words);
+        if(arr == null ||arr.size()==0){
+            Intent intent = new Intent(getBaseContext(),ContactAddNewActivity.class);
+            intent.putExtra("plate",words);
+            startActivity(intent);
+            return;
+        }else{
+            if(arr.size() >0) {
+                final  Contact contact = (Contact)arr.get(0);
+
+                havedRepairHistory(contact, new PostApiListener() {
+                    @Override
+                    public void onUploadVinPicSucceed(String vin) {
+
+                    }
+                    @Override
+                    public void onGetRepairHistory(ArrayList<RepairHistory> arr ) {
+                        if(arr!=null){
+                            if(arr.size()>0){
+                                Intent intent = new  Intent(BaseActivity.this,RepairHistoryListActivity.class);
+                                intent.putExtra(String.valueOf(R.string.key_parcel_allhistory), arr);
+                                intent.putExtra(String.valueOf(R.string.key_contact_edit_para), contact);
+                                startActivity(intent);
+                            }else {
+                                addNewRepair(contact);
+                            }
+                        }else {
+                            Toast.makeText(getBaseContext(), "扫描失败,请调整角度或方向或距离再试一次", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+
+            }
+        }
+    }
+
+
 }
+

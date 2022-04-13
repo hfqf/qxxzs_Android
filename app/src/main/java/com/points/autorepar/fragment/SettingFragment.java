@@ -42,6 +42,7 @@ import com.points.autorepar.R;
 import com.points.autorepar.activity.EditUserInfoActivity;
 import com.points.autorepar.activity.LoginActivity;
 import com.points.autorepar.activity.MainTabbarActivity;
+import com.points.autorepar.activity.PrivacyActivity;
 import com.points.autorepar.activity.ResetPwdActivity;
 import com.points.autorepar.bean.ADTReapirItemInfo;
 import com.points.autorepar.bean.Contact;
@@ -328,7 +329,9 @@ public class SettingFragment extends Fragment {
         mShareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onShareXZS();
+                Intent intent = new Intent(getActivity(), PrivacyActivity.class);
+                intent.putExtra("first","0");
+                startActivity(intent);
             }
         });
 

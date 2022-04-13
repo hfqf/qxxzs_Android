@@ -137,10 +137,6 @@ public class MyUnFinishedRepairFragment extends Fragment {
 
         webView = (WebView)view.findViewById(R.id.webview);
 
-//        webView.addJavascriptInterface(this,"android");//添加js监听 这样html就能调用客户端
-//        webView.setWebChromeClient(webChromeClient);
-//        webView.setWebViewClient(webViewClient);
-
         WebSettings webSettings=webView.getSettings();
         webSettings.setJavaScriptEnabled(true);//允许使用js
 

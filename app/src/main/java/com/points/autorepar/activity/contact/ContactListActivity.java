@@ -17,12 +17,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.points.autorepar.MainApplication;
 import com.points.autorepar.R;
 import com.points.autorepar.activity.BaseActivity;
 import com.points.autorepar.bean.Contact;
+import com.points.autorepar.common.ArouterConst;
 import com.points.autorepar.http.HttpManager;
 import com.points.autorepar.lib.cjj.MaterialRefreshLayout;
 import com.points.autorepar.lib.cjj.MaterialRefreshListener;
@@ -46,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Route(path= ArouterConst.Arouter_ContactListActivity)
 public class ContactListActivity extends BaseActivity {
     
     //回调接口

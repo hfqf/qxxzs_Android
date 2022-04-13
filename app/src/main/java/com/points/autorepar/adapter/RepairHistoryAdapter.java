@@ -52,12 +52,7 @@ public class RepairHistoryAdapter extends BaseAdapter {
 
         RepairHistory con = (RepairHistory)m_arrData.get(position);
         if(holder==null){
-            if(this.status == 4)
-            {
-                convertView = this.m_LInflater.inflate(R.layout.repairhistorynopaycelllayout, null);
-            }else {
-                convertView = this.m_LInflater.inflate(R.layout.repairhistorycelllayout, null);
-            }
+            convertView = this.m_LInflater.inflate(R.layout.repairhistorynopaycelllayout, null);
             holder = new ViewHolder();
             holder.mHead = ((ImageView) convertView.findViewById(R.id.id_repair_tiped_list_cell_headurl));
             holder.mName = ((TextView) convertView.findViewById(R.id.id_repair_tiped_list_cell_name));
@@ -71,11 +66,8 @@ public class RepairHistoryAdapter extends BaseAdapter {
             holder.mCustomerLeaveMessage = ((TextView) convertView.findViewById(R.id.id_repair_tiped_list_cell_customleavemessage));
             holder.mIndex = ((TextView) convertView.findViewById(R.id.id_repair_tiped_list_cell_index));
             convertView.setTag(holder);
-            if(this.status == 4)
-            {
-                holder.mPayStat = ((TextView) convertView.findViewById(R.id.paystat));
-                holder.mTotal = ((TextView) convertView.findViewById(R.id.payTotal));
-            }
+            holder.mPayStat = ((TextView) convertView.findViewById(R.id.paystat));
+            holder.mTotal = ((TextView) convertView.findViewById(R.id.payTotal));
         }else {
             holder = (ViewHolder)convertView.getTag();
         }
@@ -96,38 +88,23 @@ public class RepairHistoryAdapter extends BaseAdapter {
             holder.mCarInfo.setText(customer.getCarCode()+" "+customer.getCarType());
         }
         holder.mEnterTime.setText(con.entershoptime);
-        if(this.status != 4) {
-            if (con.state.equals("0")) {
-                holder.mState.setText("维修中");
-                holder.mState.setBackgroundColor(activity.getResources().getColor(R.color.material_light_blue));
-            } else if (con.state.equals("1")) {
-                holder.mState.setText("已修完");
-                holder.mState.setBackgroundColor(activity.getResources().getColor(R.color.material_blue));
-            } else if (con.state.equals("2")) {
-                if(con.ownnum==null || "".equalsIgnoreCase(con.ownnum) || "0".equalsIgnoreCase(con.ownnum)) {
-                    holder.mState.setText("已提车");
-                    holder.mState.setBackgroundColor(activity.getResources().getColor(R.color.material_green));
-                }else{
-                    holder.mState.setText("挂账中");
-                    holder.mState.setBackgroundColor(activity.getResources().getColor(R.color.material_red));
-                }
-            } else if (con.state.equals("3")) {
-                holder.mState.setText("已取消");
-                holder.mState.setBackgroundColor(activity.getResources().getColor(R.color.material_green));
-            }
-            holder.mTotalPrice.setText("总 ￥："+con.totalPrice);
-        }else{
+
 
            // 0线下(现金) 1会员卡支付 2微信 3支付宝
-            if("0".equalsIgnoreCase(con.payType)) {
+            if(con.payType == null){
                 holder.mPayStat.setText("现金");
-            }else if("1".equalsIgnoreCase(con.payType)){
-                holder.mPayStat.setText("会员卡支付");
-            }else if("2".equalsIgnoreCase(con.payType)){
-                holder.mPayStat.setText("微信支付");
-            }else if("3".equalsIgnoreCase(con.payType)){
-                holder.mPayStat.setText("支付宝支付");
+            }else {
+                if("0".equalsIgnoreCase(con.payType)) {
+                    holder.mPayStat.setText("现金");
+                }else if("1".equalsIgnoreCase(con.payType)){
+                    holder.mPayStat.setText("会员卡支付");
+                }else if("2".equalsIgnoreCase(con.payType)){
+                    holder.mPayStat.setText("微信支付");
+                }else if("3".equalsIgnoreCase(con.payType)){
+                    holder.mPayStat.setText("支付宝支付");
+                }
             }
+
             if("".equalsIgnoreCase(con.saleMoney)||"null".equalsIgnoreCase(con.saleMoney)||"0".equalsIgnoreCase(con.saleMoney))
             {
                 holder.mTotalPrice1.setVisibility(View.GONE);
@@ -137,10 +114,20 @@ public class RepairHistoryAdapter extends BaseAdapter {
                 holder.mTotalPrice1.setText("优惠：￥"+con.saleMoney);
             }
 
-            holder.mTotalPrice.setText("欠：￥"+con.ownnum);
-            holder.mTotal.setText("总 ￥："+con.totalPrice);
+            if(con.ownnum == null){
+                holder.mTotalPrice.setVisibility(View.GONE);
+            }else {
+                if(Integer.parseInt(con.ownnum)==0||"".equalsIgnoreCase(con.saleMoney)){
+                    holder.mTotalPrice.setVisibility(View.GONE);
+                }else {
+                    holder.mTotalPrice.setVisibility(View.VISIBLE);
+                    holder.mTotalPrice.setText("欠：￥"+con.ownnum);
+                }
+            }
 
-        }
+            int money = Integer.parseInt(con.totalPrice)-Integer.parseInt(con.saleMoney);
+            holder.mTotal.setText("实 ￥："+money);
+
 
         holder.mIsWatingInShop.setText(con.iswatiinginshop.equals("0") ? "不在店等":"在店等");
         holder.mRepairType.setText("服务项目:"+con.repairType);
