@@ -7,11 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,22 +18,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.points.autorepar.MainApplication;
 import com.points.autorepar.R;
 import com.points.autorepar.activity.BaseActivity;
 import com.points.autorepar.activity.CommonWebviewActivity;
-import com.points.autorepar.activity.contact.ContactAddNewActivity;
 import com.points.autorepar.activity.contact.ContactInfoEditActivity;
 import com.points.autorepar.bean.Contact;
 import com.points.autorepar.bean.UpdateCarcodeEvent;
 import com.points.autorepar.common.Consts;
-import com.points.autorepar.lib.ocr.ui.camera.CameraActivity;
-import com.points.autorepar.lib.ocr.ui.camera.FileUtil;
-
-import java.util.List;
-import java.util.Map;
-
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import RxJava.RxViewHelper;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -48,8 +39,6 @@ public class ContactInfoAdapter extends BaseAdapter {
     public  Contact         m_contact;
     public  boolean         m_isAddNew;
     private ContactInfoEditActivity m_infoActivity;
-//    private String mKey_str;
-//    private String mCarType_str;
 
     public ContactInfoAdapter(Context context, Contact m_contact) {
         this.m_context   = context;
@@ -59,11 +48,6 @@ public class ContactInfoAdapter extends BaseAdapter {
         m_isAddNew       = true;
     }
 
-
-    public void refreshEditVaules(){
-
-    }
-
     @Override
     public int getCount(){
         return 14;
@@ -71,7 +55,6 @@ public class ContactInfoAdapter extends BaseAdapter {
 
     @Override
     public   View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder holder = null ;
             convertView = this.m_LInflater.inflate(R.layout.contact_info_cell, null);
             holder = new ViewHolder();
@@ -79,65 +62,55 @@ public class ContactInfoAdapter extends BaseAdapter {
             holder.value = ((EditText) convertView.findViewById(R.id.contact_info_cell_content));
             convertView.setTag(holder);
 
-
         switch (position) {
             case 0:{
                 holder.tip.setText("车主名:");
                 holder.value.setText(this.m_contact.getName());
-                holder.value.addTextChangedListener(watcher1);
+                RxViewHelper.textChange(holder.value,(s)->{
+                    if(s.toString().length() >0 && !s.toString().equals("0")) {
+                        m_contact.setName(s.toString());
+                    }
+                });
                 break;
             }
 
             case 1:{
                 convertView = this.m_LInflater.inflate(R.layout.contact_info_cell_carnum, null);
                 ImageView contact_cartype_show = ((ImageView) convertView.findViewById(R.id.contact_carnum_v));
-
                 EditText contact_carnum = (EditText)convertView.findViewById(R.id.contact_carnum);
                 contact_carnum.setText(m_contact.getCarCode());
-                contact_carnum.addTextChangedListener(watcher2);
-                contact_cartype_show.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        EventBus.getDefault().post(new UpdateCarcodeEvent(""));
-                    }
+                RxViewHelper.textChange(contact_carnum,(s)->{
+                            if(s.toString().length() >0 && !s.toString().equals("0")) {
+                                m_contact.setCarCode(s.toString());
+                            }
                 });
-
-
+                RxViewHelper.clickWith(contact_cartype_show,()->{
+                    EventBus.getDefault().post(new UpdateCarcodeEvent(""));
+                });
                 break;
             }
 
             case 2:{
-//                holder.tip.setText("车主号码:");
-//                holder.value.setText(this.m_contact.getTel());
-//                holder.value.addTextChangedListener(watcher3);
-//                break;
                 convertView = this.m_LInflater.inflate(R.layout.contact_info_cell_phone, null);
                 EditText contact_add_phone = ((EditText) convertView.findViewById(R.id.contact_add_phone));
                 contact_add_phone.setText(m_contact.getTel());
-                contact_add_phone.addTextChangedListener(watcher3);
-                ImageView callPhone = ((ImageView) convertView.findViewById(R.id.callphone));
-                callPhone.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-//                        Intent intent = new Intent(Intent.ACTION_CALL);
-//                        Uri data = Uri.parse("tel:" + m_contact.getTel());
-//                        intent.setData(data);
-//                        m_context.startActivity(intent);
-//                        callDirectly(m_contact.getTel());
-                        onCall(m_contact.getTel());
+                RxViewHelper.textChange(contact_add_phone,(s)->{
+                    if(s.toString().length() >0 && !s.toString().equals("0")) {
+                        m_contact.setTel(s.toString());
                     }
+                });
+
+                ImageView callPhone = ((ImageView) convertView.findViewById(R.id.callphone));
+                RxViewHelper.clickWith(callPhone,()->{
+                    onCall(m_contact.getTel());
                 });
                 break;
             }
 
             case 3:{
-
                 convertView = this.m_LInflater.inflate(R.layout.contact_info_cell_cartype, null);
                 EditText mCarType = ((EditText) convertView.findViewById(R.id.contact_add_cartype));
                 Button contact_cartype_show = ((Button) convertView.findViewById(R.id.contact_cartype_show));
-
-
                 String isneeddirectaddcartype = MainApplication.getInstance().getisneeddirectaddcartype(m_context);
                 if("0".equalsIgnoreCase(isneeddirectaddcartype))
                 {
@@ -147,9 +120,6 @@ public class ContactInfoAdapter extends BaseAdapter {
                     mCarType.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-
-//                            String weburl ="file:///android_asset/carpickerIndex.html";
                             String weburl = MainApplication.consts(ContactInfoAdapter.this.m_context).HTTP_URL + "/noticeboard/carpick2";
                             Intent intent = new Intent(m_context, CommonWebviewActivity.class);
                             intent.putExtra("url",weburl);
@@ -157,67 +127,56 @@ public class ContactInfoAdapter extends BaseAdapter {
                             m_infoActivity.startActivityForResult(intent,1);
                         }
                     });
-                    if(m_contact.getCar_key() == null || "".equalsIgnoreCase(m_contact.getCar_key()) )
-                    {
+                    if(m_contact.getCar_key() == null || "".equalsIgnoreCase(m_contact.getCar_key())){
                         contact_cartype_show.setVisibility(View.GONE);
                     }else {
-//                        contact_cartype_show.setVisibility(View.VISIBLE);
-                        contact_cartype_show.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                if ("".equalsIgnoreCase(m_contact.getCar_key())) {
-                                    Toast.makeText(m_context, "请设置正确的车型", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-
-                                String weburl = Consts.HTTP_URL + "/noticeboard/cardetail?carId=" + m_contact.getCar_key();
-//                            String weburl ="file:///android_asset/carpickerIndex.html";
-                                Intent intent = new Intent(m_context, CommonWebviewActivity.class);
-                                intent.putExtra("url", weburl);
-                                intent.putExtra("title", "车型");
-                                ((Activity) m_context).startActivityForResult(intent, 1);
+                        RxViewHelper.clickWith(contact_cartype_show,()->{
+                            if ("".equalsIgnoreCase(m_contact.getCar_key())) {
+                                Toast.makeText(m_context, "请设置正确的车型", Toast.LENGTH_LONG).show();
+                                return;
                             }
+                            String weburl = Consts.HTTP_URL + "/noticeboard/cardetail?carId=" + m_contact.getCar_key();
+                            Intent intent = new Intent(m_context, CommonWebviewActivity.class);
+                            intent.putExtra("url", weburl);
+                            intent.putExtra("title", "车型");
+                            ((Activity) m_context).startActivityForResult(intent, 1);
                         });
                     }
                 }else{
                     mCarType.setCursorVisible(true);
                     mCarType.setFocusable(true);
                     mCarType.setFocusableInTouchMode(true);
-                    mCarType.addTextChangedListener(watcher4);
+                    RxViewHelper.textChange(mCarType,(s)->{
+                        if(s.toString().length() >0 && !s.toString().equals("0")) {
+                            m_contact.setCarType(s.toString());
+                        }
+                    });
                     contact_cartype_show.setVisibility(View.GONE);
-
                 }
-
-
-
                 mCarType.setText(m_contact.getCarType());
-
-
-
                 break;
             }
             case 4:{
                 convertView = this.m_LInflater.inflate(R.layout.contact_info_cell_carvin, null);
                 ImageView contact_cartype_show = ((ImageView) convertView.findViewById(R.id.carz_v));
-
                 final   EditText contact_carnum = (EditText)convertView.findViewById(R.id.contact_car_vin);
                 contact_carnum.setText(m_contact.getVin());
-                contact_carnum.addTextChangedListener(watcher5);
-                contact_cartype_show.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        m_infoActivity.startSelectVinPicToUpload(2, new BaseActivity.speUploadVinListener() {
-                            @Override
-                            public void onUploadVinPicSucceed(String vin) {
-                                if(vin.length() == 17){
-                                    contact_carnum.setText(vin);
-                                }
-                            }
-                        });
-
+                RxViewHelper.textChange(contact_carnum,(s)->{
+                    if(s.toString().length() >0 && !s.toString().equals("0")) {
+                        m_contact.setVin(s.toString());
                     }
+                });
+
+                RxViewHelper.clickWith(contact_cartype_show,()->{
+                    m_infoActivity.startSelectVinPicToUpload(2, new BaseActivity.speUploadVinListener() {
+                        @Override
+                        public void onUploadVinPicSucceed(String vin) {
+                            if(vin.length() == 17){
+                                contact_carnum.setText(vin);
+                            }
+                        }
+                    });
                 });
                 break;
             }
@@ -228,7 +187,15 @@ public class ContactInfoAdapter extends BaseAdapter {
                 holder.value.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        m_infoActivity.selectDate(0);
+                        m_infoActivity.selectDate(new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                int month = monthOfYear + 1;
+                                String date = year + (month > 9 ? ("-"+month) : ("-0"+month)) + ( dayOfMonth > 9 ?  ("-"+dayOfMonth) : ("-0"+dayOfMonth));
+                                m_contact.setCarregistertime(date);
+                                notifyDataSetChanged();
+                            }
+                        });
                     }
                 });
                 break;
@@ -240,7 +207,15 @@ public class ContactInfoAdapter extends BaseAdapter {
                 holder.value.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        m_infoActivity.selectDate(1);
+                        m_infoActivity.selectDate(new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                int month = monthOfYear + 1;
+                                String date = year + (month > 9 ? ("-"+month) : ("-0"+month)) + ( dayOfMonth > 9 ?  ("-"+dayOfMonth) : ("-0"+dayOfMonth));
+                                m_contact.setYearchecknexttime(date);
+                                notifyDataSetChanged();
+                            }
+                        });
                     }
                 });
                 break;
@@ -248,13 +223,21 @@ public class ContactInfoAdapter extends BaseAdapter {
             case 7:{
                 holder.tip.setText("年审提醒提前天数:");
                 holder.value.setText(this.m_contact.getTqTime1());
-                holder.value.addTextChangedListener(watcher6);
+                RxViewHelper.textChange(holder.value,(s)->{
+                    if(s.toString().length() >0 && !s.toString().equals("0")) {
+                        m_contact.setTqTime1(s.toString());
+                    }
+                });
                 break;
             }
             case 8:{
                 holder.tip.setText("商业险公司:");
                 holder.value.setText(this.m_contact.getSafecompany());
-                holder.value.addTextChangedListener(watcher7);
+                RxViewHelper.textChange(holder.value,(s)->{
+                    if(s.toString().length() >0 && !s.toString().equals("0")) {
+                        m_contact.setSafecompany(s.toString());
+                    }
+                });
                 break;
             }
             case 9:{
@@ -264,7 +247,15 @@ public class ContactInfoAdapter extends BaseAdapter {
                 holder.value.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        m_infoActivity.selectDate(2);
+                        m_infoActivity.selectDate(new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                int month = monthOfYear + 1;
+                                String date = year + (month > 9 ? ("-"+month) : ("-0"+month)) + ( dayOfMonth > 9 ?  ("-"+dayOfMonth) : ("-0"+dayOfMonth));
+                                m_contact.setSafenexttime(date);
+                                notifyDataSetChanged();
+                            }
+                        });
                     }
                 });
                 break;
@@ -272,31 +263,48 @@ public class ContactInfoAdapter extends BaseAdapter {
             case 10:{
                 holder.tip.setText("商业险提前提醒时间:");
                 holder.value.setText(this.m_contact.getTqTime2());
-                holder.value.addTextChangedListener(watcher8);
+                RxViewHelper.textChange(holder.value,(s)->{
+                    if(s.toString().length() >0 && !s.toString().equals("0")) {
+                        m_contact.setTqTime2(s.toString());
+                    }
+                });
                 break;
             }
             case 11:{
                 holder.tip.setText("交强险公司:");
                 holder.value.setText(this.m_contact.getSafecompany3());
-                holder.value.addTextChangedListener(watcher9);
+                RxViewHelper.textChange(holder.value,(s)->{
+                    if(s.toString().length() >0 && !s.toString().equals("0")) {
+                        m_contact.setSafecompany3(s.toString());
+                    }
+                });
                 break;
             }
             case 12:{
                 holder.tip.setText("交强险到期时间:");
                 holder.value.setText(this.m_contact.getSafenexttime3());
                 holder.value.setFocusableInTouchMode(false);
-                holder.value.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        m_infoActivity.selectDate(3);
-                    }
+                RxViewHelper.clickWith(holder.value,()->{
+                    m_infoActivity.selectDate(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                            int month = monthOfYear + 1;
+                            String date = year + (month > 9 ? ("-"+month) : ("-0"+month)) + ( dayOfMonth > 9 ?  ("-"+dayOfMonth) : ("-0"+dayOfMonth));
+                            m_contact.setSafenexttime3(date);
+                            notifyDataSetChanged();
+                        }
+                    });
                 });
                 break;
             }
             case 13:{
                 holder.tip.setText("交强险提前提醒时间:");
                 holder.value.setText(this.m_contact.getTqTime3());
-                holder.value.addTextChangedListener(watcher10);
+                RxViewHelper.textChange(holder.value,(s)->{
+                    if(s.toString().length() >0 && !s.toString().equals("0")) {
+                        m_contact.setTqTime3(s.toString());
+                    }
+                });
                 break;
             }
             default:
@@ -321,246 +329,6 @@ public class ContactInfoAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView tip;
         EditText value;
-    }
-
-
-
-    private TextWatcher watcher1 = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length() >0 && !s.toString().equals("0")){
-                m_contact.setName(s.toString());
-            }
-        }
-    };
-
-    private TextWatcher watcher2 = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length() >0 && !s.toString().equals("0")) {
-                m_contact.setCarCode(s.toString());
-            }
-
-        }
-    };
-
-    private TextWatcher watcher3 = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length() >0 && !s.toString().equals("0")) {
-                m_contact.setTel(s.toString());
-            }
-        }
-    };
-
-    private TextWatcher watcher4 = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-//            m_contact.setCarType(s.toString());
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length() >0 && !s.toString().equals("0")) {
-                m_contact.setCarType(s.toString());
-            }
-        }
-    };
-
-    private TextWatcher watcher5 = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length() >0 && !s.toString().equals("0")) {
-                m_contact.setVin(s.toString());
-            }
-        }
-    };
-
-    private TextWatcher watcher6 = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length() >0 && !s.toString().equals("0")) {
-                m_contact.setTqTime1(s.toString());
-            }
-        }
-    };
-
-    private TextWatcher watcher7 = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length() >0 && !s.toString().equals("0")) {
-                m_contact.setSafecompany(s.toString());
-            }
-        }
-    };
-
-    private TextWatcher watcher8 = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length() >0 && !s.toString().equals("0")) {
-                m_contact.setTqTime2(s.toString());
-            }
-        }
-    };
-
-    private TextWatcher watcher9 = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length() >0 && !s.toString().equals("0")) {
-                m_contact.setSafecompany3(s.toString());
-            }
-        }
-    };
-
-    private TextWatcher watcher10 = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length() >0 && !s.toString().equals("0")) {
-                m_contact.setTqTime3(s.toString());
-            }
-        }
-    };
-    public void onActivityResult(int requestCode
-            , int resultCode, Intent intent)
-    {
-        // 当requestCode、resultCode同时为0，也就是处理特定的结果
-        if (requestCode == 0 && resultCode == 1)
-        {
-            Bundle data = intent.getExtras();
-            // 取出Bundle中的数据
-
-            m_contact.setCarType( data.getString("mCarType_str"));
-            m_contact.setCar_key( data.getString("mKey_str"));
-            notifyDataSetChanged();
-        }
     }
 
     private void callDirectly(String mobile) {
@@ -590,17 +358,4 @@ public class ContactInfoAdapter extends BaseAdapter {
         }
 
     }
-    //动态权限申请后处理
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,int[] grantResults){
-        switch (requestCode) {
-            case REQUEST_CODE_ASK_CALL_PHONE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission Granted callDirectly(mobile);
-                }else {
-                    // Permission Denied
-                    Toast.makeText(m_infoActivity,"请打开拨号权限后使用", Toast.LENGTH_SHORT) .show();
-                }break;
-            default:
-                m_infoActivity.onRequestPermissionsResult();
-        } }
 }

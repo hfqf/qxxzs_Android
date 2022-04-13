@@ -75,11 +75,13 @@ import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.PermissionManager.TPermissionType;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import Utils.SpeDateHelper;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.ThreadMode;
 
@@ -120,9 +122,9 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
     public static final int REQUEST_CODE_DRIVING_LICENSE = 121;
     public static final int REQUEST_CODE_LICENSE_PLATE = 122;
 
+
     public interface speUploadListener{
-        void uploadContactSucceed(String newHeadUrl);
-        void uploadUserSucceed(String newHeadUrl);
+        void uploadPictureSucceed(String url);
     }
 
     public interface speUploadVinListener{
@@ -377,17 +379,12 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                 .show();
     }
 
-
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         TPermissionType type=PermissionManager.onRequestPermissionsResult(requestCode,permissions,grantResults);
         PermissionManager.handlePermissionsResult(this,type,invokeParam,this);
     }
-
-
 
     /**
      *  获取TakePhoto实例
@@ -449,14 +446,7 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
             @Override
             public void onResponse(JSONObject jsonObject) {
               final   String _file = fileName+".png";
-                if(m_uplaodType == 0){
-                    m_listener.uploadUserSucceed(_file);
-                }else if(m_uplaodType == 1){
-                    m_listener.uploadContactSucceed(_file);
-                }else {
-
-                }
-
+                m_listener.uploadPictureSucceed(_file);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -979,6 +969,13 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
         }
     }
 
+
+    /**
+     * 选择日期
+     */
+    public void selectDate(DatePickerDialog.OnDateSetListener  listener) {
+        SpeDateHelper.show(listener, getFragmentManager());
+    }
 
 }
 

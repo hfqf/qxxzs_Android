@@ -122,21 +122,7 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     m_activity.startSelectPicToUpload(0, new BaseActivity.speUploadListener() {
                         @Override
-                        public void uploadContactSucceed(String newHeadUrl) {
-                            Log.d(TAG,newHeadUrl);
-                            picUrls.add(newHeadUrl);
-
-                            String str = "";
-                            for(int i=0;i<picUrls.size();i++){
-                                String _s = picUrls.get(i)+",";
-                                str +=  _s;
-                            }
-                            m_data.pics = str;
-                            notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void uploadUserSucceed(String newHeadUrl) {
+                        public void uploadPictureSucceed(String newHeadUrl) {
                             Log.d(TAG,newHeadUrl);
                             picUrls.add(newHeadUrl);
 
