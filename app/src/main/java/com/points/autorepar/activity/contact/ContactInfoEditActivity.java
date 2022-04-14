@@ -1,12 +1,9 @@
 package com.points.autorepar.activity.contact;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,26 +13,15 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.OcrRequestParams;
 import com.baidu.ocr.sdk.model.OcrResponseResult;
-import com.jph.takephoto.app.TakePhoto;
-import com.jph.takephoto.app.TakePhotoImpl;
-import com.jph.takephoto.compress.CompressConfig;
-import com.jph.takephoto.model.CropOptions;
-import com.jph.takephoto.model.InvokeParam;
-import com.jph.takephoto.model.TContextWrap;
-import com.jph.takephoto.model.TResult;
-import com.jph.takephoto.permission.PermissionManager;
-import com.jph.takephoto.permission.TakePhotoInvocationHandler;
+import com.bumptech.glide.Glide;
 import com.points.autorepar.MainApplication;
-import com.points.autorepar.activity.VipHomeActivity;
 import com.points.autorepar.activity.WebActivity;
 import com.points.autorepar.activity.repair.RepairHistoryListActivity;
 import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
@@ -49,30 +35,20 @@ import com.points.autorepar.lib.ocr.ui.camera.FileUtil;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.bean.Contact;
 import com.points.autorepar.R;
-import com.points.autorepar.utils.DateUtil;
 import com.points.autorepar.utils.LoggerUtil;
 import com.points.autorepar.utils.LoginUserUtil;
-import com.umeng.analytics.MobclickAgent;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import de.greenrobot.event.EventBus;
 
-public class ContactInfoEditActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
+public class ContactInfoEditActivity extends BaseActivity{
     private final  String  TAG = "ContactInfoEditActivity";
-
-
-
     private Button mBackBtn;
     private Button mConfirmBtn;
     private Button mdeleteBtn;
@@ -80,30 +56,18 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
     private Button mdeleteContactBtn;
     private Button mAddNewRepBtn;
     private Button mCloseTipBtn;
-
     private Button mOpenCardBtn;
     private Button mChargeCardBtn;
     private Button mHistoryCardBtn;
-
     private  String    m_headUrl;
-    private TextView mName;
-    private TextView mCarCode;
-    private TextView mTel;
-    private TextView mCarType;
     private TextView mTitle;
-
     private ListView mListView;
     private ContactInfoAdapter m_adapter;
     private View     mFooterView;
     private View     mHeaderView;
     ContactInfoEditActivity m_this;
     private  Contact m_currentContact;
-
-
     private ImageButton m_headBtn;
-
-    private int     m_selectTimeType;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,17 +101,12 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
             }
         });
 
-
-        if(MainApplication.getInstance().getUserType(ContactInfoEditActivity.this) == 2)
-        {
-
+        if(MainApplication.getInstance().getUserType(ContactInfoEditActivity.this) == 2) {
             mConfirmBtn.setVisibility(View.VISIBLE);
         }else{
-            if("1".equalsIgnoreCase(MainApplication.getInstance().getSPValue(ContactInfoEditActivity.this,"iscaneditcontact")))
-            {
+            if("1".equalsIgnoreCase(MainApplication.getInstance().getSPValue(ContactInfoEditActivity.this,"iscaneditcontact"))) {
                 mConfirmBtn.setVisibility(View.VISIBLE);
             }else {
-
                 mConfirmBtn.setVisibility(View.INVISIBLE);
             }
         }
@@ -164,31 +123,20 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         mListView.addHeaderView(mHeaderView);
 
         mListView.addFooterView(mFooterView);
-
         m_adapter = new ContactInfoAdapter(this,m_currentContact);
         m_adapter.m_isAddNew = false;
         mListView.setAdapter(m_adapter);
 
-
         m_headUrl = MainApplication.consts(m_this).BOS_SERVER+m_currentContact.getHeadurl();
         m_headBtn = (ImageButton) mHeaderView.findViewById(R.id.contact_edit_headurl);
-        imageLoader.get(m_headUrl, new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                m_headBtn.setImageBitmap(imageContainer.getBitmap());
-            }
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                m_headBtn.setImageResource(R.drawable.appicon);
-            }
-        },1000,1000);
+        Glide.with(m_this).load(m_headUrl).into(m_headBtn);
+
         m_headBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startSelectPicToUpload(1, new speUploadListener() {
                     @Override
-                    public void uploadContactSucceed(final String newHeadUrl) {
-
+                    public void uploadPictureSucceed(final String newHeadUrl) {
                         final String _newUrl =  newHeadUrl;
                         Log.e(TAG,newHeadUrl);
                         m_currentContact.setHeadurl(newHeadUrl);
@@ -199,32 +147,11 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                                     @Override
                                     public void onResponse(JSONObject jsonObject) {
                                         if(jsonObject.optInt("code") == 1){
-
                                             Log.e(TAG,"/onResponse:"+jsonObject.toString());
-                                         final    String url = MainApplication.consts(m_this).BOS_SERVER+newHeadUrl;
-
+                                            final    String url = MainApplication.consts(m_this).BOS_SERVER+newHeadUrl;
                                             DBService.updateContact(m_currentContact);
-
-                                            Handler mainHandler = new Handler(Looper.getMainLooper());
-                                            mainHandler.post(new Runnable() {
-                                                @Override
-                                                public void run() {
-
-                                                    mQueue.getCache().remove(url);
-                                                    imageLoader.get(url, new ImageLoader.ImageListener() {
-                                                        @Override
-                                                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                                                            m_headBtn.setImageBitmap(imageContainer.getBitmap());
-                                                        }
-                                                        @Override
-                                                        public void onErrorResponse(VolleyError volleyError) {
-
-                                                        }
-                                                    },1000,1000);
-                                                }
-                                            });
-
-
+                                            Glide.get(m_this).clearMemory();
+                                            Glide.with(m_this).load(url).into(m_headBtn);
                                         }
                                     }
                                 },
@@ -234,12 +161,6 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
 
                                     }
                                 });
-
-                    }
-
-                    @Override
-                    public void uploadUserSucceed(String newHeadUrl) {
-
                     }
                 });
             }
@@ -260,57 +181,36 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
             }
         });
 
-
-
-        if(MainApplication.getInstance().getUserType(ContactInfoEditActivity.this) == 2)
-        {
-
+        if(MainApplication.getInstance().getUserType(ContactInfoEditActivity.this) == 2) {
             mSeeAllBtn.setVisibility(View.VISIBLE);
         }else{
-
-            if("1".equalsIgnoreCase(MainApplication.getInstance().getSPValue(ContactInfoEditActivity.this,"iscanseecontactrepairs")))
-            {
+            if("1".equalsIgnoreCase(MainApplication.getInstance().getSPValue(ContactInfoEditActivity.this,"iscanseecontactrepairs"))) {
                 mSeeAllBtn.setVisibility(View.VISIBLE);
             }else {
-
                 mSeeAllBtn.setVisibility(View.GONE);
             }
         }
 
-        if(MainApplication.getInstance().getUserType(ContactInfoEditActivity.this) == 2)
-        {
-
+        if(MainApplication.getInstance().getUserType(ContactInfoEditActivity.this) == 2) {
             mdeleteBtn.setVisibility(View.VISIBLE);
         }else{
-
-
             mdeleteBtn.setVisibility(View.GONE);
         }
 
-
         mdeleteContactBtn = (Button)mFooterView.findViewById(R.id.contact_edit_deletecontact);
-
-
-
-        if(MainApplication.getInstance().getUserType(ContactInfoEditActivity.this) == 2)
-        {
-
+        if(MainApplication.getInstance().getUserType(ContactInfoEditActivity.this) == 2) {
             mdeleteContactBtn.setVisibility(View.VISIBLE);
         }else{
-            if("1".equalsIgnoreCase(MainApplication.getInstance().getSPValue(ContactInfoEditActivity.this,"iscandelcontact")))
-            {
+            if("1".equalsIgnoreCase(MainApplication.getInstance().getSPValue(ContactInfoEditActivity.this,"iscandelcontact"))) {
                 mdeleteContactBtn.setVisibility(View.VISIBLE);
             }else {
-
                 mdeleteContactBtn.setVisibility(View.GONE);
             }
         }
 
-
         mdeleteContactBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final AlertDialog.Builder normalDialog =
                         new AlertDialog.Builder(m_this);
                 normalDialog.setTitle("删除此客户,不可恢复!");
@@ -319,21 +219,17 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
                                 deleteServerAndLocalContact(m_currentContact);
-
                             }
                         });
                 normalDialog.setNegativeButton("关闭",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //...To-do
+
                             }
                         });
-                // 显示
                 normalDialog.show();
-
             }
         });
 
@@ -346,22 +242,15 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         });
 
         mAddNewRepBtn = (Button)mFooterView.findViewById(R.id.contact_add_new_repair);
-
-        if(MainApplication.getInstance().getUserType(ContactInfoEditActivity.this) == 2)
-        {
-
+        if(MainApplication.getInstance().getUserType(ContactInfoEditActivity.this) == 2) {
             mAddNewRepBtn.setVisibility(View.VISIBLE);
         }else{
-            if("1".equalsIgnoreCase(MainApplication.getInstance().getSPValue(ContactInfoEditActivity.this,"iscandelcontact")))
-            {
+            if("1".equalsIgnoreCase(MainApplication.getInstance().getSPValue(ContactInfoEditActivity.this,"iscandelcontact"))) {
                 mAddNewRepBtn.setVisibility(View.VISIBLE);
             }else {
-
                 mAddNewRepBtn.setVisibility(View.GONE);
             }
         }
-
-
 
         if(m_currentContact.getisVip().equals("1")){
             mChargeCardBtn = (Button)mFooterView.findViewById(R.id.contact_add_charge_card);
@@ -395,11 +284,9 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
             });
         }
 
-
         mAddNewRepBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final RepairHistory rep =  new RepairHistory();
                 rep.isAddedNewRepair = 1;
                 rep.addition = "";
@@ -415,7 +302,6 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 rep.wantedcompletedtime = "";
                 rep.entershoptime = "";
                 rep.repairTime = "";
-
                 JSONArray arrItmes = new JSONArray();
                 Map cv = new HashMap();
                 cv.put("carcode", rep.carCode);
@@ -436,12 +322,10 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 cv.put("wantedcompletedtime", rep.wantedcompletedtime);
                 cv.put("entershoptime", rep.entershoptime);
 
-
                 showWaitView();
                 HttpManager.getInstance(m_this).updateOneRepair("/repair/add4", cv, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-
                         stopWaitingView();
                         if(jsonObject.optInt("code") == 1){
                             Toast.makeText(m_this,"开始接单",Toast.LENGTH_SHORT).show();
@@ -453,16 +337,13 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                             Intent intent = new Intent(m_this,WorkRoomEditActivity.class);
                             intent.putExtra(String.valueOf(R.string.key_repair_edit_para), rep);
                             startActivity(intent);
-
                         }else {
                             Toast.makeText(m_this,"开单失败",Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-
                         stopWaitingView();
                         Toast.makeText(getApplicationContext(),"开单失败",Toast.LENGTH_SHORT).show();
                     }
@@ -471,55 +352,38 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         });
     }
 
-
     private  void deleteServerAndLocalContact(final Contact _delCon){
-
         showWaitView();
         Map map = new HashMap();
         map.put("id", _delCon.getIdfromnode());
         map.put("owner", _delCon.getOwner());
-
         HttpManager.getInstance(m_this).deleteOneContact("/contact/del3", map, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-
                 stopWaitingView();
                 final Contact con = _delCon;
                 Boolean isSucceed= jsonObject.optString("code").equals("1");
                 if(isSucceed){
                     if(DBService.deleteContact(con)){
-
                         deleteAllReapirs();
-
                     }else {
                         Toast.makeText(m_this, "删除失败", Toast.LENGTH_SHORT).show();
                     }
-
                 }
                 else {
                     Toast.makeText(m_this, "删除失败", Toast.LENGTH_SHORT).show();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
                 stopWaitingView();
                 Toast.makeText(m_this, "删除失败", Toast.LENGTH_SHORT).show();
-
             }
         });
-
     }
 
-
-
-
     private void updateBtnClicked(){
-
-
-
         showWaitView();
         Map map = new HashMap();
         map.put("name", m_adapter.m_contact.getName());
@@ -533,14 +397,12 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         map.put("headurl", m_adapter.m_contact.getHeadurl().length() == 0?"":m_adapter.m_contact.getHeadurl());
         map.put("isbindweixin", m_adapter.m_contact.getIsbindweixin());
         map.put("weixinopenid", m_adapter.m_contact.getWeixinopenid().length() == 0 ?"":m_adapter.m_contact.getWeixinopenid());
-
         map.put("safecompany", m_adapter.m_contact.getSafecompany().length() == 0 ?"":m_adapter.m_contact.getSafecompany());
         map.put("safenexttime", m_adapter.m_contact.getSafenexttime().length() == 0 ?"":m_adapter.m_contact.getSafenexttime());
         map.put("yearchecknexttime", m_adapter.m_contact.getYearchecknexttime().length() == 0 ?"":m_adapter.m_contact.getYearchecknexttime());
         map.put("tqTime1", m_adapter.m_contact.getTqTime1().length() == 0 ?"":m_adapter.m_contact.getTqTime1());
         map.put("tqTime2", m_adapter.m_contact.getTqTime2().length() == 0 ?"":m_adapter.m_contact.getTqTime2());
         map.put("key",m_adapter.m_contact.getCar_key()== null?"":m_adapter.m_contact.getCar_key());
-
         map.put("safecompany3", m_adapter.m_contact.getSafecompany3().length() == 0 ?"":m_adapter.m_contact.getSafecompany3());
         map.put("safenexttime3", m_adapter.m_contact.getSafenexttime3().length() == 0 ?"":m_adapter.m_contact.getSafenexttime3());
         map.put("tqTime3", m_adapter.m_contact.getTqTime3().length() == 0 ?"":m_adapter.m_contact.getTqTime3());
@@ -550,9 +412,7 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
                         stopWaitingView();
-
                         Log.e(TAG, LoggerUtil.jsonFromObject(response));
                         if(response.optInt("code") == 1){
                             DBService.updateContact(m_adapter.m_contact);
@@ -561,28 +421,22 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                         }else {
                             Toast.makeText(getApplicationContext(),"修改失败",Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         stopWaitingView();
                         Toast.makeText(getApplicationContext(),"修改失败",Toast.LENGTH_SHORT).show();
-
                     }
                 });
-
     }
-
 
     /**
      * 私有方法
      */
     //删除当前用户以及对应的维修记录
     private  void deleteContactAndAllRepair( ){
-
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(this);
         normalDialog.setTitle("删除所有维修记录,不可恢复!");
@@ -600,17 +454,14 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //...To-do
+
                     }
                 });
-        // 显示
         normalDialog.show();
     }
 
-
     private ArrayList<RepairHistory> getArrayRepair(JSONObject ret){
         JSONArray arr = ret.optJSONArray("ret");
-
         ArrayList<RepairHistory> arrRep = new ArrayList();
         if (arr.length() > 0) {
             for (int i = 0; i < arr.length(); i++) {
@@ -629,7 +480,6 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 repFromServer.idfromnode =obj.optString("_id");
                 repFromServer.inserttime =obj.optString("inserttime");
                 repFromServer.pics = obj.optString("pics");
-
                 repFromServer.state =obj.optString("state");
                 repFromServer.customremark =obj.optString("customremark");
                 repFromServer.wantedcompletedtime =obj.optString("wantedcompletedtime");
@@ -637,7 +487,6 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 repFromServer.entershoptime =obj.optString("entershoptime");
                 repFromServer.contactid =obj.optString("contactid");
                 repFromServer.saleMoney = obj.optString("saleMoney");
-
 
                 if(repFromServer.entershoptime.length()==0){
                     repFromServer.entershoptime =   repFromServer.inserttime;
@@ -657,7 +506,6 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 }
                 repFromServer.arrRepairItems = arrItems;
                 repFromServer.totalPrice = String.valueOf(totalPrice);
-
                 Contact con = DBService.queryContact(repFromServer.carCode);
                 if(con != null){
                     arrRep.add(repFromServer);
@@ -667,11 +515,8 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         return arrRep;
     }
 
-
-
     //查看当前用户所有维修记录
     private  void seeAllRepair( ){
-
         showWaitView();
         Map map = new HashMap();
         map.put("owner", m_currentContact.getOwner());
@@ -681,11 +526,9 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         HttpManager.getInstance(m_this).queryContactAllRepair("/repair/queryOneAll3", map, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-
                 stopWaitingView();
                 Log.e(TAG,"/repair/queryAllTiped"+jsonObject.toString());
                 if(jsonObject.optInt("code") == 1){
-
                     ArrayList<RepairHistory> arr = getArrayRepair(jsonObject);
                     Intent intent = new  Intent(m_this,RepairHistoryListActivity.class);
                     intent.putExtra(String.valueOf(R.string.key_parcel_allhistory), arr);
@@ -694,7 +537,6 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 else {
                     Toast.makeText(m_this,"查看失败",Toast.LENGTH_SHORT).show();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -703,57 +545,9 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                 Toast.makeText(m_this,"查看失败",Toast.LENGTH_SHORT).show();
             }
         });
-
-
-    }
-
-
-    /**
-     * 删除服务器数据和本地数据库数据
-     */
-    private  void deleteContact(){
-
-        showWaitView();
-        Map map = new HashMap();
-        map.put("id", m_currentContact.getIdfromnode());
-
-        HttpManager.getInstance(m_this).deleteOneContact("/contact/del3", map, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-
-                stopWaitingView();
-
-                Boolean isSucceed= jsonObject.optString("code").equals("1");
-                if(isSucceed){
-
-                    if(DBService.deleteContact(m_currentContact)){
-
-                        Toast.makeText(m_this, "删除成功", Toast.LENGTH_SHORT).show();
-
-                    }else {
-                        Toast.makeText(m_this, "删除失败", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-                else {
-                    Toast.makeText(m_this, "删除失败", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-
-                stopWaitingView();
-                Toast.makeText(getApplicationContext(), "删除失败", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
     }
 
     private  void  deleteAllReapirs(){
-
         showWaitView();
         Map map = new HashMap();
         map.put("owner", LoginUserUtil.getTel(m_this));
@@ -762,7 +556,6 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         HttpManager.getInstance(m_this).delAllRepair("/repair/delAll3", map, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-
                 stopWaitingView();
                 Boolean isSucceed= jsonObject.optString("code").equals("1");
                 if(isSucceed){
@@ -775,124 +568,15 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
                 stopWaitingView();
                 Toast.makeText(m_this, "删除失败", Toast.LENGTH_SHORT).show();
-
             }
         });
-
-    }
-
-    /**umeng统计
-     *
-     */
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-
-    }
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
-
-
-
-
-    /**
-     * 选择日期
-     */
-    public void selectDate(int type) {
-        m_selectTimeType = type;
-        Calendar now = Calendar.getInstance();
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                m_this,
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
-        );
-        dpd.setVersion(DatePickerDialog.Version.VERSION_2);
-        dpd.show(getFragmentManager(), "Datepickerdialog");
-    }
-
-
-
-    @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-
-        int month = monthOfYear + 1;
-
-        String date = year + (month > 9 ? ("-"+month) : ("-0"+month)) + ( dayOfMonth > 9 ?  ("-"+dayOfMonth) : ("-0"+dayOfMonth));
-        if(m_selectTimeType == 0){
-            m_currentContact.setCarregistertime(date);
-            m_adapter.m_contact.setCarregistertime(date);
-        }else if(m_selectTimeType == 1){
-            m_currentContact.setYearchecknexttime(date);
-            m_adapter.m_contact.setYearchecknexttime(date);
-        }else if(m_selectTimeType == 2){
-            m_currentContact.setSafenexttime(date);
-            m_adapter.m_contact.setSafenexttime(date);
-        }else if(m_selectTimeType == 3){
-            m_currentContact.setSafenexttime3(date);
-            m_adapter.m_contact.setSafenexttime3(date);
-        }
-
-        m_adapter.notifyDataSetChanged();
-        Log.e(TAG, date);
     }
 
     public void onActivityResult(int requestCode
-            , int resultCode, Intent intent)
-    {
-        // 当requestCode、resultCode同时为0，也就是处理特定的结果
+            , int resultCode, Intent intent) {
         getTakePhoto().onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == 1 && resultCode == 1)
-        {
-            Bundle data = intent.getExtras();
-            // 取出Bundle中的数据
-
-            m_currentContact.setCarType( data.getString("mCarType_str"));
-            m_currentContact.setCar_key( data.getString("mKey_str"));
-            m_adapter.m_contact = m_currentContact;
-            m_adapter.notifyDataSetChanged();
-        }
-
-        if (requestCode == REQUEST_CODE_LICENSE_PLATE && resultCode == Activity.RESULT_OK) {
-            String filePath = FileUtil.getSaveFile(ContactInfoEditActivity.this).getAbsolutePath();
-            OcrRequestParams param = new OcrRequestParams();
-            param.setImageFile(new File(filePath));
-            OCR.getInstance(ContactInfoEditActivity.this).recognizeLicensePlate(param, new OnResultListener<OcrResponseResult>() {
-                @Override
-                public void onResult(OcrResponseResult result) {
-                    // 调用成功，返回OcrResponseResult对象
-                    String str = result.getJsonRes();
-                    try {
-                        JSONObject obj = new JSONObject(str);
-
-                        JSONObject mapJSON = obj.getJSONObject("words_result");
-                        String words = mapJSON.getString("number");
-
-                        m_currentContact.setCarCode(words);
-                        m_adapter.m_contact = m_currentContact;
-                        m_adapter.notifyDataSetChanged();
-
-//                        }
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onError(OCRError error) {
-                    // 调用失败，返回OCRError对象
-                    Toast.makeText(ContactInfoEditActivity.this,"调用失败",Toast.LENGTH_LONG).show();
-                }
-            });
-        }
         if (requestCode == REQUEST_CODE_VEHICLE_LICENSE && resultCode == Activity.RESULT_OK) {
             String filePath = FileUtil.getSaveFile(ContactInfoEditActivity.this).getAbsolutePath();
             OcrRequestParams param = new OcrRequestParams();
@@ -905,7 +589,6 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                     String str = result.getJsonRes();
                     try {
                         JSONObject obj = new JSONObject(str);
-
                         String plate = "";
                         String RegTime= "";
                         String userName = "";
@@ -939,110 +622,23 @@ public class ContactInfoEditActivity extends BaseActivity implements DatePickerD
                                     carType = words;
                                 }
                             }
-
-
                             m_currentContact.setVin(vinNO);
                             m_currentContact.setCarregistertime(RegTime);
                             m_currentContact.setName(userName);
-
                             m_currentContact.setCarCode(plate);
                             m_adapter.m_contact = m_currentContact;
                             m_adapter.notifyDataSetChanged();
-
-
-
-
                         }
-
                     }catch (Exception e){
                         e.printStackTrace();
                     }
                 }
-
                 @Override
                 public void onError(OCRError error) {
-                    // 调用失败，返回OCRError对象
+
                 }
             });
         }
-
-    }
-
-    @Override
-    public void uploadFileToBOS(final String fileName, final File file) {
-
-        Map map = new HashMap();
-        map.put("fileName", fileName);
-        HttpManager.getInstance(this).startNormalFilePost("/file/picUpload", fileName,file, map, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                final   String _file = fileName;
-                if(m_uplaodType == 0){
-//                    uploadUserSucceed(_file);
-                    m_headUrl = fileName;
-                    m_currentContact.setHeadurl(m_headUrl);
-                    final String url = MainApplication.consts(m_this).BOS_SERVER+m_headUrl+".png";
-
-                    mQueue.getCache().remove(url);
-
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    mainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            imageLoader.get(url, new ImageLoader.ImageListener() {
-                                @Override
-                                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                                    m_headBtn.setImageBitmap(imageContainer.getBitmap());
-                                }
-                                @Override
-                                public void onErrorResponse(VolleyError volleyError) {
-
-                                }
-                            },1000,1000);
-                        }
-                    });
-                }else if(m_uplaodType == 1){
-                    m_headUrl = fileName;
-                    m_currentContact.setHeadurl(m_headUrl);
-                    final String url = MainApplication.consts(m_this).BOS_SERVER+m_headUrl+".png";
-
-                    mQueue.getCache().remove(url);
-
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    mainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            imageLoader.get(url, new ImageLoader.ImageListener() {
-                                @Override
-                                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                                    m_headBtn.setImageBitmap(imageContainer.getBitmap());
-                                }
-                                @Override
-                                public void onErrorResponse(VolleyError volleyError) {
-
-                                }
-                            },1000,1000);
-                        }
-                    });
-//                    uploadContactSucceed(_file);
-                }else {
-
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getApplicationContext(), "上传图片失败", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    public void onRequestPermissionsResult() {
-
     }
 
     public void onEventMainThread(UpdateCarcodeEvent event) {

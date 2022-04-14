@@ -529,23 +529,11 @@ public class MainTabbarActivity extends BaseActivity implements
         OCR.getInstance(this).release();
     }
 
-    /**
-     * 设置页的上传图片
-     * 不错的图片选择控件
-     * https://github.com/crazycodeboy/TakePhoto#%E8%A3%81%E5%89%AA%E5%9B%BE%E7%89%87
-     */
-
     public void startChangeHeadImage(){
 
         startSelectPicToUpload(0, new speUploadListener() {
             @Override
-            public void uploadContactSucceed(String newHeadUrl) {
-
-            }
-
-            @Override
-            public void uploadUserSucceed(String newHeadUrl) {
-
+            public void uploadPictureSucceed(String newHeadUrl) {
                 final String  fileName = newHeadUrl;
                 Map map = new HashMap();
                 map.put("headurl", fileName);
