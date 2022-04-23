@@ -1,13 +1,19 @@
 package com.points.autorepar.lib.BluetoothPrinter.bt;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.widget.Toast;
 
+import com.points.autorepar.activity.MainTabbarActivity;
 
 
 /**
@@ -45,6 +51,20 @@ public  class BluetoothActivity extends Activity implements BtInterface {
         }
     };
 
+
+    public void checkPermission() {
+        if (ContextCompat.checkSelfPermission(BluetoothActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        || ContextCompat.checkSelfPermission(BluetoothActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // 进入这儿表示没有权限
+            if (ActivityCompat.shouldShowRequestPermissionRationale(BluetoothActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                Toast.makeText(BluetoothActivity.this, "使用蓝牙需要设备定位权限", Toast.LENGTH_LONG).show();
+            }else if(ActivityCompat.shouldShowRequestPermissionRationale(BluetoothActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)){
+                Toast.makeText(BluetoothActivity.this, "使用蓝牙需要设备定位权限", Toast.LENGTH_LONG).show();
+            }else {
+                ActivityCompat.requestPermissions(BluetoothActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+            }
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
