@@ -25,11 +25,8 @@ android {
         targetSdkVersion 27
         versionCode  83
         versionName "3.7.2"
-
         flavorDimensions "21"
-
         multiDexEnabled true//添加这行
-
 
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,
@@ -46,31 +43,23 @@ android {
                 arguments = [moduleName :project.getName() ]
             }
         }
-
         packagingOptions {
             //解决编译时com.android.builder.merge.DuplicateRelativeFileException: More than one file was found with OS independent path 'META-INF/rxjava.properties'这个错误
             exclude 'META-INF/rxjava.properties'
         }
     }
 
-
     lintOptions {
         abortOnError false
         disable "ResourceType"
     }
-
     signingConfigs {
-
-
         release {
             storeFile file("./autorepair.jks")
             storePassword "120500"
             keyAlias "hfqf123"
             keyPassword "120500"
         }
-
-
-
         debug {
             storeFile file("./autorepair.jks")
             storePassword "120500"
@@ -94,22 +83,12 @@ android {
         release {
             // 不显示Log
             buildConfigField "boolean", "LOG_DEBUG", "false"
-
             minifyEnabled false
             useProguard false
             zipAlignEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-
-//            applicationVariants.all { variant ->
-//                variant.outputs.each { output ->
-//                    output.outputFile = new File(
-//                            output.outputFile.parent,
-//                            "ganchai-${variant.buildType.name}-${variant.versionName}-${variant.productFlavors[0].name}.apk".toLowerCase())
-//                }
-//            }
-
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
                     outputFileName = "AutoRepairHelper.apk"
@@ -119,7 +98,11 @@ android {
     }
 
     productFlavors {
-        product{}
+        product{
+            targetSdkVersion 27
+            minSdkVersion 22
+            signingConfig signingConfigs.release
+        }
     }
 
     productFlavors.all { flavor ->
@@ -131,11 +114,11 @@ android {
         jniLibs.srcDir 'src/main/libs'
         // This is not necessary unless you have precompiled libraries in your project.
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 
 }
 
@@ -189,6 +172,7 @@ dependencies {
     //aroute
     implementation'com.alibaba:arouter-api:1.3.1'
     annotationProcessor'com.alibaba:arouter-compiler:1.1.4'
+    implementation 'com.android.support:multidex:1.0.3'
 
 
 }

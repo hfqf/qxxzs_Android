@@ -509,7 +509,6 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
                                         revertRepair(m_currentData);
                                     }
                                 }else if(wv.getSeletedIndex() == 1){
-
                                     if(m_currentData.state.equals("2")){//关闭提醒
                                         m_currentData.isClose = "1";
                                         m_currentData.isreaded = "1";
@@ -522,9 +521,10 @@ public class WorkRoomEditActivity extends BaseActivity  implements WorkRoomCarIn
                                     {
                                         clearownemoney(m_currentData);
                                     }else {
-                                        m_currentData.isClose = "0";
-                                        m_currentData.isreaded = "0";
+                                        m_currentData.isClose = "1";
+                                        m_currentData.isreaded = "1";
                                         updateRepair(m_currentData);
+                                        autoUpdateAndFinish(m_currentData);
                                     }
                                 }
                             }

@@ -68,6 +68,13 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
 
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.hardware.bluetooth_le" android:required="true"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
@@ -91,7 +98,6 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
-
 
         <activity
             android:name=".activity.contact.ContactAddNewActivity"

@@ -34,12 +34,12 @@
     <string-array name="more_setting_0">
         <item>取消此工单</item>
         <item>删除此工单</item>
+        <item>关闭提醒</item>
     </string-array>
 
     <string-array name="more_setting_2">
         <item>删除此工单</item>
         <item>关闭提醒推送</item>
-        <item>打开提醒推送</item>
     </string-array>
 
     <string-array name="more_setting_3">

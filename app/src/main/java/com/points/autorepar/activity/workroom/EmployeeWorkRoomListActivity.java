@@ -322,13 +322,6 @@ public class EmployeeWorkRoomListActivity extends BaseActivity  implements BtInt
      * 下拉或上拉相关函数
      */
     public   void  reloadDataAndRefreshView(){
-//
-//        if(m_searchContact == null){
-//            mClearEditText.setText("");
-//        }else {
-//            mClearEditText.setText(m_searchContact.getCarCode());
-//        }
-
         final BaseActivity base =  (BaseActivity) m_this;
         base.showWaitView();
 
@@ -397,94 +390,8 @@ public class EmployeeWorkRoomListActivity extends BaseActivity  implements BtInt
 
     }
 
-    private ArrayList<RepairHistory> getArrayRepair(JSONObject ret){
-        JSONArray arr = ret.optJSONArray("ret");
-
-        ArrayList<RepairHistory> arrRep = m_isRefresh ? new ArrayList() : m_arrData;
-        if (arr.length() > 0) {
-            for (int i = 0; i < arr.length(); i++) {
-                RepairHistory repFromServer = new RepairHistory();
-                JSONObject obj = arr.optJSONObject(i);
-                repFromServer.addition =obj.optString("addition").replace(" ", "");
-                repFromServer.carCode =obj.optString("carcode").replace(" ", "");
-                repFromServer.circle =obj.optString("circle");
-                repFromServer.isreaded = obj.optString("isreaded");
-                repFromServer.isClose = obj.optString("isclose");
-                repFromServer.owner =obj.optString("owner");
-                repFromServer.repairTime =obj.optString("repairetime");
-                repFromServer.repairType =obj.optString("repairtype");
-                repFromServer.tipCircle =obj.optString("tipcircle");
-                repFromServer.totalKm =obj.optString("totalkm");
-                repFromServer.idfromnode =obj.optString("_id");
-                repFromServer.inserttime =obj.optString("inserttime");
-                repFromServer.pics = obj.optString("pics");
-
-                repFromServer.state =obj.optString("state");
-                repFromServer.customremark =obj.optString("customremark");
-                repFromServer.wantedcompletedtime =obj.optString("wantedcompletedtime");
-                repFromServer.iswatiinginshop =obj.optString("iswatiinginshop");
-                repFromServer.entershoptime =obj.optString("entershoptime");
-                repFromServer.contactid =obj.optString("contactid");
-
-                repFromServer.payType =obj.optString("payType");
-
-                repFromServer.ownnum =obj.optString("ownnum");
-                repFromServer.saleMoney = obj.optString("saleMoney");
-
-                if(repFromServer.entershoptime.length()==0){
-                    repFromServer.entershoptime =   repFromServer.inserttime;
-                }
-
-                JSONArray items = obj.optJSONArray("items");
-                ArrayList<ADTReapirItemInfo> arrItems = new ArrayList();
-                int totalPrice = 0;
-                if(items != null){
-                    for(int j=0;j<items.length();j++){
-                        JSONObject itemObj = items.optJSONObject(j);
-                        ADTReapirItemInfo item = ADTReapirItemInfo.fromWithJsonObj(itemObj);
-                        totalPrice+=item.currentPrice;
-
-                        arrItems.add(item);
-                    }
-                }
-
-                repFromServer.arrRepairItems = arrItems;
-                repFromServer.totalPrice = String.valueOf(totalPrice);
-
-                Contact con = DBService.queryContact(repFromServer.carCode);
-                if(con != null){
-                    arrRep.add(repFromServer);
-                }
-            }
-        }
-        return arrRep;
-    }
-
-
-    /**
-     * 选择时间
-     */
-    private void selectDayTime( ) {
-        //时间选择器
-        TimePickerView pvTime = new TimePickerView.Builder(m_this, new TimePickerView.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {//选中事件回调
-
-                String time = DateUtil.timeFrom(date);
-
-            }
-        }).build();
-        pvTime.setDate(Calendar.getInstance());//注：根据需求来决定是否使用该方法（一般是精确到秒的情况），此项可以在弹出选择器的时候重新设置当前时间，避免在初始化之后由于时间已经设定，导致选中时间与当前时间不匹配的问题。
-        pvTime.show();
-
-    }
-
     public void onEventMainThread(WorkRoomPicBackEvent event) {
-
-
         reloadDataAndRefreshView();
-
-
     }
 
 }

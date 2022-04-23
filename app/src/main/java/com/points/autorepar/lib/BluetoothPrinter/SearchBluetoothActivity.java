@@ -1,21 +1,27 @@
 package com.points.autorepar.lib.BluetoothPrinter;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.points.autorepar.R;
+import com.points.autorepar.activity.MainTabbarActivity;
 import com.points.autorepar.lib.BluetoothPrinter.bt.BluetoothActivity;
 import com.points.autorepar.lib.BluetoothPrinter.bt.BtUtil;
 import com.points.autorepar.lib.BluetoothPrinter.print.PrintQueue;
@@ -53,6 +59,7 @@ public class SearchBluetoothActivity extends BluetoothActivity implements Adapte
         lv_searchblt.setOnItemClickListener(this);
         tv_title.setOnClickListener(this);
         tv_summary.setOnClickListener(this);
+        checkPermission();
     }
 
 
