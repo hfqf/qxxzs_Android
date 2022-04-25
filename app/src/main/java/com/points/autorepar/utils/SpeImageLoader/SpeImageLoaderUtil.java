@@ -5,23 +5,25 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.points.autorepar.R;
 import com.points.autorepar.common.Consts;
 
 public class SpeImageLoaderUtil {
     public  static void loadImage(Context context, ImageView image, String url, Drawable placeholder, Drawable error){
+        RequestOptions options = new RequestOptions().placeholder(placeholder).error(error);
+
         Glide.with(context)
                 .load(url)
-                .placeholder(placeholder)
-                .error(error)
+                .apply(options)
                 .into(image);
     }
 
     public  static void loadImage(Context context, ImageView image, String url, int placeholder, int error){
+        RequestOptions options = new RequestOptions().placeholder(placeholder).error(error);
         Glide.with(context)
                 .load(url)
-                .placeholder(placeholder)
-                .error(error)
+                .apply(options)
                 .into(image);
     }
 
@@ -33,10 +35,10 @@ public class SpeImageLoaderUtil {
         }else {
             _url = Consts.HTTP_URL+"/file/pic/"+url+".png";
         }
+        RequestOptions options = new RequestOptions().placeholder(R.drawable.appicon).error(R.drawable.appicon);
         Glide.with(context)
                 .load(_url)
-                .placeholder(R.drawable.appicon)
-                .error(R.drawable.appicon)
+                .apply(options)
                 .into(image);
     }
 }
