@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +22,6 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.points.autorepar.R;
-import com.points.autorepar.activity.BaseActivity;
 import com.points.autorepar.activity.ImgDisplayActivity;
 import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
 import com.points.autorepar.adapter.WorkRoomCarInfo.WorkRommCarInfoPicsAdapter;
@@ -31,7 +31,6 @@ import com.points.autorepar.common.Consts;
 import com.points.autorepar.lib.wheelview.WheelView;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.utils.DateUtil;
-import com.points.autorepar.utils.SpeImageLoader.SpeImageLoaderUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -98,16 +97,15 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
         } else if( position ==20) {
             ViewHolderRecycleView holder =  new ViewHolderRecycleView();
             convertView = LayoutInflater.from(m_context).inflate(R.layout.workrommcarinfo_picsrecycleview_layout, null);
-            holder.cycView = (RecyclerView) convertView.findViewById(R.id.recycler_view);
+            holder.cycView =  convertView.findViewById(R.id.recycler_view);
             holder.uploadImg = (ImageView) convertView.findViewById(R.id.addimg);
             RxViewHelper.clickWith(holder.uploadImg,()->{
-                
+
             });
             convertView.setTag(holder);
             ArrayList<String> arrayList = new ArrayList<>();
             for(int i=0;i<picUrls.size();i++){
                 if(!picUrls.get(i).contains("null")){
-                    String strUrl = "";
                     if(picUrls.get(i).contains("png")){
                         arrayList.add(Consts.HTTP_URL+"/file/pic/"+picUrls.get(i));
                     }else {
@@ -115,6 +113,7 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                     }
                 }
             }
+            holder.cycView.setLayoutManager(new GridLayoutManager(m_context,3));
             WorkRommCarInfoPicsAdapter adapter = new WorkRommCarInfoPicsAdapter(m_context,arrayList);
             holder.cycView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
@@ -421,7 +420,7 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                     break;
                 }
                 case 19:{
-                    holder.tip.setText("下次保养里程数（KM）");
+                    holder.tip.setText("下次保养里程(KM)");
                     holder.value.setText(m_data.nexttipkm);
                     RxViewHelper.textChange(holder.value,(s)->{
                         if(s.toString().length() >0) {
@@ -491,13 +490,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
         TextView tip;
         TextView value;
         ImageButton btn;
-    }
-
-    private class ViewHolderCellImg {
-        ImageView img1;
-        ImageView img2;
-        ImageView img3;
-        ImageView addimg;
     }
 
     private class ViewHolderRecycleView {

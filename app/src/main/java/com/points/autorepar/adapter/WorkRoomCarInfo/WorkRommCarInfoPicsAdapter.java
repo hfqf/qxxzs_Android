@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.points.autorepar.R;
-import com.points.autorepar.adapter.Reminddapter;
-import com.points.autorepar.adapter.WorkRoomEditInfoFragmentPagerAdapter;
 
 import java.util.ArrayList;
 
