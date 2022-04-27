@@ -28,6 +28,16 @@ public class RxViewHelper {
                 .subscribe(o -> callBack.handleClick());
     }
 
+    public static void longClickWith(View v,ClickCallback callBack) {
+        if (v == null) {
+            return;
+        }
+        RxView.longClicks(v)
+                .throttleFirst(2, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(o -> callBack.handleClick());
+    }
+
     public static void textChange(TextView tv, TextChangeCallback callback) {
         if (tv == null) {
             return;

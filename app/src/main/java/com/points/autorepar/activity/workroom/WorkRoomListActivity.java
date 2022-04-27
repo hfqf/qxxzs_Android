@@ -681,6 +681,17 @@ public class WorkRoomListActivity extends BaseActivity  implements BtInterface {
                 }
 
                 repFromServer.arrRepairItems = arrItems;
+
+                JSONArray arrPicsObj = obj.optJSONArray("carinfopics");
+                ArrayList<String> arrPics = new ArrayList();
+                if(arrPicsObj != null){
+                    for(int j=0;j<arrPicsObj.length();j++){
+                        String url = items.optString(j);
+                        arrPics.add(url);
+                    }
+                }
+                repFromServer.arrCarInfoPics = arrPics;
+
                 repFromServer.totalPrice = String.valueOf(totalPrice);
 
                 Contact con = DBService.queryContact(repFromServer.carCode);

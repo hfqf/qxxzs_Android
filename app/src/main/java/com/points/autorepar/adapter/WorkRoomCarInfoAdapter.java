@@ -22,8 +22,10 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.points.autorepar.R;
+import com.points.autorepar.activity.BaseActivity;
 import com.points.autorepar.activity.ImgDisplayActivity;
 import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
+import com.points.autorepar.activity.workroom.WorkRoomEditActivityViewModel;
 import com.points.autorepar.adapter.WorkRoomCarInfo.WorkRommCarInfoPicsAdapter;
 import com.points.autorepar.bean.Contact;
 import com.points.autorepar.bean.RepairHistory;
@@ -40,7 +42,7 @@ import java.util.Date;
 import RxJava.RxViewHelper;
 
 /**
- * Created by points on 16/11/28.
+ * Created by points on 16/11/28.®
  */
 public class WorkRoomCarInfoAdapter extends BaseAdapter {
     private Context         m_context;
@@ -48,14 +50,11 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
     public RepairHistory    m_data;
     private  final  String TAG = "WorkRoomCarInfoAdapter";
     private  WorkRoomEditActivity m_activity;
-    private ArrayList<String> picUrls = new ArrayList<String>();
-
     public WorkRoomCarInfoAdapter(Context context, RepairHistory rep) {
         this.m_activity = (WorkRoomEditActivity)context;
         this.m_context   = context;
         this.m_LInflater = LayoutInflater.from(context);
         this.m_data   = rep;
-        init_Img(rep.pics);
     }
 
     public void unRegisterBus(){
@@ -100,21 +99,19 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
             holder.cycView =  convertView.findViewById(R.id.recycler_view);
             holder.uploadImg = (ImageView) convertView.findViewById(R.id.addimg);
             RxViewHelper.clickWith(holder.uploadImg,()->{
-
+                m_activity.startSelectPicToUpload(0, new BaseActivity.speUploadListener() {
+                    @Override
+                    public void uploadPictureSucceed(String url) {
+                        m_data.arrCarInfoPics.add(Consts.HTTP_URL+"/file/pic/"+url);
+                        WorkRoomEditActivityViewModel.updateCarInfoPics(m_context,m_data,()->{
+                            notifyDataSetChanged();
+                        });
+                    }
+                });
             });
             convertView.setTag(holder);
-            ArrayList<String> arrayList = new ArrayList<>();
-            for(int i=0;i<picUrls.size();i++){
-                if(!picUrls.get(i).contains("null")){
-                    if(picUrls.get(i).contains("png")){
-                        arrayList.add(Consts.HTTP_URL+"/file/pic/"+picUrls.get(i));
-                    }else {
-                        arrayList.add(Consts.HTTP_URL+"/file/pic/"+picUrls.get(i)+".png");
-                    }
-                }
-            }
             holder.cycView.setLayoutManager(new GridLayoutManager(m_context,3));
-            WorkRommCarInfoPicsAdapter adapter = new WorkRommCarInfoPicsAdapter(m_context,arrayList);
+            WorkRommCarInfoPicsAdapter adapter = new WorkRommCarInfoPicsAdapter(m_context,m_data.getArrCarInfoPics());
             holder.cycView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             return convertView;
@@ -532,60 +529,15 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
         pvTime.show();
     }
 
-
-    public void init_Img(String url) {
-        if(url== null || "".equalsIgnoreCase(url)){
-
-        }else{
-            String[] parts = url.split(",");
-            for(int i=0;i<parts.length;i++){
-                picUrls.add(parts[i]);
-            }
-        }
-        m_data.pics = url;
-        notifyDataSetChanged();
-    }
-
-
     private void checkFullImage(int index){
         Intent inte = new Intent(m_context,
                 ImgDisplayActivity.class);
         Bundle bu = new Bundle();
-        bu.putSerializable("images", (Serializable) picUrls);
+//        bu.putSerializable("images", (Serializable) picUrls);
         inte.putExtra("bundle", bu);
         inte.putExtra("position", index);
         m_context.startActivity(inte);
     }
 
-    private void deleteImg(final int index){
-        final AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(m_activity);
-        normalDialog.setTitle("删除此照片,不可恢复!");
-        normalDialog.setMessage("确认删除?");
-        normalDialog.setPositiveButton("确定",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(picUrls.size()>0) {
-                            picUrls.remove(index);
-                            String str = "";
-                            for(int i=0;i<picUrls.size();i++){
-                                String _s = picUrls.get(i)+",";
-                                str +=  _s;
-                            }
-                            m_data.pics = str;
-                            notifyDataSetChanged();
-                        }
-
-                    }
-                });
-        normalDialog.setNegativeButton("取消",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-        normalDialog.show();
-    }
 
 }

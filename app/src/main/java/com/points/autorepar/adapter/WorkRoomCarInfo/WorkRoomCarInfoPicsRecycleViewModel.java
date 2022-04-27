@@ -5,4 +5,5 @@ package com.points.autorepar.adapter.WorkRoomCarInfo;
  */
 public class WorkRoomCarInfoPicsRecycleViewModel {
 
+
 }
