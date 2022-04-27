@@ -23,8 +23,8 @@ android {
         applicationId "com.points.autorepar"
         minSdkVersion 18 //4.0
         targetSdkVersion 27
-        versionCode  84
-        versionName "3.7.3"
+        versionCode  85
+        versionName "3.7.4"
         flavorDimensions "21"
         multiDexEnabled true//添加这行
 

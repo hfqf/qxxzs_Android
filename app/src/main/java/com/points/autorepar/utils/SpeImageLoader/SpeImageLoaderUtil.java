@@ -29,14 +29,14 @@ public class SpeImageLoaderUtil {
 
 
     public  static void loadUrlImage(Context context, ImageView image, String url){
-        String _url = "";
         RequestOptions options = new RequestOptions().placeholder(R.drawable.appicon).error(R.drawable.appicon);
         if(url.contains("http")){
             Glide.with(context)
-                    .load(_url)
+                    .load(url)
                     .apply(options)
                     .into(image);
         }else {
+            String _url = "";
             if(url.contains("png")){
                 _url = Consts.HTTP_URL+"/file/pic/"+url;
             }else {
