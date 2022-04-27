@@ -30,15 +30,22 @@ public class SpeImageLoaderUtil {
 
     public  static void loadUrlImage(Context context, ImageView image, String url){
         String _url = "";
-        if(url.contains("png")){
-            _url = Consts.HTTP_URL+"/file/pic/"+url;
-        }else {
-            _url = Consts.HTTP_URL+"/file/pic/"+url+".png";
-        }
         RequestOptions options = new RequestOptions().placeholder(R.drawable.appicon).error(R.drawable.appicon);
-        Glide.with(context)
-                .load(_url)
-                .apply(options)
-                .into(image);
+        if(url.contains("http")){
+            Glide.with(context)
+                    .load(_url)
+                    .apply(options)
+                    .into(image);
+        }else {
+            if(url.contains("png")){
+                _url = Consts.HTTP_URL+"/file/pic/"+url;
+            }else {
+                _url = Consts.HTTP_URL+"/file/pic/"+url+".png";
+            }
+            Glide.with(context)
+                    .load(_url)
+                    .apply(options)
+                    .into(image);
+        }
     }
 }

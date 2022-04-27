@@ -686,7 +686,7 @@ public class WorkRoomListActivity extends BaseActivity  implements BtInterface {
                 ArrayList<String> arrPics = new ArrayList();
                 if(arrPicsObj != null){
                     for(int j=0;j<arrPicsObj.length();j++){
-                        String url = items.optString(j);
+                        String url = arrPicsObj.optString(j);
                         arrPics.add(url);
                     }
                 }

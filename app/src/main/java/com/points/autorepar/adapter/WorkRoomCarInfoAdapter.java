@@ -529,15 +529,7 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
         pvTime.show();
     }
 
-    private void checkFullImage(int index){
-        Intent inte = new Intent(m_context,
-                ImgDisplayActivity.class);
-        Bundle bu = new Bundle();
-//        bu.putSerializable("images", (Serializable) picUrls);
-        inte.putExtra("bundle", bu);
-        inte.putExtra("position", index);
-        m_context.startActivity(inte);
-    }
+
 
 
 }

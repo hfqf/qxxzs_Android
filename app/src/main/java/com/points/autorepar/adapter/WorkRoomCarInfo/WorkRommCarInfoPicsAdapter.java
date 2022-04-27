@@ -1,6 +1,8 @@
 package com.points.autorepar.adapter.WorkRoomCarInfo;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +14,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.points.autorepar.R;
+import com.points.autorepar.activity.ImgDisplayActivity;
 import com.points.autorepar.dialog.SpeDialogUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import RxJava.RxViewHelper;
@@ -37,6 +41,7 @@ public class WorkRommCarInfoPicsAdapter extends RecyclerView.Adapter<RecyclerVie
         ItemHolder holder = (ItemHolder) viewHolder;
         RxViewHelper.clickWith(holder.imageView,()->{
             Log.i("onBindViewHolder",url);
+            checkFullImage(i);
         });
         RxViewHelper.longClickWith(holder.imageView,()->{
             SpeDialogUtil.showDialog(context,"确认删除?",()->{
@@ -50,6 +55,16 @@ public class WorkRommCarInfoPicsAdapter extends RecyclerView.Adapter<RecyclerVie
     public int getItemCount() {
         return arrayList.size();
     }
+
+    private void checkFullImage(int index){
+        Intent inte = new Intent(context,
+                ImgDisplayActivity.class);
+        Bundle bu = new Bundle();
+        bu.putSerializable("images", (Serializable)this.arrayList);
+        inte.putExtra("bundle", bu);
+        inte.putExtra("position", index);
+        context.startActivity(inte);
+    }
 }
 
 
@@ -60,3 +75,5 @@ class ItemHolder extends RecyclerView.ViewHolder{
         imageView = (ImageView) itemView.findViewById(R.id.item_imageview);
     }
 }
+
+
