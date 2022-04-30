@@ -102,12 +102,31 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
             holder.cycView =  convertView.findViewById(R.id.recycler_view);
             holder.uploadImg = (ImageView) convertView.findViewById(R.id.addimg);
             RxViewHelper.clickWith(holder.uploadImg,()->{
-                SpeImagePreviewUtil.selectMutiImage((Activity) m_context,15-m_data.getArrCarInfoPics().size());
+                m_activity.showWaitView();
+                m_activity.startSelectPicToUpload(0, new BaseActivity.speUploadListener() {
+                    @Override
+                    public void uploadPictureSucceed(String url) {
+                        m_activity.stopWaitingView();
+                        m_data.arrCarInfoPics.add(Consts.HTTP_URL+"/file/pic/"+url);
+                        WorkRoomEditActivityViewModel.updateCarInfoPics(m_context,m_data,()->{
+                            notifyDataSetChanged();
+                        });
+                    }
+                });
             });
-            holder.cycView.setLayoutManager(new GridLayoutManager(m_context,3));
-            WorkRommCarInfoPicsAdapter adapter = new WorkRommCarInfoPicsAdapter(m_context,m_data.getArrCarInfoPics());
+            holder.cycView.setLayoutManager(new GridLayoutManager(m_context,5));
+            WorkRommCarInfoPicsAdapter adapter = new WorkRommCarInfoPicsAdapter(m_context, m_data.getArrCarInfoPics(), new WorkRommCarInfoPicsAdapter.WorkRommCarInfoPicsAdapterInterface() {
+                @Override
+                public void onDelPic(String url) {
+                    m_data.arrCarInfoPics.remove(url);
+                    WorkRoomEditActivityViewModel.updateCarInfoPics(m_context,m_data,()->{
+                        notifyDataSetChanged();
+                    });
+                }
+            });
             holder.cycView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+            convertView.setTag(holder);
             return convertView;
         }
         else if( position > 0 && position < 7) {

@@ -394,7 +394,7 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
         if (m_takePhoto==null){
             m_takePhoto= (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this,this));
         }
-        CompressConfig compressConfig=new CompressConfig.Builder().setMaxSize(800*800).setMaxPixel(5000).create();
+        CompressConfig compressConfig=new CompressConfig.Builder().setMaxSize(800*800).setMaxPixel(7000).create();
         m_takePhoto.onEnableCompress(compressConfig,true);
         return m_takePhoto;
     }

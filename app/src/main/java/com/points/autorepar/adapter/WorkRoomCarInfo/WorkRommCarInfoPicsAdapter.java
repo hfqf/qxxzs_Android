@@ -28,9 +28,14 @@ public class WorkRommCarInfoPicsAdapter extends RecyclerView.Adapter<RecyclerVie
     private ArrayList<String> arrayList;
     private Context context;
     private WorkRoomCarInfoPicsRecycleViewModel vm;
-   public WorkRommCarInfoPicsAdapter(Context context,ArrayList<String> array){
+    private WorkRommCarInfoPicsAdapterInterface delegate;
+    public interface WorkRommCarInfoPicsAdapterInterface {
+        public void onDelPic(String url);
+    }
+   public WorkRommCarInfoPicsAdapter(Context context,ArrayList<String> array,WorkRommCarInfoPicsAdapterInterface delegate){
        this.context = context;
        this.arrayList = array;
+       this.delegate = delegate;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -47,10 +52,12 @@ public class WorkRommCarInfoPicsAdapter extends RecyclerView.Adapter<RecyclerVie
         });
         RxViewHelper.longClickWith(holder.imageView,()->{
             SpeDialogUtil.showDialog(context,"确认删除?",()->{
-
+                  if(this.delegate!=null){
+                    this.delegate.onDelPic(url);
+                }
             });
         });
-        Glide.with(context).load(url).into(holder.imageView).onLoadFailed(context.getResources().getDrawable(R.drawable.appicon));;
+        Glide.with(context).load(url).into(holder.imageView);
     }
 
     @Override

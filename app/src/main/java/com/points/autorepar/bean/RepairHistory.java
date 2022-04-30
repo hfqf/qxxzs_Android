@@ -159,21 +159,44 @@ public class RepairHistory implements Parcelable {
     }
 
     public ArrayList<String> getArrCarInfoPics() {
-        if(arrCarInfoPics.size()>0){
-            return arrCarInfoPics;
-        }else if(pics.contains(",")){
-            String[] parts = pics.split(",");
-            for(int i=0;i<parts.length;i++){
-                String url = parts[i];
-                if(url.contains("png")){
-                    arrCarInfoPics.add(Consts.HTTP_URL+"/file/pic/"+url);
-                }else {
-                    arrCarInfoPics.add(Consts.HTTP_URL+"/file/pic/"+url+".png");
+        if(arrCarInfoPics!=null){
+            if(arrCarInfoPics.size()>0){
+                return arrCarInfoPics;
+            }else {
+                if(pics!=null) {
+                    if (pics.contains(",")) {
+                        String[] parts = pics.split(",");
+                        for (int i = 0; i < parts.length; i++) {
+                            String url = parts[i];
+                            if (url.contains("png")) {
+                                arrCarInfoPics.add(Consts.HTTP_URL + "/file/pic/" + url);
+                            } else {
+                                arrCarInfoPics.add(Consts.HTTP_URL + "/file/pic/" + url + ".png");
+                            }
+                        }
+                        return arrCarInfoPics;
+                    }
                 }
             }
             return arrCarInfoPics;
+        }else {
+            arrCarInfoPics = new ArrayList<>();
+            if(pics!=null){
+                if(pics.contains(",")){
+                    String[] parts = pics.split(",");
+                    for(int i=0;i<parts.length;i++){
+                        String url = parts[i];
+                        if(url.contains("png")){
+                            arrCarInfoPics.add(Consts.HTTP_URL+"/file/pic/"+url);
+                        }else {
+                            arrCarInfoPics.add(Consts.HTTP_URL+"/file/pic/"+url+".png");
+                        }
+                    }
+                    return arrCarInfoPics;
+                }
+            }
         }
-        return arrCarInfoPics;
+        return new ArrayList<>();
     }
 
     public String getArrCarInfoPicsString() {
