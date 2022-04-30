@@ -1,5 +1,6 @@
 package com.points.autorepar.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,6 +40,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+
+import ImageUtil.preview.SpeImagePreviewUtil;
 import RxJava.RxViewHelper;
 
 /**
@@ -99,15 +102,7 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
             holder.cycView =  convertView.findViewById(R.id.recycler_view);
             holder.uploadImg = (ImageView) convertView.findViewById(R.id.addimg);
             RxViewHelper.clickWith(holder.uploadImg,()->{
-                m_activity.startSelectPicToUpload(0, new BaseActivity.speUploadListener() {
-                    @Override
-                    public void uploadPictureSucceed(String url) {
-                        m_data.arrCarInfoPics.add(Consts.HTTP_URL+"/file/pic/"+url);
-                        WorkRoomEditActivityViewModel.updateCarInfoPics(m_context,m_data,()->{
-                            notifyDataSetChanged();
-                        });
-                    }
-                });
+                SpeImagePreviewUtil.selectMutiImage((Activity) m_context,15-m_data.getArrCarInfoPics().size());
             });
             holder.cycView.setLayoutManager(new GridLayoutManager(m_context,3));
             WorkRommCarInfoPicsAdapter adapter = new WorkRommCarInfoPicsAdapter(m_context,m_data.getArrCarInfoPics());

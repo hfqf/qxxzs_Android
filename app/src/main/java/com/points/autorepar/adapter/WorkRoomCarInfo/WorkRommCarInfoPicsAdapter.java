@@ -1,5 +1,6 @@
 package com.points.autorepar.adapter.WorkRoomCarInfo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.points.autorepar.dialog.SpeDialogUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import ImageUtil.preview.SpeImagePreviewUtil;
 import RxJava.RxViewHelper;
 
 public class WorkRommCarInfoPicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -57,13 +59,7 @@ public class WorkRommCarInfoPicsAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     private void checkFullImage(int index){
-        Intent inte = new Intent(context,
-                ImgDisplayActivity.class);
-        Bundle bu = new Bundle();
-        bu.putSerializable("images", (Serializable)this.arrayList);
-        inte.putExtra("bundle", bu);
-        inte.putExtra("position", index);
-        context.startActivity(inte);
+        SpeImagePreviewUtil.preivew((Activity) context,index,arrayList);
     }
 }
 
