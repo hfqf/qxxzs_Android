@@ -391,14 +391,10 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
      * @return
      */
     public TakePhoto getTakePhoto(){
-        Log.e(TAG,getLocalClassName()+"getTakePhoto:1" + m_takePhoto);
-
         if (m_takePhoto==null){
             m_takePhoto= (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this,this));
-            Log.e(TAG,getLocalClassName()+"getTakePhoto:2" + m_takePhoto);
         }
-        Log.e(TAG,getLocalClassName()+"getTakePhoto:3" + m_takePhoto);
-        CompressConfig compressConfig=new CompressConfig.Builder().setMaxSize(200*200).setMaxPixel(800).create();
+        CompressConfig compressConfig=new CompressConfig.Builder().setMaxSize(800*800).setMaxPixel(5000).create();
         m_takePhoto.onEnableCompress(compressConfig,true);
         return m_takePhoto;
     }
@@ -498,7 +494,6 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
         String  filePath = "";
         try {
             getTakePhoto().onActivityResult(requestCode, resultCode, data);
-
              filePath = FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath();
         }catch (Exception e)
         {

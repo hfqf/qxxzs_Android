@@ -109,7 +109,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                     }
                 });
             });
-            convertView.setTag(holder);
             holder.cycView.setLayoutManager(new GridLayoutManager(m_context,3));
             WorkRommCarInfoPicsAdapter adapter = new WorkRommCarInfoPicsAdapter(m_context,m_data.getArrCarInfoPics());
             holder.cycView.setAdapter(adapter);
