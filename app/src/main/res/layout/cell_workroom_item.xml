@@ -28,6 +28,14 @@
         <ImageButton
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:id="@+id/item_edit"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/item_edit"
+            />
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:id="@+id/workroom_item_cell_del"
             android:scaleType="fitCenter"
             android:layout_marginRight="10dp"

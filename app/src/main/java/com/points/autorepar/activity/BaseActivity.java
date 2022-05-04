@@ -91,7 +91,6 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
     public  RequestQueue mQueue;
 
     public BitmapCache lruImageCache;
-
     public ImageLoader imageLoader;
     private  int selectedIndex = 0;
     public Consts    mConsts;
