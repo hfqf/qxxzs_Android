@@ -3,6 +3,8 @@ package com.points.autorepar.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.points.autorepar.common.Consts;
+
 import java.util.ArrayList;
 
 /**
@@ -47,6 +49,7 @@ public class RepairHistory implements Parcelable {
     public String saleMoney;
     public String oilvolume;
     public String nexttipkm;
+    public ArrayList<String> arrCarInfoPics;
 
     @Override
     public int describeContents() {
@@ -90,6 +93,7 @@ public class RepairHistory implements Parcelable {
         out.writeString(saleMoney);
         out.writeString(oilvolume);
         out.writeString(nexttipkm);
+        out.writeList(arrCarInfoPics);
 
     }
 
@@ -140,6 +144,12 @@ public class RepairHistory implements Parcelable {
         saleMoney = in.readString();
         oilvolume = in.readString();
         nexttipkm = in.readString();
+        try {
+            arrCarInfoPics = in.readArrayList(String.class.getClassLoader());
+        }catch (Exception e){
+            e.printStackTrace();
+            arrCarInfoPics = null;
+        }
     }
 
 
@@ -148,5 +158,56 @@ public class RepairHistory implements Parcelable {
 
     }
 
+    public ArrayList<String> getArrCarInfoPics() {
+        if(arrCarInfoPics!=null){
+            if(arrCarInfoPics.size()>0){
+                return arrCarInfoPics;
+            }else {
+                if(pics!=null) {
+                    if (pics.contains(",")) {
+                        String[] parts = pics.split(",");
+                        for (int i = 0; i < parts.length; i++) {
+                            String url = parts[i];
+                            if (url.contains("png")) {
+                                arrCarInfoPics.add(Consts.HTTP_URL + "/file/pic/" + url);
+                            } else {
+                                arrCarInfoPics.add(Consts.HTTP_URL + "/file/pic/" + url + ".png");
+                            }
+                        }
+                        return arrCarInfoPics;
+                    }
+                }
+            }
+            return arrCarInfoPics;
+        }else {
+            arrCarInfoPics = new ArrayList<>();
+            if(pics!=null){
+                if(pics.contains(",")){
+                    String[] parts = pics.split(",");
+                    for(int i=0;i<parts.length;i++){
+                        String url = parts[i];
+                        if(url.contains("png")){
+                            arrCarInfoPics.add(Consts.HTTP_URL+"/file/pic/"+url);
+                        }else {
+                            arrCarInfoPics.add(Consts.HTTP_URL+"/file/pic/"+url+".png");
+                        }
+                    }
+                    return arrCarInfoPics;
+                }
+            }
+        }
+        return new ArrayList<>();
+    }
 
+    public String getArrCarInfoPicsString() {
+        String pics = "";
+        for(int i=0;i<getArrCarInfoPics().size();i++){
+            String url = getArrCarInfoPics().get(i);
+            pics+=url;
+            if(i!=getArrCarInfoPics().size()-1){
+                pics+=",";
+            }
+        }
+        return pics;
+    }
 }

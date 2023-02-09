@@ -4,11 +4,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.points.autorepar.utils.LoggerUtil;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,11 +14,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.content.ContentValues;
 import com.points.autorepar.bean.*;
-import com.points.autorepar.utils.PinyinUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * Created by points on 16/11/25.
  */

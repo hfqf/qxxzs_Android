@@ -91,7 +91,6 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
     public  RequestQueue mQueue;
 
     public BitmapCache lruImageCache;
-
     public ImageLoader imageLoader;
     private  int selectedIndex = 0;
     public Consts    mConsts;
@@ -251,11 +250,11 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                         if(index == 1){
                             Log.e(TAG, "startSelectPicToUpload+4" + wv.getSeletedIndex());
                             Log.e(TAG, "startSelectPicToUpload+4" + m_takePhoto+imageUri);
-                            m_takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
+                            m_takePhoto.onPickFromGallery();
                             Log.e(TAG, "startSelectPicToUpload+5" + wv.getSeletedIndex());
                         }else {
                             Log.e(TAG, "startSelectPicToUpload+6" + wv.getSeletedIndex());
-                            m_takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
+                            m_takePhoto.onPickFromCapture(imageUri);
                             Log.e(TAG, "startSelectPicToUpload+7" + wv.getSeletedIndex());
                         }
 
@@ -309,11 +308,11 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                         if(index == 1){
                             Log.e(TAG, "startSelectPicToUpload+4" + wv.getSeletedIndex());
                             Log.e(TAG, "startSelectPicToUpload+4" + m_takePhoto+imageUri);
-                            m_takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
+                            m_takePhoto.onPickFromGallery();
                             Log.e(TAG, "startSelectPicToUpload+5" + wv.getSeletedIndex());
                         }else {
                             Log.e(TAG, "startSelectPicToUpload+6" + wv.getSeletedIndex());
-                            m_takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
+                            m_takePhoto.onPickFromCapture(imageUri);
                             Log.e(TAG, "startSelectPicToUpload+7" + wv.getSeletedIndex());
                         }
 
@@ -363,11 +362,10 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
                         if (!file.getParentFile().exists())file.getParentFile().mkdirs();
                         Uri imageUri = Uri.fromFile(file);
                         if(index == 1){
-                            m_takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
+                            m_takePhoto.onPickFromGallery();
                         }else {
-                            m_takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
+                            m_takePhoto.onPickFromCapture(imageUri);
                         }
-
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -391,14 +389,10 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
      * @return
      */
     public TakePhoto getTakePhoto(){
-        Log.e(TAG,getLocalClassName()+"getTakePhoto:1" + m_takePhoto);
-
         if (m_takePhoto==null){
             m_takePhoto= (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this,this));
-            Log.e(TAG,getLocalClassName()+"getTakePhoto:2" + m_takePhoto);
         }
-        Log.e(TAG,getLocalClassName()+"getTakePhoto:3" + m_takePhoto);
-        CompressConfig compressConfig=new CompressConfig.Builder().setMaxSize(200*200).setMaxPixel(800).create();
+        CompressConfig compressConfig=new CompressConfig.Builder().setMaxSize(800*800).setMaxPixel(7000).create();
         m_takePhoto.onEnableCompress(compressConfig,true);
         return m_takePhoto;
     }
@@ -498,7 +492,6 @@ public class BaseActivity extends Activity implements  TakePhoto.TakeResultListe
         String  filePath = "";
         try {
             getTakePhoto().onActivityResult(requestCode, resultCode, data);
-
              filePath = FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath();
         }catch (Exception e)
         {

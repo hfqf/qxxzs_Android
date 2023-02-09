@@ -32,6 +32,7 @@ import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
 import com.points.autorepar.bean.ADTReapirItemInfo;
 import com.points.autorepar.bean.RepairHistory;
 import com.points.autorepar.bean.RepairerInfo;
+import com.points.autorepar.dialog.WorkRoomEditItemDialog;
 import com.points.autorepar.http.HttpManager;
 import com.points.autorepar.lib.wheelview.WheelView;
 import com.points.autorepar.utils.LoginUserUtil;
@@ -45,6 +46,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import RxJava.RxViewHelper;
 
 /**
  * Created by points on 16/11/28.
@@ -98,7 +101,7 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
             holder.price = ((TextView) convertView.findViewById(R.id.workroom_item_cell_price));
             holder.num = ((TextView) convertView.findViewById(R.id.workroom_item_cell_num));
             holder.total = ((TextView) convertView.findViewById(R.id.workroom_item_cell_totalprice));
-
+            holder.editBtn = ((ImageButton) convertView.findViewById(R.id.item_edit));
 
             holder.delBtn = ((ImageButton) convertView.findViewById(R.id.workroom_item_cell_del));
             if(m_data.state.equals("2")){
@@ -143,6 +146,15 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
 
             holder.price.setText("¥ " + info.price + " 工时：￥" + info.workhourpay);
             holder.num.setText("x"+info_num);
+
+            holder.editBtn.setClickable(true);
+            holder.editBtn.setFocusableInTouchMode(false);
+            RxViewHelper.clickWith(holder.editBtn,()->{
+                WorkRoomEditItemDialog.editItem(m_context,info,()->{
+                    notifyDataSetChanged();
+                    updateRepair();
+                });
+            });
 
             holder.delBtn.setClickable(true);
             holder.delBtn.setFocusableInTouchMode(false);
@@ -220,21 +232,11 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
                 String key_isdirectadditem= m_activity1.getApplicationContext().getResources().getString(R.string.key_loginer_isdirectadditem);
                 SharedPreferences sp = m_activity1.getSharedPreferences("points", Context.MODE_PRIVATE);
                 String isdirectadditem = sp.getString(key_isdirectadditem, null);
-
-
-
                 if("0".equalsIgnoreCase(isdirectadditem))
                 {
-
-
-
                 ViewHolderAddItem holder6 = null ;
                 convertView = this.m_LInflater.inflate(R.layout.repair_info_item_add_new, null);
                 holder6 = new ViewHolderAddItem();
-//                holder6.tip = ((TextView) convertView.findViewById(R.id.repair_info_cell_tip));
-//                holder6.value1 = ((EditText) convertView.findViewById(R.id.repair_info_cell_content1));
-//                holder6.value2 = ((EditText) convertView.findViewById(R.id.repair_info_cell_content2));
-//                holder6.value3 = ((EditText) convertView.findViewById(R.id.repair_info_cell_content3));
                 holder6.addBtn1 = ((Button) convertView.findViewById(R.id.repair_info_cell_bt1));
                 holder6.addBtn2 = ((Button) convertView.findViewById(R.id.repair_info_cell_bt2));
                 convertView.setTag(holder6);
@@ -395,6 +397,7 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
                 holder.workroom_item_cell_send = ((TextView) convertView.findViewById(R.id.workroom_item_cell_send));
 
                 holder.delBtn = ((ImageButton) convertView.findViewById(R.id.workroom_item_cell_del));
+                holder.editBtn = ((ImageButton) convertView.findViewById(R.id.item_edit));
                 if(m_data.state.equals("2")){
                     holder.delBtn.setVisibility(View.INVISIBLE);
                 }
@@ -443,8 +446,6 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
 
                 holder.workroom_item_cell_send.setClickable(true);
                 holder.workroom_item_cell_send.setFocusableInTouchMode(false);
-
-
                 holder.workroom_item_cell_send.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -476,14 +477,12 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
                                         }
                                         final  ArrayList<RepairerInfo> aryTemp = aryTemp1;
                                         final  RepairHistory dataTemp = m_data;
-//                                        String[] arr = getResources().getStringArray(R.array.service_home_cell);
                                         View outerView = LayoutInflater.from(m_context).inflate(R.layout.wheel_view, null);
                                         final WheelView wv =  (WheelView)outerView.findViewById(R.id.wheel_view_wv);
                                         wv.setItems(arr);
                                         wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
                                             @Override
                                             public void onSelected(int selectedIndex1, String item) {
-//                                                Log.e(TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
                                                 selectedIndex = selectedIndex1;
                                             }
                                         });
@@ -534,23 +533,10 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
-
-
-//                                    ArrayList<ADTReapirItemInfo> arrItems = m_data.arrRepairItems;
-//                                    int totalPrice = 0;
-//                                    for(int j=0;j<arrItems.size();j++){
-//                                        ADTReapirItemInfo item = arrItems.get(j);
-//                                        totalPrice+=item.currentPrice;
-//                                    }
-//                                    m_data.totalPrice = String.valueOf(totalPrice);
-//                                    notifyDataSetChanged();
-//                                    m_activity1.refreshDataAndBottomView(m_data);
                                 }
                                 else {
                                     Toast.makeText(m_activity1,"删除失败",Toast.LENGTH_SHORT).show();
                                 }
-
-
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -560,10 +546,6 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
                                 Toast.makeText(m_activity1,"删除失败",Toast.LENGTH_SHORT).show();
                             }
                         });
-
-
-
-
                     }
                 });
 
@@ -593,10 +575,15 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
                     holder.total.setText("?");
                 }
 
-                    holder.price.setText("¥ " + info.price + " 工时：￥" + info.workhourpay);
-
+                holder.price.setText("¥ " + info.price + " 工时：￥" + info.workhourpay);
                 holder.num.setText("x"+info.num);
 
+                RxViewHelper.clickWith(holder.editBtn,()->{
+                    WorkRoomEditItemDialog.editItem(m_context,info,()->{
+                        notifyDataSetChanged();
+                        updateRepair();
+                    });
+                });
                 holder.delBtn.setClickable(true);
                 holder.delBtn.setFocusableInTouchMode(false);
                 holder.delBtn.setOnClickListener(new View.OnClickListener() {
@@ -683,21 +670,7 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
         return this.m_data;
     }
 
-    private class ViewHolderNormalInput {
-        TextView tip;
-        EditText value;
-    }
-
-    private class ViewHolderMutilInput {
-        TextView tip;
-        EditText value;
-    }
-
     private class ViewHolderAddItem {
-//        TextView tip;
-//        EditText value1;
-//        EditText value2;
-//        EditText value3;
         Button   addBtn1;
         Button   addBtn2;
     }
@@ -712,7 +685,7 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
 
     private class ViewHolderWorkRoomPriceItemCell {
         TextView  type;
-        ImageButton delBtn;
+        ImageButton delBtn,editBtn;
 
         TextView workroom_item_cell_send;
         TextView  price;;
@@ -832,25 +805,11 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
         }
     };
 
-
-
     public void updateRepair(){
-
         JSONArray list = new JSONArray();
         JSONObject selectmap = null;
         for(int i=0;i<m_data.arrRepairItems.size();i++){
             ADTReapirItemInfo _item = m_data.arrRepairItems.get(i);
-//            selectmap = new JSONObject();
-//            try {
-//
-//
-//                selectmap.put("id", _item.idfromnode);
-//                selectmap.put("num", _item.num);
-//                selectmap.put("contactid", m_data.contactid);
-//            }catch (Exception e )
-//            {
-//                e.printStackTrace();
-//            }
             list.put(_item.idfromnode);
         }
         Map cv = new HashMap();
@@ -899,19 +858,8 @@ public class WorkRoomRepairItemsAdapter extends BaseAdapter {
             }
         });
     }
-
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == 1&&resultCode == 2) {
-////Intent intent = getIntent();   // data 本身就是一个 Inten  所以不需要再new了 直接调用里面的方法就行了
-//            String s = data.getStringExtra("AA");
-//        }
-//    }
-
-
     public void setPDstatus (int index){
         m_data.arrRepairItems.get(index).repairer ="1";
         notifyDataSetChanged();;
     }
-
 }

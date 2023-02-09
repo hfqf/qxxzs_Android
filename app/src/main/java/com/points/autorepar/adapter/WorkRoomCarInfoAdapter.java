@@ -1,13 +1,14 @@
 package com.points.autorepar.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +26,14 @@ import com.points.autorepar.R;
 import com.points.autorepar.activity.BaseActivity;
 import com.points.autorepar.activity.ImgDisplayActivity;
 import com.points.autorepar.activity.workroom.WorkRoomEditActivity;
+import com.points.autorepar.activity.workroom.WorkRoomEditActivityViewModel;
+import com.points.autorepar.adapter.WorkRoomCarInfo.WorkRommCarInfoPicsAdapter;
 import com.points.autorepar.bean.Contact;
 import com.points.autorepar.bean.RepairHistory;
 import com.points.autorepar.common.Consts;
 import com.points.autorepar.lib.wheelview.WheelView;
 import com.points.autorepar.sql.DBService;
 import com.points.autorepar.utils.DateUtil;
-import com.points.autorepar.utils.SpeImageLoader.SpeImageLoaderUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,9 +41,11 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
+import ImageUtil.preview.SpeImagePreviewUtil;
+import RxJava.RxViewHelper;
 
 /**
- * Created by points on 16/11/28.
+ * Created by points on 16/11/28.®
  */
 public class WorkRoomCarInfoAdapter extends BaseAdapter {
     private Context         m_context;
@@ -49,20 +53,15 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
     public RepairHistory    m_data;
     private  final  String TAG = "WorkRoomCarInfoAdapter";
     private  WorkRoomEditActivity m_activity;
-    private ArrayList<String> picUrls = new ArrayList<String>();
-
-
     public WorkRoomCarInfoAdapter(Context context, RepairHistory rep) {
         this.m_activity = (WorkRoomEditActivity)context;
         this.m_context   = context;
         this.m_LInflater = LayoutInflater.from(context);
         this.m_data   = rep;
-
-        init_Img(rep.pics);
-
     }
 
     public void unRegisterBus(){
+
     }
 
     @Override
@@ -72,16 +71,12 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
 
     @Override
     public   View getView(int position, View convertView, ViewGroup parent) {
-
-
         if(position == 0 || position == 7|| position == 14 || position == 17)  {
             ViewHolderCellTop holder = null ;
-
                 convertView = this.m_LInflater.inflate(R.layout.cell_top_workroom_carinfo, null);
                 holder = new ViewHolderCellTop();
                 holder.tip = ((TextView) convertView.findViewById(R.id.cell_top_workroom_carinfo_tip));
                 convertView.setTag(holder);
-
             switch (position){
                 case 0:{
                     holder.tip.setText("车辆信息");
@@ -101,112 +96,40 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                 }
             }
             return convertView;
-
         } else if( position ==20) {
-            ViewHolderCellImg holder =  new ViewHolderCellImg();
-            convertView = LayoutInflater.from(m_context).inflate(R.layout.cell_workroom_carinfo_img, null);
-            holder.img1 = (ImageView) convertView.findViewById(R.id.img1);
-            holder.img2 = (ImageView) convertView.findViewById(R.id.img2);
-            holder.img3 = (ImageView) convertView.findViewById(R.id.img3);
-            holder.addimg =(ImageView)convertView.findViewById(R.id.addimg);
-
-            holder.addimg.setImageResource(R.drawable.addimg);
-            if(picUrls.size() == 3) {
-                holder.addimg.setVisibility(View.INVISIBLE);
-            }else{
-                holder.addimg.setVisibility(View.VISIBLE);
-            }
-
-            holder.addimg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    m_activity.startSelectPicToUpload(0, new BaseActivity.speUploadListener() {
-                        @Override
-                        public void uploadPictureSucceed(String newHeadUrl) {
-                            Log.d(TAG,newHeadUrl);
-                            picUrls.add(newHeadUrl);
-
-                            String str = "";
-                            for(int i=0;i<picUrls.size();i++){
-                                String _s = picUrls.get(i)+",";
-                                str +=  _s;
-                            }
-                            m_data.pics = str;
+            ViewHolderRecycleView holder =  new ViewHolderRecycleView();
+            convertView = LayoutInflater.from(m_context).inflate(R.layout.workrommcarinfo_picsrecycleview_layout, null);
+            holder.cycView =  convertView.findViewById(R.id.recycler_view);
+            holder.uploadImg = (ImageView) convertView.findViewById(R.id.addimg);
+            RxViewHelper.clickWith(holder.uploadImg,()->{
+                m_activity.showWaitView();
+                m_activity.startSelectPicToUpload(0, new BaseActivity.speUploadListener() {
+                    @Override
+                    public void uploadPictureSucceed(String url) {
+                        m_activity.stopWaitingView();
+                        m_data.arrCarInfoPics.add(Consts.HTTP_URL+"/file/pic/"+url);
+                        WorkRoomEditActivityViewModel.updateCarInfoPics(m_context,m_data,()->{
                             notifyDataSetChanged();
-                        }
+                        });
+                    }
+                });
+            });
+            holder.cycView.setLayoutManager(new GridLayoutManager(m_context,5));
+            WorkRommCarInfoPicsAdapter adapter = new WorkRommCarInfoPicsAdapter(m_context, m_data.getArrCarInfoPics(), new WorkRommCarInfoPicsAdapter.WorkRommCarInfoPicsAdapterInterface() {
+                @Override
+                public void onDelPic(String url) {
+                    m_data.arrCarInfoPics.remove(url);
+                    WorkRoomEditActivityViewModel.updateCarInfoPics(m_context,m_data,()->{
+                        notifyDataSetChanged();
                     });
                 }
             });
+            holder.cycView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
             convertView.setTag(holder);
-            holder.img1.setVisibility(View.INVISIBLE);
-            holder.img2.setVisibility(View.INVISIBLE);
-            holder.img3.setVisibility(View.INVISIBLE);
-            for(int i=0;i<picUrls.size();i++){
-                String strUrl = "";
-                if(picUrls.get(i).contains("png")){
-                    strUrl = Consts.HTTP_URL+"/file/pic/"+picUrls.get(i);
-                }else {
-                    strUrl = Consts.HTTP_URL+"/file/pic/"+picUrls.get(i)+".png";
-                }
-                if(i==0){
-                    holder.img1.setVisibility(View.VISIBLE);
-                    SpeImageLoaderUtil.loadImage(m_activity,holder.img1,strUrl,R.drawable.appicon,R.drawable.appicon);
-                }else if (i==1){
-                    holder.img2.setVisibility(View.VISIBLE);
-                    SpeImageLoaderUtil.loadImage(m_activity,holder.img2,strUrl,R.drawable.appicon,R.drawable.appicon);
-                }else if (i==2){
-                    holder.img3.setVisibility(View.VISIBLE);
-                    SpeImageLoaderUtil.loadImage(m_activity,holder.img3,strUrl,R.drawable.appicon,R.drawable.appicon);
-                }
-            }
-
-            holder.img1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    checkFullImage(0);
-                }
-            });
-
-            holder.img1.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    deleteImg(0);
-                    return true;
-                }
-            });
-            holder.img2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    checkFullImage(1);
-                }
-            });
-
-            holder.img2.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    deleteImg(1);
-                    return true;
-                }
-            });
-            holder.img3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    checkFullImage(2);
-                }
-            });
-
-            holder.img3.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    deleteImg(2);
-                    return true;
-                }
-            });
-
             return convertView;
         }
-        else if( position > 0 && position < 7)
-        {
+        else if( position > 0 && position < 7) {
             ViewHolderCell0 holder = null ;
             convertView = this.m_LInflater.inflate(R.layout.cell_workroom_carinfo_0, null);
             holder = new ViewHolderCell0();
@@ -214,7 +137,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
             holder.value = ((TextView) convertView.findViewById(R.id.cell_workroom_carinfo_0_content));
             holder.btn = ((ImageButton) convertView.findViewById(R.id.cell_workroom_carinfo_0_btn));
             convertView.setTag(holder);
-
             Contact contact = DBService.queryContact(m_data.carCode);
             holder.btn.setVisibility(View.INVISIBLE);
             if(contact != null) {
@@ -241,7 +163,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                                 Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+tel));
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 m_activity.startActivity(intent);
-
                             }
                         });
                         break;
@@ -261,23 +182,19 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                         holder.value.setText(contact.getCarregistertime());
                         break;
                     }
-
-                }
+                }convertView.setTag(holder);
             }
             return convertView;
         }
         if(position == 11){
-
             ViewHolderSwiter holder = null ;
             convertView = this.m_LInflater.inflate(R.layout.repair_info_cell_checkbox, null);
             holder = new ViewHolderSwiter();
             holder.tip = ((TextView) convertView.findViewById(R.id.repair_info_cell_tip));
             holder.checkbox = ((CheckBox) convertView.findViewById(R.id.id_repair_add_closetip_checkox));
             convertView.setTag(holder);
-
             holder.tip.setText("是否在店等");
             if(m_data != null) {
-
                 boolean isClose = m_data.iswatiinginshop == null ? false : m_data.iswatiinginshop.equals("1");
                 if(m_data.state!=null) {
                     holder.checkbox.setEnabled(!m_data.state.endsWith("2"));
@@ -290,7 +207,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                 holder.checkbox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         boolean isClose = m_data.iswatiinginshop == null ? false : m_data.iswatiinginshop.equals("1");
                         m_data.iswatiinginshop = isClose ? "0" : "1";
                         notifyDataSetChanged();
@@ -298,11 +214,7 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                 });
             }
             return convertView;
-
-        }else if(position == 20)
-        {
-
-
+        }else if(position == 20) {
             ViewHolderSwiter holder = null ;
             convertView = this.m_LInflater.inflate(R.layout.repair_info_cell_checkbox, null);
             holder = new ViewHolderSwiter();
@@ -310,7 +222,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
             holder.checkbox = ((CheckBox) convertView.findViewById(R.id.id_repair_add_closetip_checkox));
             convertView.setTag(holder);
             holder.checkbox.setEnabled(!m_data.state.endsWith("2"));
-
             boolean isClose = this.m_data.isClose.equals("1");
             holder.checkbox.setChecked(isClose);
             holder.checkbox.setClickable(true);
@@ -318,16 +229,12 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
             holder.checkbox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     m_data.isClose =  m_data.isClose.equals("1") ? "0" : "1";
                     m_data.isreaded =  m_data.isClose.equals("1") ? "0" : "1";
                     notifyDataSetChanged();
                 }
             });
-
             return convertView;
-
-
         }
         else if(position < 21 && position != 11)
         {
@@ -343,7 +250,11 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                     holder.tip.setText("入店时间");
                     holder.value.setText(m_data.entershoptime);
                     holder.value.setFocusableInTouchMode(false);
-                    holder.value.addTextChangedListener(repairTimeWatcher);
+                    RxViewHelper.textChange(holder.value,(s)->{
+                        if(s.toString().length() >0) {
+                            m_data.inserttime = s.toString();
+                        }
+                    });
                     holder.value.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -357,19 +268,25 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                     holder.tip.setText("入店里程(KM)");
                     holder.value.setText(m_data.totalKm);
                     holder.value.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
-                    holder.value.addTextChangedListener(kmWatcher);
+                    RxViewHelper.textChange(holder.value,(s)->{
+                        if(s.toString().length() >0) {
+                            m_data.totalKm = s.toString();
+                        }
+                    });
                     if(m_data.totalKm == null||"".equalsIgnoreCase(m_data.totalKm) || "null".equalsIgnoreCase(m_data.totalKm)) {
                         holder.value.setText("0");
                     }
                     break;
                 }
                 case 10:{
-
-
                     holder.tip.setText("入店油量");
                     holder.tip.setEnabled(false);
                     holder.value.setFocusableInTouchMode(false);
-                    holder.value.addTextChangedListener(oilWatcher);
+                    RxViewHelper.textChange(holder.value,(s)->{
+                        if(s.toString().length() >0) {
+                            m_data.oilvolume = s.toString();
+                        }
+                    });
                     if(m_data.oilvolume == null||"".equalsIgnoreCase(m_data.oilvolume) || "null".equalsIgnoreCase(m_data.oilvolume)) {
                         holder.value.setText("");
                     }else{
@@ -379,10 +296,7 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                     holder.value.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-
                             String[] arr = m_activity.getResources().getStringArray(R.array.oil_circle);
-
                             View outerView = LayoutInflater.from(m_activity).inflate(R.layout.wheel_view, null);
                             final WheelView wv = (WheelView) outerView.findViewById(R.id.wheel_view_wv);
                             wv.setItems(Arrays.asList(arr));
@@ -392,17 +306,13 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                                     Log.e(TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
                                 }
                             });
-
                             new AlertDialog.Builder(m_activity)
                                     .setTitle("选择车辆油量")
                                     .setView(outerView)
                                     .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-
-
                                             Log.e(TAG, "OK" + wv.getSeletedItem());
-
                                             m_data.oilvolume = wv.getSeletedItem();
                                             notifyDataSetChanged();
                                         }
@@ -414,7 +324,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                                         }
                                     })
                                     .show();
-
                         }
                     });
                     break;
@@ -427,7 +336,11 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                     holder.tip.setText(m_data.state.equals("2")?"实际提车时间" : "预计提车时间");
                     holder.value.setText(m_data.wantedcompletedtime);
                     holder.value.setFocusableInTouchMode(false);
-                    holder.value.addTextChangedListener(repairTimeWatcher);
+                    RxViewHelper.textChange(holder.value,(s)->{
+                        if(s.toString().length() >0) {
+                            m_data.inserttime = s.toString();
+                        }
+                    });
                     holder.value.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -440,14 +353,20 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                 case 13:{
                     holder.tip.setText("客户备注");
                     holder.value.setText(m_data.customremark);
-                    holder.value.addTextChangedListener(customerAddtionWatcher);
+                    RxViewHelper.textChange(holder.value,(s)->{
+                        m_data.customremark = s.toString();
+                    });
                     break;
                 }
 
                 case 15:{
                     holder.tip.setText("维修内容");
                     holder.value.setText(m_data.repairType);
-                    holder.value.addTextChangedListener(repaorContentWatcher);
+                    RxViewHelper.textChange(holder.value,(s)->{
+                        if(s.toString().length() >0) {
+                            m_data.repairType = s.toString();
+                        }
+                    });
                     holder.value.setHint("必填");
                     break;
                 }
@@ -455,15 +374,13 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                 case 16:{
                     holder.tip.setText("维修备注");
                     holder.value.setText(m_data.addition);
-                    holder.value.addTextChangedListener(addtionContentWatcher);
+                    RxViewHelper.textChange(holder.value,(s)->{
+                        if(s.toString().length() >0) {
+                            m_data.addition = s.toString();
+                        }
+                    });
                     break;
                 }
-//                case 19:{
-//                    holder.tip.setText("车况图片");
-//                    holder.value.setText(m_data.addition);
-//                    holder.value.addTextChangedListener(addtionContentWatcher);
-//                    break;
-//                }
                 case 18:{
                     holder.tip.setText("提醒周期(下次保养)");
                     if(m_data.circle == null || "".equalsIgnoreCase(m_data.circle)) {
@@ -473,14 +390,15 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                     }
                     holder.value.setHint("必填");
                     holder.value.setFocusableInTouchMode(false);
-                    holder.value.addTextChangedListener(repairTimeWatcher);
+                    RxViewHelper.textChange(holder.value,(s)->{
+                        if(s.toString().length() >0) {
+                            m_data.inserttime = s.toString();
+                        }
+                    });
                     holder.value.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-
                             String[] arr = m_activity.getResources().getStringArray(R.array.tip_circle);
-
                             View outerView = LayoutInflater.from(m_activity).inflate(R.layout.wheel_view, null);
                             final WheelView wv = (WheelView) outerView.findViewById(R.id.wheel_view_wv);
                             wv.setItems(Arrays.asList(arr));
@@ -490,17 +408,12 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                                     Log.e(TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
                                 }
                             });
-
                             new AlertDialog.Builder(m_activity)
                                     .setTitle("选择提醒周期(天)")
                                     .setView(outerView)
                                     .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-
-
-                                            Log.e(TAG, "OK" + wv.getSeletedItem());
-
                                             m_data.circle = wv.getSeletedItem();
                                             notifyDataSetChanged();
                                         }
@@ -512,19 +425,20 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
                                         }
                                     })
                                     .show();
-
                         }
                     });
-
                     break;
                 }
                 case 19:{
-                    holder.tip.setText("下次保养里程数（KM）");
+                    holder.tip.setText("下次保养里程(KM)");
                     holder.value.setText(m_data.nexttipkm);
-                    holder.value.addTextChangedListener(nextKmContentWatcher);
+                    RxViewHelper.textChange(holder.value,(s)->{
+                        if(s.toString().length() >0) {
+                            m_data.nexttipkm = s.toString();
+                        }
+                    });
                     break;
                 }
-
             }
             if(m_data.state != null) {
                 if (m_data.state.equals("2")) {
@@ -588,11 +502,9 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
         ImageButton btn;
     }
 
-    private class ViewHolderCellImg {
-        ImageView img1;
-        ImageView img2;
-        ImageView img3;
-        ImageView addimg;
+    private class ViewHolderRecycleView {
+        RecyclerView cycView;
+        ImageView uploadImg;
     }
 
 
@@ -605,179 +517,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
         TextView tip;
         CheckBox checkbox;
     }
-
-    private TextWatcher repaorContentWatcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            m_data.repairType = s.toString();
-        }
-    };
-
-    private TextWatcher addtionContentWatcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            m_data.addition = s.toString();
-        }
-    };
-
-    private TextWatcher nextKmContentWatcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            m_data.nexttipkm = s.toString();
-        }
-    };
-
-
-    private TextWatcher kmWatcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            m_data.totalKm = s.toString();
-        }
-    };
-
-
-    private TextWatcher oilWatcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            m_data.oilvolume = s.toString();
-        }
-    };
-
-
-    private TextWatcher customerAddtionWatcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            m_data.customremark = s.toString();
-        }
-    };
-
-
-    private TextWatcher repairCircleWatcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            m_data.circle = s.toString();
-        }
-    };
-
-
-    private TextWatcher repairTimeWatcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            m_data.inserttime = s.toString();
-        }
-    };
 
     /*
      *获取时间,0是进店时间 1是期望完成时间
@@ -804,59 +543,6 @@ public class WorkRoomCarInfoAdapter extends BaseAdapter {
     }
 
 
-    public void init_Img(String url) {
-        if(url== null || "".equalsIgnoreCase(url)){
 
-        }else{
-            String[] parts = url.split(",");
-            for(int i=0;i<parts.length;i++){
-                picUrls.add(parts[i]);
-            }
-        }
-        m_data.pics = url;
-        notifyDataSetChanged();
-    }
-
-
-    private void checkFullImage(int index){
-        Intent inte = new Intent(m_context,
-                ImgDisplayActivity.class);
-        Bundle bu = new Bundle();
-        bu.putSerializable("images", (Serializable) picUrls);
-        inte.putExtra("bundle", bu);
-        inte.putExtra("position", index);
-        m_context.startActivity(inte);
-    }
-
-    private void deleteImg(final int index){
-        final AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(m_activity);
-        normalDialog.setTitle("删除此照片,不可恢复!");
-        normalDialog.setMessage("确认删除?");
-        normalDialog.setPositiveButton("确定",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(picUrls.size()>0) {
-                            picUrls.remove(index);
-                            String str = "";
-                            for(int i=0;i<picUrls.size();i++){
-                                String _s = picUrls.get(i)+",";
-                                str +=  _s;
-                            }
-                            m_data.pics = str;
-                            notifyDataSetChanged();
-                        }
-
-                    }
-                });
-        normalDialog.setNegativeButton("取消",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-        normalDialog.show();
-    }
 
 }
