@@ -175,11 +175,11 @@ public class EmployeeAddNewActivity extends BaseActivity   {
             }
         });
 
-        ln_sw_2.setVisibility(View.GONE);
-        ln_sw_3.setVisibility(View.GONE);
-        ln_sw_4.setVisibility(View.GONE);
-        ln_sw_5.setVisibility(View.GONE);
-        ln_sw_6.setVisibility(View.GONE);
+        ln_sw_2.setVisibility(View.VISIBLE);
+        ln_sw_3.setVisibility(View.VISIBLE);
+        ln_sw_4.setVisibility(View.VISIBLE);
+        ln_sw_5.setVisibility(View.VISIBLE);
+        ln_sw_6.setVisibility(View.VISIBLE);
 
         f_sw_1 = true;
         f_sw_2 = false;
@@ -236,11 +236,6 @@ public class EmployeeAddNewActivity extends BaseActivity   {
                         .show();
             }
         });
-
-    //                   WebActivity.actionStart(ReportActivity.this, weburl,title);
-
-
-
 
         RelativeLayout naviLayout =  (RelativeLayout)this.findViewById(R.id.contact_adduser_navi);
         mAddBtn = (Button)naviLayout.findViewById(R.id.common_navi_add);
@@ -333,15 +328,25 @@ public class EmployeeAddNewActivity extends BaseActivity   {
             sw_5.setChecked("1".equalsIgnoreCase(info.iscandelcontact) ? true : false);
             if(info.iscanseecontactrepairs !=null)
             sw_6.setChecked("1".equalsIgnoreCase(info.iscanseecontactrepairs) ? true : false);
+            ln_sw_2.setVisibility(View.VISIBLE);
+            ln_sw_3.setVisibility(View.VISIBLE);
+            ln_sw_4.setVisibility(View.VISIBLE);
+            ln_sw_5.setVisibility(View.VISIBLE);
+            ln_sw_6.setVisibility(View.VISIBLE);
         }  else  if (iCarType == 2) {
             mCarType.setText("仓库员");
-            sw_2.setChecked(false);
-            sw_3.setChecked(false);
-            sw_4.setChecked(false);
-            sw_5.setChecked(false);
-            sw_6.setChecked(false);
+            ln_sw_2.setVisibility(View.GONE);
+            ln_sw_3.setVisibility(View.GONE);
+            ln_sw_4.setVisibility(View.GONE);
+            ln_sw_5.setVisibility(View.GONE);
+            ln_sw_6.setVisibility(View.GONE);
         }else  if (iCarType == 3) {
             mCarType.setText("店长");
+            ln_sw_2.setVisibility(View.GONE);
+            ln_sw_3.setVisibility(View.GONE);
+            ln_sw_4.setVisibility(View.GONE);
+            ln_sw_5.setVisibility(View.GONE);
+            ln_sw_6.setVisibility(View.GONE);
         }
 
 
@@ -606,23 +611,32 @@ public class EmployeeAddNewActivity extends BaseActivity   {
         switch (num)
         {
             case 0:
-
+                ln_sw_2.setVisibility(View.VISIBLE);
+                ln_sw_3.setVisibility(View.VISIBLE);
+                ln_sw_4.setVisibility(View.VISIBLE);
+                ln_sw_5.setVisibility(View.VISIBLE);
+                ln_sw_6.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                ln_sw_2.setVisibility(View.VISIBLE);
-                ln_sw_3.setVisibility(View.VISIBLE);
-                ln_sw_4.setVisibility(View.VISIBLE);
-                ln_sw_5.setVisibility(View.VISIBLE);
-                ln_sw_6.setVisibility(View.VISIBLE);
+                ln_sw_2.setVisibility(View.GONE);
+                ln_sw_3.setVisibility(View.GONE);
+                ln_sw_4.setVisibility(View.GONE);
+                ln_sw_5.setVisibility(View.GONE);
+                ln_sw_6.setVisibility(View.GONE);
                 break;
             case 2:
+                ln_sw_2.setVisibility(View.GONE);
+                ln_sw_3.setVisibility(View.GONE);
+                ln_sw_4.setVisibility(View.GONE);
+                ln_sw_5.setVisibility(View.GONE);
+                ln_sw_6.setVisibility(View.GONE);
                 break;
             case 3:
-                ln_sw_2.setVisibility(View.VISIBLE);
-                ln_sw_3.setVisibility(View.VISIBLE);
-                ln_sw_4.setVisibility(View.VISIBLE);
-                ln_sw_5.setVisibility(View.VISIBLE);
-                ln_sw_6.setVisibility(View.VISIBLE);
+                ln_sw_2.setVisibility(View.GONE);
+                ln_sw_3.setVisibility(View.GONE);
+                ln_sw_4.setVisibility(View.GONE);
+                ln_sw_5.setVisibility(View.GONE);
+                ln_sw_6.setVisibility(View.GONE);
                 break;
         }
 
